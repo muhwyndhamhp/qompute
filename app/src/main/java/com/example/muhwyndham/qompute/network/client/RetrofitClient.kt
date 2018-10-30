@@ -18,7 +18,10 @@ object RetrofitClient {
         if(instance == null){
             instance = Retrofit.Builder().apply {
                 baseUrl(BASE_URL)
-                addConverterFactory(GsonConverterFactory.create(getGson()))
+                addConverterFactory(GsonConverterFactory.create(
+                    GsonBuilder()
+                        .excludeFieldsWithoutExposeAnnotation()
+                        .create()))
                 client(getClient())
             }.build()
         }
@@ -30,16 +33,11 @@ object RetrofitClient {
             val newRequest = chain.request().newBuilder().build()
             chain.proceed(newRequest)
         }
-
         val builder = OkHttpClient.Builder()
         builder.interceptors().add(interceptor)
         return builder.build()
 
     }
 
-    private fun getGson(): Gson {
-        val builder = GsonBuilder()
-        builder.excludeFieldsWithoutExposeAnnotation()
-        return builder.create()
-    }
+
 }

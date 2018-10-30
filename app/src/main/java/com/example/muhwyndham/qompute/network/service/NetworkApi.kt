@@ -1,53 +1,55 @@
 package com.example.muhwyndham.qompute.network.service
 
+import android.database.Observable
 import com.example.muhwyndham.qompute.data.model.Component
 import com.example.muhwyndham.qompute.utils.API_ROUTE
+import io.reactivex.SingleSource
 import retrofit2.http.GET
 
 interface NetworkApi {
 
     @GET("$API_ROUTE/casing.json")
-    fun getCasing(): List<Component>
+    fun getCasing(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/coolerfan.json")
-    fun getCoolerfan(): List<Component>
+    fun getCoolerfan(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/harddisk.json")
-    fun getHarddisk(): List<Component>
+    fun getHarddisk(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/keyboard.json")
-    fun getKeyboard(): List<Component>
+    fun getKeyboard(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/lcd.json")
-    fun getLcd(): List<Component>
+    fun getLcd(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/memoryram.json")
-    fun getRam(): List<Component>
+    fun getRam(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/motherboard.json")
-    fun getMotherboard(): List<Component>
+    fun getMotherboard(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/optical.json")
-    fun getOptical(): List<Component>
+    fun getOptical(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/printer.json")
-    fun getPrinter(): List<Component>
+    fun getPrinter(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/processor.json")
-    fun getProcessor(): List<Component>
+    fun getProcessor(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/psu.json")
-    fun getPsu(): List<Component>
+    fun getPsu(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/soundcard.json")
-    fun getSoundcard(): List<Component>
+    fun getSoundcard(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/speaker.json")
-    fun getSpeaker(): List<Component>
+    fun getSpeaker(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/ssd.json")
-    fun getSsd(): List<Component>
+    fun getSsd(): SingleSource<List<Component>>
 
     @GET("$API_ROUTE/vga.json")
-    fun getGraphic(): List<Component>
+    fun getGraphic(): SingleSource<List<Component>>
 }
