@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Qompute</string>
+    <string name="rakitan_anda">Rakitan Anda</string>
+    <string name="profil">Profil</string>
 </resources>

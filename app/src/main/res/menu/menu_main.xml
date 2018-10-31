@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/builds"
+        android:title="@string/rakitan_anda"
+        android:icon="@drawable/ic_technical_drawing"/>
+
+    <item
+        android:id="@+id/profile"
+        android:title="@string/profil"
+        android:icon="@drawable/ic_architect"/>
+</menu>
