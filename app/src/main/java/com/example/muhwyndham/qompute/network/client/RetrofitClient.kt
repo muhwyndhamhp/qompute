@@ -2,6 +2,7 @@ package com.example.muhwyndham.qompute.network.client
 
 import com.example.muhwyndham.qompute.utils.BASE_URL
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -22,6 +23,7 @@ object RetrofitClient {
                         .excludeFieldsWithoutExposeAnnotation()
                         .create()))
                 client(getClient())
+                addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             }.build()
         }
         return instance!!
