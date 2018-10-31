@@ -11,7 +11,7 @@ import java.io.Serializable
 class Component (
 
     @PrimaryKey @SerializedName("id") @Expose
-    val id: Int,
+    val id: String,
 
     @SerializedName("name") @Expose
     val name: String,
@@ -20,13 +20,13 @@ class Component (
     var details: String?,
 
     @SerializedName("brand") @Expose
-    val brand: Int,
+    val brand: String,
 
     @SerializedName("category") @Expose
-    val category: Int,
+    val category: String,
 
     @SerializedName("subcategory") @Expose
-    val subcategory: Int,
+    val subcategory: String,
 
     @ColumnInfo(name = "brand_description") @SerializedName("brand_description") @Expose
     val brandDescription: String,
@@ -38,16 +38,16 @@ class Component (
     val subcategoryDescription: String,
 
     @SerializedName("price") @Expose
-    val price: Long,
+    val price: String,
 
     @SerializedName("weight") @Expose
-    val weight: Double,
+    val weight: String,
 
     @SerializedName("quantity") @Expose
-    var quantity: Int?,
+    var quantity: String?,
 
     @ColumnInfo(name = "stock_type")@SerializedName("stock_type") @Expose
-    var stockType: Double?,
+    var stockType: String?,
 
     @ColumnInfo(name = "link_toped")@SerializedName("link_toped") @Expose
     var linkToped: String?,
