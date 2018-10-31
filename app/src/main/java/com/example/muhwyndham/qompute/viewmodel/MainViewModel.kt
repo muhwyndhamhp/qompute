@@ -14,8 +14,8 @@ class MainViewModel(val repository: AppRepository): ViewModel(){
     fun LoadAllComponents(){
         repository.reloadData1(object : AppRepository.LoadDataCallback{
             override fun onFailed(TAG: String, t: Throwable) {
-                val exceptions: MutableList<String> = exceptionList.value!!
-                exceptions[ERROR_CODE_FAILED_TO_FETCH] = t.message!!
+                val exceptions: MutableList<String>? = exceptionList.value
+                exceptions?.set(ERROR_CODE_FAILED_TO_FETCH, t.message!!)
                 exceptionList.value = exceptions
             }
 

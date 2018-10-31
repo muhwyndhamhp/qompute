@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
         viewModel.exceptionList.observe(this, Observer { exceptions ->
+            if(exceptions != null)
             if(exceptions[ERROR_CODE_FAILED_TO_FETCH] != ""){
                 mProgressDialog.dismiss()
                 toast(exceptions[ERROR_CODE_FAILED_TO_FETCH])

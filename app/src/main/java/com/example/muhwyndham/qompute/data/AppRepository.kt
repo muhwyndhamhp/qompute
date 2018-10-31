@@ -1,8 +1,11 @@
 package com.example.muhwyndham.qompute.data
 
+import android.annotation.SuppressLint
 import com.example.muhwyndham.qompute.data.model.Component
 import com.example.muhwyndham.qompute.data.model.ComponentDao
 import com.example.muhwyndham.qompute.network.service.NetworkService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class AppRepository private constructor(
     private  val componentDao: ComponentDao
@@ -21,10 +24,14 @@ class AppRepository private constructor(
 
     fun getSingleComponent(name: String) = componentDao.getSingleComponent(name)
 
+    @SuppressLint("CheckResult")
     fun reloadData1(loadDataCallback: LoadDataCallback){
         val networkService = NetworkService.getInstance()
 
-        val call = networkService.getAll1().subscribe({
+        networkService.getAll1()
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
             componentList ->
             componentDao.insertAll(componentList)
             loadDataCallback.onSuccess(componentList)
@@ -33,10 +40,11 @@ class AppRepository private constructor(
         }
     }
 
+    @SuppressLint("CheckResult")
     fun reloadData2(loadDataCallback: LoadDataCallback){
         val networkService = NetworkService.getInstance()
 
-        val call = networkService.getAll2().subscribe({
+        networkService.getAll2().subscribe({
             componentList ->
             componentDao.insertAll(componentList)
             loadDataCallback.onSuccess(componentList)
