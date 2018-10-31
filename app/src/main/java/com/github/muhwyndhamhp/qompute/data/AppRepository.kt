@@ -1,6 +1,7 @@
 package com.github.muhwyndhamhp.qompute.data
 
 import android.annotation.SuppressLint
+import com.github.muhwyndhamhp.qompute.data.model.BuildDao
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.data.model.ComponentDao
 import com.github.muhwyndhamhp.qompute.network.service.NetworkService
@@ -8,7 +9,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class AppRepository private constructor(
-    private  val componentDao: ComponentDao
+    private  val componentDao: ComponentDao,
+    private val buildDao: BuildDao
 ) {
 
     interface LoadDataCallback{
@@ -23,6 +25,15 @@ class AppRepository private constructor(
     fun getSingleComponent(id: Int) = componentDao.getSingleComponent(id)
 
     fun getSingleComponent(name: String) = componentDao.getSingleComponent(name)
+
+
+    fun getAllBuilds() = buildDao.getAllBuilds()
+
+    fun getBuildsPaged() = buildDao.getBuildsPaged()
+
+    fun getSingleBuild(id: Int) = buildDao.getSingleBuild(id)
+
+    fun getSingleBuild(name: String) = buildDao.getSingleBuild(name)
 
     @SuppressLint("CheckResult")
     fun reloadData1(loadDataCallback: LoadDataCallback){
@@ -44,7 +55,10 @@ class AppRepository private constructor(
     fun reloadData2(loadDataCallback: LoadDataCallback){
         val networkService = NetworkService.getInstance()
 
-        networkService.getAll2().subscribe({
+        networkService.getAll2()
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
             componentList ->
             componentDao.insertAll(componentList)
             loadDataCallback.onSuccess(componentList)
@@ -59,7 +73,7 @@ class AppRepository private constructor(
         @Volatile
         private var instance: AppRepository? = null
 
-        fun getInstance(componentDao: ComponentDao) = instance ?: synchronized(this){ instance ?: AppRepository(componentDao).also  { instance = it }}
+        fun getInstance(componentDao: ComponentDao, buildDao: BuildDao) = instance ?: synchronized(this){ instance ?: AppRepository(componentDao, buildDao).also  { instance = it }}
     }
 
 

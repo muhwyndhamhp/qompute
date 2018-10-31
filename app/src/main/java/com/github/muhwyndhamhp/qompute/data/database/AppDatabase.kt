@@ -5,14 +5,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.github.muhwyndhamhp.qompute.data.model.Build
+import com.github.muhwyndhamhp.qompute.data.model.BuildDao
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.data.model.ComponentDao
 import com.github.muhwyndhamhp.qompute.utils.DATABASE_NAME
 
-@Database(entities = [Component::class], version = 1, exportSchema = false)
+@Database(entities = [Component::class, Build::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
 
     abstract fun componentDao() : ComponentDao
+    abstract fun buildDao() : BuildDao
 
     companion object {
 
