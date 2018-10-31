@@ -50,6 +50,7 @@ class AppRepository private constructor(
 
         @Volatile
         private var instance: AppRepository? = null
+
         fun getInstance(componentDao: ComponentDao) = instance ?: synchronized(this){ instance ?: AppRepository(componentDao).also  { instance = it }}
     }
 
