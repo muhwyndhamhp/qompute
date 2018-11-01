@@ -8,4 +8,6 @@
     <string name="daftar_rakitanmu">Daftar Rakitanmu</string>
     <string name="jelajah">Jelajah</string>
     <string name="belum_ada_rakitan">Belum ada Rakitan!</string>
+    <string name="cpu">cpu</string>
+    <string name="processor">Processor</string>
 </resources>
