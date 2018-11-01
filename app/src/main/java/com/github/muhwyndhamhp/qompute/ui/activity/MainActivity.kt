@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
 
         viewModel.fragmentPosition.observe(this, Observer { replaceFragment(selectFragment(it)) })
+        viewModel.setFragmentPosition(0)
     }
 
     private fun replaceFragment(selectFragment: Fragment) {
