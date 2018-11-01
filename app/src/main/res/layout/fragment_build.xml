@@ -29,7 +29,7 @@
                 android:gravity="center">
             <EditText
                     android:id="@+id/et_cari_rakitan"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#d6d6d6"
                     android:textAlignment="center"
@@ -63,7 +63,7 @@
     <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="20dp"
             app:cardBackgroundColor="@color/colorAccent"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/recyclerView"

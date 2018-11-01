@@ -8,4 +8,10 @@ import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH
 
 class MainViewModel(val repository: AppRepository): ViewModel(){
 
+    val fragmentPosition = MutableLiveData<Int>()
+
+    fun setFragmentPosition(position: Int) {
+        fragmentPosition.value = position
+    }
+
 }

@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.github.muhwyndhamhp.qompute.R
 
-class BuildsFragment : Fragment(){
-
+class BrowseFragment: Fragment(){
     companion object {
-        fun newInstance() = BuildsFragment()
+        fun newInstance() = BrowseFragment()
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_build, container, false)
+        inflater.inflate(R.layout.fragment_browse, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

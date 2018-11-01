@@ -6,6 +6,10 @@
         android:icon="@drawable/ic_technical_drawing"/>
 
     <item
+        android:id="@+id/browse"
+        android:title="@string/jelajah"
+        android:icon="@drawable/ic_compass"/>
+    <item
         android:id="@+id/profile"
         android:title="@string/profil"
         android:icon="@drawable/ic_architect"/>

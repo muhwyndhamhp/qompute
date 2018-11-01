@@ -7,27 +7,19 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.MainActivity">
 
-    <FrameLayout
+    <androidx.appcompat.widget.ContentFrameLayout
             android:id="@+id/frame_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintTop_toTopOf="parent"/>
-    <!--<ListView-->
-    <!--android:id="@+id/listview"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"-->
-    <!--app:layout_constraintTop_toTopOf="parent"/>-->
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/menu_main"
-            app:itemIconTint="@drawable/color_main_selector"
-            app:itemTextColor="@drawable/color_main_selector"
             android:id="@+id/bottomNavigationView"
-            android:elevation="11dp"/>
+            android:elevation="3dp"
+            app:tabGravity="fill"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
