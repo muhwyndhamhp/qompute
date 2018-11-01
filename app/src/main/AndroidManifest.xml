@@ -10,7 +10,8 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
+            android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning"
+            android:fullBackupContent="true">
         <activity android:name="com.github.muhwyndhamhp.qompute.ui.activity.MainActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
