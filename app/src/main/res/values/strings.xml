@@ -10,4 +10,21 @@
     <string name="belum_ada_rakitan">Belum ada Rakitan!</string>
     <string name="cpu">cpu</string>
     <string name="processor">Processor</string>
+    <string-array name="component_categories">
+        <item>Casing</item>
+        <item>HSF dan Fan</item>
+        <item>Harddisk</item>
+        <item>Keyboard</item>
+        <item>Monitor</item>
+        <item>RAM</item>
+        <item>Motherboard</item>
+        <item>DVD ROM / Blue Ray</item>
+        <item>Printer</item>
+        <item>Processor / CPU</item>
+        <item>Power Supply / PSU</item>
+        <item>SoundCard</item>
+        <item>Speaker</item>
+        <item>SSD</item>
+        <item>VGA / Graphic Card</item>
+    </string-array>
 </resources>
