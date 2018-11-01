@@ -18,44 +18,27 @@ object RetrofitClient {
     private var instance: Retrofit? = null
 
 
-    fun getInstance(): Retrofit {
-        if(instance == null){
-            instance = Retrofit.Builder().apply {
+    fun getInstance(): Retrofit = instance ?: Retrofit.Builder().apply {
                 baseUrl(BASE_URL)
                 addConverterFactory(buildGsonConverter())
                 addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             }.build()
-        }
-        return instance!!
-    }
+        .also { instance = it }
 
-    private fun buildGsonConverter(): GsonConverterFactory {
-        return GsonConverterFactory.create(GsonBuilder().registerTypeAdapter(ComponentList::class.java, ComponentDeserializer()).create())
-    }
-
-    private fun getClient(): OkHttpClient {
-        val interceptor = Interceptor{chain ->
-            val newRequest = chain.request().newBuilder().build()
-            chain.proceed(newRequest)
-        }
-        val builder = OkHttpClient.Builder()
-        builder.interceptors().add(interceptor)
-        return builder.build()
-
-    }
+    private fun buildGsonConverter(): GsonConverterFactory =
+        GsonConverterFactory.create(
+            GsonBuilder().registerTypeAdapter(
+                    ComponentList::class.java,
+                    ComponentDeserializer()).create())
 
     private class ComponentDeserializer : JsonDeserializer<ComponentList> {
-
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): ComponentList {
-            val componentType = object : TypeToken<Collection<Component>>(){}.type
-            val components = Gson().fromJson<Collection<Component>>(json, componentType)
-            return ComponentList.createComponentList(components)
-        }
-
+        ): ComponentList = ComponentList.createComponentList(
+                Gson().fromJson<Collection<Component>>(
+                    json, object : TypeToken<Collection<Component>>(){}.type
+                ))
     }
-
 }
