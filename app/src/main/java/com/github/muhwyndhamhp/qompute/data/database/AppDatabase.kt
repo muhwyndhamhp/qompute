@@ -4,14 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.github.muhwyndhamhp.qompute.data.model.Build
 import com.github.muhwyndhamhp.qompute.data.model.BuildDao
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.data.model.ComponentDao
 import com.github.muhwyndhamhp.qompute.utils.DATABASE_NAME
+import com.github.muhwyndhamhp.qompute.utils.ObjectTypeConverter
 
 @Database(entities = [Component::class, Build::class], version = 2, exportSchema = false)
+@TypeConverters(ObjectTypeConverter::class)
 abstract class AppDatabase : RoomDatabase(){
 
     abstract fun componentDao() : ComponentDao

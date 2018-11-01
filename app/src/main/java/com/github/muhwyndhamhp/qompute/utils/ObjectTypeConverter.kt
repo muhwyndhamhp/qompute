@@ -12,6 +12,7 @@ class ObjectTypeConverter {
     companion object {
         val gson = Gson()
 
+        @JvmStatic
         @TypeConverter
         fun stringToObject(data: String): ComponentList {
             when(data){
@@ -20,6 +21,8 @@ class ObjectTypeConverter {
             }
         }
 
+        @JvmStatic
+        @TypeConverter
         fun objectToString(componentList: ComponentList): String {
             return gson.toJson(componentList)
         }
