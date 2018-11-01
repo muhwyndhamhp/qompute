@@ -2,4 +2,8 @@
     <string name="app_name">Qompute</string>
     <string name="rakitan_anda">Rakitan Anda</string>
     <string name="profil">Profil</string>
+    <string name="buat_rakitan">Buat Rakitan</string>
+    <string name="pencil_image">pencil image</string>
+    <string name="cari_rakitan">Cari Rakitan</string>
+    <string name="daftar_rakitanmu">Daftar Rakitanmu</string>
 </resources>
