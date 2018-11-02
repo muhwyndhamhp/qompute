@@ -28,7 +28,10 @@ class AppRepository private constructor(
 
     fun getComponentByBrandDescriptionAsc(brandDesc: String) = componentDao.getComponentsByBrandDescriptionAsc(brandDesc)
 
-    fun getComponentsByCategoryAsc(catDec: String) = componentDao.getComponentsByCategoryAsc(catDec)
+    fun getComponentsByCategoryAsc(catDec: String): List<Component> {
+        return if(catDec == "harddisk") componentDao.getComponentsByCategoryAscHDD(catDec)
+        else componentDao.getComponentsByCategoryAsc(catDec)
+    }
 
     fun getComponentByBrandDescriptionDesc(brandDesc: String) = componentDao.getComponentsByBrandDescriptionDesc(brandDesc)
 

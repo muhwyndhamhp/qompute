@@ -24,6 +24,9 @@ interface ComponentDao {
     @Query("SELECT * FROM components WHERE category_description = :catDesc ORDER BY name ASC")
     fun getComponentsByCategoryAsc(catDesc: String): List<Component>
 
+    @Query("SELECT * FROM components WHERE category_description = :catDesc AND subcategory_description != 'NAS' ORDER BY name ASC")
+    fun getComponentsByCategoryAscHDD(catDesc: String): List<Component>
+
     @Query("SELECT * FROM components WHERE brand_description = :brandDesc ORDER BY name DESC")
     fun getComponentsByBrandDescriptionDesc(brandDesc: String): List<Component>
 
