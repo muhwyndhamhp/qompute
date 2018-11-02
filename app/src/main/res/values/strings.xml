@@ -16,7 +16,7 @@
     <string-array name="component_categories">
         <item>Casing</item>
         <item>HSF dan Fan</item>
-        <item>Harddisk</item>
+        <item>Harddisk dan SSD</item>
         <item>Keyboard dan Mouse</item>
         <item>Monitor</item>
         <item>RAM</item>
@@ -27,7 +27,23 @@
         <item>Power Supply / PSU</item>
         <item>SoundCard</item>
         <item>Speaker</item>
-        <item>SSD</item>
         <item>VGA / Graphic Card</item>
+    </string-array>
+
+    <string-array name="component_endpoint">
+        <item>casing</item>
+        <item>coolerfan</item>
+        <item>harddisk</item>
+        <item>Keyboard</item>
+        <item>lcd</item>
+        <item>memoryram</item>
+        <item>motherboard</item>
+        <item>optical</item>
+        <item>printer</item>
+        <item>processor</item>
+        <item>psu</item>
+        <item>soundcard</item>
+        <item>speaker</item>
+        <item>vga</item>
     </string-array>
 </resources>

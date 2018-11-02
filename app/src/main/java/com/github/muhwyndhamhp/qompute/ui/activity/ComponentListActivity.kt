@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.ui.adapter.ComponentListAdapter
+import com.github.muhwyndhamhp.qompute.utils.CATEGORY_CODE
 import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_1
 import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_2
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
@@ -46,7 +47,7 @@ class ComponentListActivity : AppCompatActivity() {
 
     private fun getData() {
         progressDialog.show()
-        viewModel.getData("casing")
+        viewModel.getData(intent.getStringExtra(CATEGORY_CODE))
         viewModel.componentList.observe(this, Observer {
             if(adapter == null) prepareRecyclerView(it)
             else adapter!!.setComponentList(it)
