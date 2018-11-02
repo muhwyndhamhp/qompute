@@ -18,11 +18,12 @@ class ComponentListAdapter(private val context: Context, private var components:
             itemView.tv_component_name.text = component.name
             itemView.tv_brand_name.text = component.brandDescription
             itemView.tv_price.text = getCurrency(component.price)
+            itemView.tv_subcategory_name.text = component.subcategoryDescription
         }
 
         private fun getCurrency(price: String) = NumberFormat
-            .getCurrencyInstance(Locale.forLanguageTag("IN"))
-            .format(price.toInt())
+            .getCurrencyInstance(Locale.forLanguageTag("in_ID"))
+            .format(price.toLong())
 
     }
 
