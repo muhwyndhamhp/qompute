@@ -26,6 +26,9 @@ class AppRepository private constructor(
 
     fun getSingleComponent(name: String) = componentDao.getSingleComponent(name)
 
+    fun getComponentByBrandDesc(brandDesc: String) = componentDao.getComponentsByBrandDesc(brandDesc)
+
+    fun getComponentsByCategory(catDec: String) = componentDao.getComponentsByCategory(catDec)
 
     fun getAllBuilds() = buildDao.getAllBuilds()
 

@@ -18,6 +18,12 @@ interface ComponentDao {
     @Query("SELECT * FROM components WHERE name = :name LIMIT 1")
     fun getSingleComponent(name: String): Component
 
+    @Query("SELECT * FROM components WHERE brand_description = :brandDesc")
+    fun getComponentsByBrandDesc(brandDesc: String): List<Component>
+
+    @Query("SELECT * FROM components WHERE category_description = :catDesc")
+    fun getComponentsByCategory(catDesc: String): List<Component>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSingleComponent(component: Component)
 
