@@ -30,7 +30,7 @@ interface ComponentDao {
     @Query("SELECT * FROM components WHERE category_description = :catDesc ORDER BY name DESC")
     fun getComponentsByCategoryDesc(catDesc: String): List<Component>
 
-    @Query("SELECT * FROM components WHERE category_description = :catDesc AND ((name+brand_description+category_description+subcategory_description)) LIKE :string")
+    @Query("SELECT * FROM components WHERE category_description = :catDesc AND (brand_description LIKE :string OR name LIKE :string OR category_description LIKE :string OR subcategory_description LIKE :string) ORDER BY name ASC")
     fun getComponentsByCategorySearch(catDesc: String, string: String): List<Component>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

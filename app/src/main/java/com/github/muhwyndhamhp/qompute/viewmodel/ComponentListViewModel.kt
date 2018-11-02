@@ -42,7 +42,8 @@ class ComponentListViewModel(val appRepository: AppRepository) : ViewModel() {
     }
 
     fun getDataFromSearch(catDesc: String, queryString: String){
-        componentList.value = appRepository.getComponentsByCategorySearch(catDesc, queryString)
+        val string = "%$queryString%"
+        componentList.value = appRepository.getComponentsByCategorySearch(catDesc, string)
     }
 
 }

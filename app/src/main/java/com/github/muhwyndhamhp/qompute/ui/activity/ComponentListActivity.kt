@@ -1,8 +1,9 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
 import android.app.ProgressDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,8 +24,8 @@ class ComponentListActivity : AppCompatActivity() {
 
     private lateinit var viewModel: ComponentListViewModel
     private lateinit var recyclerView: RecyclerView
-    private var adapter : ComponentListAdapter? = null
-    private lateinit var progressDialog : ProgressDialog
+    private var adapter: ComponentListAdapter? = null
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,20 @@ class ComponentListActivity : AppCompatActivity() {
         val factory = InjectorUtils.provideComponentListViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(ComponentListViewModel::class.java)
         getData()
+        setSearchListener()
+    }
 
+    private fun setSearchListener() {
+        et_cari_komponen.setOnKeyListener { v, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) &&
+                (keyCode == KeyEvent.KEYCODE_ENTER)
+            ) {
+                if(et_cari_komponen.text.toString() == "") viewModel.getData(intent.getStringExtra(CATEGORY_CODE))
+                else viewModel.getDataFromSearch(intent.getStringExtra(CATEGORY_CODE), et_cari_komponen.text.toString())
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
     }
 
     private fun prepareRecyclerView(components: List<Component>) {
@@ -49,24 +63,31 @@ class ComponentListActivity : AppCompatActivity() {
         progressDialog.show()
         viewModel.getData(intent.getStringExtra(CATEGORY_CODE))
         viewModel.componentList.observe(this, Observer {
-            if(adapter == null) prepareRecyclerView(it)
+            if (adapter == null) prepareRecyclerView(it)
             else adapter!!.setComponentList(it)
-            when(progressDialog.isShowing) {true -> progressDialog.dismiss()}
+            when (progressDialog.isShowing) {
+                true -> progressDialog.dismiss()
+            }
         })
 
         viewModel.exceptionList.observe(this, Observer {
-            if(it.size != 0) {
+            if (it.size != 0) {
                 when {
-                    it[ERROR_CODE_FAILED_TO_FETCH_PART_1].message != "" ->{
-                        when(progressDialog.isShowing) {true -> progressDialog.dismiss()}
+                    it[ERROR_CODE_FAILED_TO_FETCH_PART_1].message != "" -> {
+                        when (progressDialog.isShowing) {
+                            true -> progressDialog.dismiss()
+                        }
                         alert { it[ERROR_CODE_FAILED_TO_FETCH_PART_1] }
                     }
-                    it[ERROR_CODE_FAILED_TO_FETCH_PART_2].message != "" ->{
-                        when(progressDialog.isShowing) {true -> progressDialog.dismiss()}
+                    it[ERROR_CODE_FAILED_TO_FETCH_PART_2].message != "" -> {
+                        when (progressDialog.isShowing) {
+                            true -> progressDialog.dismiss()
+                        }
                         alert { it[ERROR_CODE_FAILED_TO_FETCH_PART_2] }
                     }
                 }
 
-            }})
+            }
+        })
     }
 }
