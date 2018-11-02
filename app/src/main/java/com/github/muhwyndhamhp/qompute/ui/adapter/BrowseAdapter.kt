@@ -2,13 +2,16 @@ package com.github.muhwyndhamhp.qompute.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.github.muhwyndhamhp.qompute.R
+import com.github.muhwyndhamhp.qompute.ui.activity.ComponentListActivity
 import kotlinx.android.synthetic.main.item_browse.view.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class BrowseAdapter(private val context: Context) : RecyclerView.Adapter<BrowseAdapter.ViewHolder>() {
 
@@ -32,6 +35,11 @@ class BrowseAdapter(private val context: Context) : RecyclerView.Adapter<BrowseA
                 categories[13] -> setContent(R.drawable.ic_ssd, categories[13], itemView, context)
                 categories[14] -> setContent(R.drawable.ic_graphic_card, categories[14], itemView, context)
             }
+
+            itemView.onClick {
+                val intent = Intent(context, ComponentListActivity::class.java)
+                context.startActivity(intent)
+            }
         }
 
         @SuppressLint("CheckResult")
@@ -50,7 +58,7 @@ class BrowseAdapter(private val context: Context) : RecyclerView.Adapter<BrowseA
                 parent,
                 false))
 
-    override fun getItemCount(): Int = categories.size
+    override fun getItemCount() = categories.size
 
     override fun onBindViewHolder(holder: BrowseAdapter.ViewHolder, position: Int) = holder.bindView(categories[position], context)
 
