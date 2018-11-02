@@ -18,6 +18,6 @@ class ComponentListActivity : AppCompatActivity() {
         val factory = InjectorUtils.provideComponentListViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(ComponentListViewModel::class.java)
 
-
+        viewModel.getData()
     }
 }
