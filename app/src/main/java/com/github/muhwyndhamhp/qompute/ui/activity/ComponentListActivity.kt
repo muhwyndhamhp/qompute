@@ -15,9 +15,21 @@ class ComponentListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_component_list)
 
+        prepareRecyclerView()
+
         val factory = InjectorUtils.provideComponentListViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(ComponentListViewModel::class.java)
 
-        viewModel.getData()
+        getData()
+
+    }
+
+    private fun prepareRecyclerView() {
+
+
+    }
+
+    private fun getData() {
+        viewModel.getData("casing")
     }
 }
