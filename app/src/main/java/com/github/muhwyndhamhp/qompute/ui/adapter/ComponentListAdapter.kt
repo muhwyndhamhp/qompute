@@ -22,7 +22,7 @@ class ComponentListAdapter(private val context: Context, private var components:
         }
 
         private fun getCurrency(price: String) = NumberFormat
-            .getCurrencyInstance(Locale.forLanguageTag("in_ID"))
+            .getCurrencyInstance(Locale("in", "ID"))
             .format(price.toLong())
 
     }
