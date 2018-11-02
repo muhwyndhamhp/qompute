@@ -10,6 +10,9 @@
     <string name="belum_ada_rakitan">Belum ada Rakitan!</string>
     <string name="cpu">cpu</string>
     <string name="processor">Processor</string>
+    <string name="component_name">Component Name</string>
+    <string name="brand_name">Brand Name</string>
+    <string name="price">Price</string>
     <string-array name="component_categories">
         <item>Casing</item>
         <item>HSF dan Fan</item>
