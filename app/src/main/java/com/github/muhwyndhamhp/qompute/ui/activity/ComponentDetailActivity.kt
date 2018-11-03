@@ -1,10 +1,11 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
 import android.annotation.SuppressLint
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.github.muhwyndhamhp.qompute.R
@@ -14,6 +15,7 @@ import com.github.muhwyndhamhp.qompute.utils.COMPONENT_CODE
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.ComponentDetailViewModel
 import kotlinx.android.synthetic.main.activity_component_detail.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.text.NumberFormat
 import java.util.*
 
@@ -28,24 +30,48 @@ class ComponentDetailActivity : AppCompatActivity() {
         val factory = InjectorUtils.provideComponentDetailViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(ComponentDetailViewModel::class.java)
 
-        if(actionBar!= null) actionBar!!.setDisplayHomeAsUpEnabled(true)
-
+        if (actionBar != null) actionBar!!.setDisplayHomeAsUpEnabled(true)
         initActivity()
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initActivity() {
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+
         val component = intent.getSerializableExtra(COMPONENT_CODE) as Component
         tv_name.text = component.name
         tv_brand_desc.text = component.brandDescription
         tv_category_desc.text = component.categoryDescription
         tv_subcategory_desc.text = component.subcategoryDescription
-        tv_price_desc.text = NumberFormat.getCurrencyInstance(Locale("in","ID")).format(component.price.toLong())
-        if(component.linkToped != "" || component.linkBukalapak != "" || component.linkShopee != "") layout_buy_link.visibility = View.VISIBLE
-        when{
-            component.linkToped != "" -> iv_tokopedia.visibility = View.VISIBLE
-            component.linkBukalapak != "" -> iv_bukalapak.visibility = View.VISIBLE
-            component.linkShopee != "" -> iv_shopee.visibility = View.VISIBLE
+        tv_price_desc.text = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(component.price.toLong())
+        if (component.linkToped != null || component.linkBukalapak != null || component.linkShopee != null) layout_buy_link.visibility =
+                View.VISIBLE
+        if (component.linkToped != null) {
+            iv_tokopedia.visibility = View.VISIBLE
+            iv_tokopedia.onClick {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(component.linkToped)
+                startActivity(intent)
+            }
+        }
+        if (component.linkBukalapak != null) {
+            iv_bukalapak.visibility = View.VISIBLE
+            iv_bukalapak.onClick {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(component.linkBukalapak)
+                startActivity(intent)
+            }
+        }
+        if (component.linkShopee != null) {
+            iv_shopee.visibility = View.VISIBLE
+            iv_shopee.onClick {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(component.linkShopee)
+                startActivity(intent)
+            }
         }
         val url = component.name.replace(" ", "%20")
 

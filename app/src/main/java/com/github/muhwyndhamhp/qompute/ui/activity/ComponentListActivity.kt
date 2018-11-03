@@ -16,6 +16,7 @@ import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_1
 import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_2
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.ComponentListViewModel
+import kotlinx.android.synthetic.main.activity_component_detail.*
 import kotlinx.android.synthetic.main.activity_component_list.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -32,6 +33,11 @@ class ComponentListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_component_list)
 
         progressDialog = indeterminateProgressDialog("Memuat data dari database...", "Loading")
+
+        setSupportActionBar(toolbar_component_list)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        toolbar_component_list.setNavigationOnClickListener { onBackPressed() }
 
         val factory = InjectorUtils.provideComponentListViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(ComponentListViewModel::class.java)
