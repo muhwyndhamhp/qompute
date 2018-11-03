@@ -19,6 +19,7 @@
     <string name="merk_brand">Merk / Brand</string>
     <string name="link_pembelian">Link Pembelian</string>
     <string name="google_earch">Pencarian Google</string>
+    <string name="harga">Harga</string>
     <string-array name="component_categories">
         <item>Casing</item>
         <item>HSF dan Fan</item>

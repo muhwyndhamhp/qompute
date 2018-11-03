@@ -56,6 +56,7 @@ class ComponentListActivity : AppCompatActivity() {
         recyclerView = recycler_view_component_list
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         adapter = ComponentListAdapter(this, components)
+        adapter!!.setCategoryCode(intent.getStringExtra(CATEGORY_CODE))
         recyclerView.adapter = adapter
     }
 

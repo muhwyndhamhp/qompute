@@ -22,7 +22,6 @@ class ComponentListViewModel(val appRepository: AppRepository) : ViewModel() {
                 }
 
                 override fun onSuccess(components: List<Component>) {
-                    val componentList1 = components as MutableList<Component>
                     appRepository.reloadData2(object : AppRepository.LoadDataCallback {
                         override fun onFailed(TAG: String, t: Throwable) {
                             exceptionList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_2, t)
@@ -30,8 +29,7 @@ class ComponentListViewModel(val appRepository: AppRepository) : ViewModel() {
                         }
 
                         override fun onSuccess(components: List<Component>) {
-                            componentList1.addAll(components)
-                            componentList.value = componentList1
+                            componentList.value = appRepository.getComponentsByCategoryAsc(catDesc)
                         }
 
                     })
