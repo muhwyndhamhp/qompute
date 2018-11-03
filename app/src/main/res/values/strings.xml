@@ -14,6 +14,11 @@
     <string name="brand_name">Brand Name</string>
     <string name="price">Price</string>
     <string name="cari_komponen">Cari Komponen</string>
+    <string name="kategori">Kategori</string>
+    <string name="subkategori">Subkategori</string>
+    <string name="merk_brand">Merk / Brand</string>
+    <string name="link_pembelian">Link Pembelian</string>
+    <string name="google_earch">Pencarian Google</string>
     <string-array name="component_categories">
         <item>Casing</item>
         <item>HSF dan Fan</item>
