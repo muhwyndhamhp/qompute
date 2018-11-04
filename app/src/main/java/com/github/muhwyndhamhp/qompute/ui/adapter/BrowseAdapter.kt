@@ -1,6 +1,7 @@
 package com.github.muhwyndhamhp.qompute.ui.adapter
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.ui.activity.ComponentListActivity
+import com.github.muhwyndhamhp.qompute.ui.activity.MainActivity
+import com.github.muhwyndhamhp.qompute.ui.fragment.BrowseFragment
 import com.github.muhwyndhamhp.qompute.utils.CATEGORY_CODE
 import kotlinx.android.synthetic.main.item_browse.view.*
 import org.jetbrains.anko.alert
@@ -42,9 +45,15 @@ class BrowseAdapter(private val context: Context) : RecyclerView.Adapter<BrowseA
             }
 
             itemView.onClick {
+                (context as MainActivity).showLoading("Memuat data...", "Loading")
+
+//                val dialog = ProgressDialog(context)
+//                dialog.setMessage("Memuat Data...")
+//                dialog.show()
                 val intent = Intent(context, ComponentListActivity::class.java)
                 intent.putExtra(CATEGORY_CODE, categoryCode)
                 context.startActivity(intent)
+                context.dismissLoading()
             }
         }
 

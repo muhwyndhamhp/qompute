@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.activity_component_detail.*
 import kotlinx.android.synthetic.main.activity_component_list.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.indeterminateProgressDialog
+import java.util.*
+import kotlin.concurrent.schedule
 
 class ComponentListActivity : AppCompatActivity() {
 
@@ -96,5 +98,18 @@ class ComponentListActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    fun showLoading(body: String, title: String) {
+        progressDialog = indeterminateProgressDialog(message = body, title = title)
+        progressDialog.setProgressStyle(R.style.MyAlertDialogStyle)
+        progressDialog.show()
+    }
+
+    fun dismissLoading(){
+        Timer().schedule(2000){
+            if(progressDialog.isShowing) progressDialog.dismiss()
+        }
+
     }
 }

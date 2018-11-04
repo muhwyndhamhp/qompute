@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.ui.activity.ComponentDetailActivity
+import com.github.muhwyndhamhp.qompute.ui.activity.ComponentListActivity
 import com.github.muhwyndhamhp.qompute.utils.CATEGORY_CODE
 import com.github.muhwyndhamhp.qompute.utils.COMPONENT_CODE
 import kotlinx.android.synthetic.main.item_component_list.view.*
@@ -30,10 +31,12 @@ class ComponentListAdapter(private val context: Context, private var components:
             itemView.tv_subcategory_name.text = component.subcategoryDescription
 
             itemView.onClick {
+                (context as ComponentListActivity).showLoading("Memuat data...", "Loading")
                 val intent = Intent(context, ComponentDetailActivity::class.java)
                 intent.putExtra(COMPONENT_CODE, component)
                 intent.putExtra(CATEGORY_CODE, categoryCode)
                 context.startActivity(intent)
+                context.dismissLoading()
             }
         }
 

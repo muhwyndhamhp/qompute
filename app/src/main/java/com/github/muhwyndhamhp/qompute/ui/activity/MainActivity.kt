@@ -1,5 +1,6 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -15,10 +16,14 @@ import com.github.muhwyndhamhp.qompute.ui.fragment.ProfileFragment
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.indeterminateProgressDialog
+import java.util.*
+import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.fragmentPosition.observe(this, Observer { replaceFragment(selectFragment(it)) })
         viewModel.setFragmentPosition(0)
     }
+
 
     private fun replaceFragment(selectFragment: Fragment) {
         val ft = supportFragmentManager.beginTransaction()
@@ -61,5 +67,18 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
+    }
+
+    fun showLoading(body: String, title: String) {
+        progressDialog = indeterminateProgressDialog(message = body, title = title)
+        progressDialog.setProgressStyle(R.style.MyAlertDialogStyle)
+            progressDialog.show()
+    }
+
+    fun dismissLoading(){
+        Timer().schedule(2000){
+            if(progressDialog.isShowing) progressDialog.dismiss()
+        }
+
     }
 }
