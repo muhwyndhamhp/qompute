@@ -9,11 +9,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class AppRepository private constructor(
-    private  val componentDao: ComponentDao,
+    private val componentDao: ComponentDao,
     private val buildDao: BuildDao
 ) {
 
-    interface LoadDataCallback{
+    interface LoadDataCallback {
         fun onFailed(TAG: String, t: Throwable)
         fun onSuccess(components: List<Component>)
     }
@@ -26,18 +26,52 @@ class AppRepository private constructor(
 
     fun getSingleComponent(name: String) = componentDao.getSingleComponent(name)
 
-    fun getComponentByBrandDescriptionAsc(brandDesc: String) = componentDao.getComponentsByBrandDescriptionAsc(brandDesc)
+    fun getComponentByBrandDescriptionAsc(brandDesc: String) =
+        componentDao.getComponentsByBrandDescriptionAsc(brandDesc)
 
-    fun getComponentsByCategoryAsc(catDec: String): List<Component> {
-        return if(catDec == "harddisk") componentDao.getComponentsByCategoryAscHDD(catDec)
-        else componentDao.getComponentsByCategoryAsc(catDec)
+    fun getComponentsByCategoryAsc(catDec: String, loadDataCallback: LoadDataCallback){
+      if(checkComponentValidity()){
+          loadDataCallback.onSuccess(
+              if(catDec == "harddisk") componentDao.getComponentsByCategoryAscHDD(catDec)
+              else componentDao.getComponentsByCategoryAsc(catDec))
+      } else{
+          reloadData1(object : LoadDataCallback{
+              override fun onFailed(TAG: String, t: Throwable) {
+                  loadDataCallback.onFailed(TAG, t)
+              }
+
+              override fun onSuccess(components: List<Component>) {
+                  reloadData2(object : LoadDataCallback{
+                      override fun onFailed(TAG: String, t: Throwable) {
+                          loadDataCallback.onFailed(TAG, t)
+                      }
+
+                      override fun onSuccess(components: List<Component>) {
+                          loadDataCallback.onSuccess(
+                              if(catDec == "harddisk") componentDao.getComponentsByCategoryAscHDD(catDec)
+                              else componentDao.getComponentsByCategoryAsc(catDec))
+                      }
+
+                  })
+              }
+
+          })
+      }
     }
 
-    fun getComponentByBrandDescriptionDesc(brandDesc: String) = componentDao.getComponentsByBrandDescriptionDesc(brandDesc)
+    private fun checkComponentValidity() =
+        if(!componentDao.getAllComponents().isEmpty())
+            (System.currentTimeMillis()/1000 - componentDao.getAllComponents()[0].lastUpdate!!)/(60*60*24) < 14
+        else false
+
+
+    fun getComponentByBrandDescriptionDesc(brandDesc: String) =
+        componentDao.getComponentsByBrandDescriptionDesc(brandDesc)
 
     fun getComponentsByCategoryDesc(catDec: String) = componentDao.getComponentsByCategoryDesc(catDec)
 
-    fun getComponentsByCategorySearch(catDesc: String, string: String) = componentDao.getComponentsByCategorySearch(catDesc, string)
+    fun getComponentsByCategorySearch(catDesc: String, string: String) =
+        componentDao.getComponentsByCategorySearch(catDesc, string)
 
     fun getAllBuilds() = buildDao.getAllBuilds()
 
@@ -48,35 +82,35 @@ class AppRepository private constructor(
     fun getSingleBuild(name: String) = buildDao.getSingleBuild(name)
 
     @SuppressLint("CheckResult")
-    fun reloadData1(loadDataCallback: LoadDataCallback){
+    fun reloadData1(loadDataCallback: LoadDataCallback) {
         val networkService = NetworkService.getInstance()
 
         networkService.getAll1()
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-            componentList ->
-            componentDao.insertAll(componentList)
-            loadDataCallback.onSuccess(componentList)
-        }){
-            loadDataCallback.onFailed(TAG, it)
-        }
+            .subscribe({ componentList ->
+                for (component in componentList) component.lastUpdate = System.currentTimeMillis() / 1000
+                componentDao.insertAll(componentList)
+                loadDataCallback.onSuccess(componentList)
+            }) {
+                loadDataCallback.onFailed(TAG, it)
+            }
     }
 
     @SuppressLint("CheckResult")
-    fun reloadData2(loadDataCallback: LoadDataCallback){
+    fun reloadData2(loadDataCallback: LoadDataCallback) {
         val networkService = NetworkService.getInstance()
 
         networkService.getAll2()
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-            componentList ->
-            componentDao.insertAll(componentList)
-            loadDataCallback.onSuccess(componentList)
-        }){
-            loadDataCallback.onFailed(TAG, it)
-        }
+            .subscribe({ componentList ->
+                for (component in componentList) component.lastUpdate = System.currentTimeMillis() / 1000
+                componentDao.insertAll(componentList)
+                loadDataCallback.onSuccess(componentList)
+            }) {
+                loadDataCallback.onFailed(TAG, it)
+            }
     }
 
     companion object {
@@ -85,7 +119,8 @@ class AppRepository private constructor(
         @Volatile
         private var instance: AppRepository? = null
 
-        fun getInstance(componentDao: ComponentDao, buildDao: BuildDao) = instance ?: synchronized(this){ instance ?: AppRepository(componentDao, buildDao).also  { instance = it }}
+        fun getInstance(componentDao: ComponentDao, buildDao: BuildDao) =
+            instance ?: synchronized(this) { instance ?: AppRepository(componentDao, buildDao).also { instance = it } }
     }
 
 

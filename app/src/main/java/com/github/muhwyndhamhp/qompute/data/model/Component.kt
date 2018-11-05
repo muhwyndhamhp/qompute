@@ -56,5 +56,8 @@ class Component (
     var linkShopee: String?,
 
     @ColumnInfo(name = "link_bukalapak")@SerializedName("link_bukalapak") @Expose
-    var linkBukalapak: String?
+    var linkBukalapak: String?,
+
+    @ColumnInfo(name = "last_update")@SerializedName("last_update")
+    var lastUpdate: Long?
 ):Serializable
