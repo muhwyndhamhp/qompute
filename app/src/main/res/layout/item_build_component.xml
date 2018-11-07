@@ -10,6 +10,7 @@
         >
 
     <ImageView
+            android:id="@+id/iv_delete_component"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_rubbish_bin_delete_button"
@@ -18,7 +19,7 @@
             android:contentDescription="@string/delete_component_button"/>
 
     <TextView
-            android:id="@+id/tv_component_name"
+            android:id="@+id/tv_component_name_build"
             android:layout_width="0dp"
             android:layout_weight="0.7"
             android:layout_height="wrap_content"
@@ -26,10 +27,11 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"/>
 
-    <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@string/number"
-            android:layout_weight="0.1"
-            />
+    <!--<Spinner-->
+            <!--android:id="@+id/spinner_item_count"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:entries="@string/number"-->
+            <!--android:layout_weight="0.1"-->
+            <!--/>-->
 </LinearLayout>

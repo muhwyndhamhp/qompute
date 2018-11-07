@@ -17,7 +17,8 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.text.NumberFormat
 import java.util.*
 
-class ComponentListAdapter(private val context: Context, private var components: List<Component>): RecyclerView.Adapter<ComponentListAdapter.ViewHolder>() {
+class ComponentListAdapter(private val context: Context, private var components: List<Component>)
+    : RecyclerView.Adapter<ComponentListAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bindView(
