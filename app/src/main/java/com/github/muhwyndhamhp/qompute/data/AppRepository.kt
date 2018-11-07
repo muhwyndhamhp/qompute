@@ -18,17 +18,6 @@ class AppRepository private constructor(
         fun onSuccess(components: List<Component>)
     }
 
-    fun getAllComponents() = componentDao.getAllComponents()
-
-    fun getComponentsPaged() = componentDao.getComponentsPaged()
-
-    fun getSingleComponent(id: Int) = componentDao.getSingleComponent(id)
-
-    fun getSingleComponent(name: String) = componentDao.getSingleComponent(name)
-
-    fun getComponentByBrandDescriptionAsc(brandDesc: String) =
-        componentDao.getComponentsByBrandDescriptionAsc(brandDesc)
-
     fun getComponentsByCategoryAsc(catDec: String, loadDataCallback: LoadDataCallback){
       if(checkComponentValidity()){
           loadDataCallback.onSuccess(
@@ -64,22 +53,10 @@ class AppRepository private constructor(
             (System.currentTimeMillis()/1000 - componentDao.getAllComponents()[0].lastUpdate!!)/(60*60*24) < 14
         else false
 
-
-    fun getComponentByBrandDescriptionDesc(brandDesc: String) =
-        componentDao.getComponentsByBrandDescriptionDesc(brandDesc)
-
-    fun getComponentsByCategoryDesc(catDec: String) = componentDao.getComponentsByCategoryDesc(catDec)
-
     fun getComponentsByCategorySearch(catDesc: String, string: String) =
         componentDao.getComponentsByCategorySearch(catDesc, string)
 
     fun getAllBuilds() = buildDao.getAllBuilds()
-
-    fun getBuildsPaged() = buildDao.getBuildsPaged()
-
-    fun getSingleBuild(id: Int) = buildDao.getSingleBuild(id)
-
-    fun getSingleBuild(name: String) = buildDao.getSingleBuild(name)
 
     @SuppressLint("CheckResult")
     fun reloadData1(loadDataCallback: LoadDataCallback) {

@@ -72,6 +72,9 @@ dependencies {
 
     //Bottom Naviagation
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
+
+    //switchtab
+    implementation 'lib.kingja.switchbutton:switchbutton:1.1.7'
 }
 
 kotlin {

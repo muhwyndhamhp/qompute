@@ -27,7 +27,11 @@
                 android:name=".ui.activity.ComponentListActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
-        <activity android:name=".ui.activity.ComponentDetailActivity"
+        <activity
+                android:name=".ui.activity.ComponentDetailActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity android:name=".ui.activity.BuildingActivity"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
     </application>

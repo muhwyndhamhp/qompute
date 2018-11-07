@@ -21,6 +21,10 @@
     <string name="google_earch">Pencarian Google</string>
     <string name="harga">Harga</string>
     <string name="daftar_komponen">Daftar Komponen</string>
+    <string name="rakit">Rakit</string>
+    <string name="pilih_platform">Pilih platform</string>
+    <string name="socket">Socket</string>
+    <string name="delete_item">Delete Item</string>
     <string-array name="component_categories">
         <item>Casing</item>
         <item>HSF dan Fan</item>
@@ -54,4 +58,64 @@
         <item>speaker</item>
         <item>vga</item>
     </string-array>
+
+    <string-array name="processor_type">
+        <item>Intel</item>
+        <item>AMD</item>
+    </string-array>
+
+    <string-array name="socket_intel">
+        <item>LGA 775</item>
+        <item>LGA 1150</item>
+        <item>LGA 1151</item>
+        <item>LGA 1155</item>
+        <item>LGA 2011</item>
+        <item>LGA 2066</item>
+    </string-array>
+
+    <string-array name="socket_amd">
+        <item>AM1</item>
+        <item>AM2</item>
+        <item>AM3</item>
+        <item>AM4</item>
+        <item>FM1</item>
+        <item>FM2</item>
+        <item>TR4</item>
+    </string-array>
+
+    <string name="number">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string>
+
+    <string-array name="build_component_list">
+        <item>CPU</item>
+        <item>Motherboard</item>
+        <item>Graphic Card</item>
+        <item>Memory</item>
+        <item>HDD / SSD 1</item>
+        <item>HDD / SSD 2</item>
+        <item>Power Supply</item>
+        <item>Casing</item>
+        <item>HSF</item>
+        <item>Optical</item>
+        <item>Monitor 1</item>
+        <item>Monitor 2</item>
+        <item>Mouse / Keyboard 1</item>
+        <item>Mouse / Keyboard 2</item>
+        <item>Fan 1</item>
+        <item>Fan 2</item>
+        <item>Fan 3</item>
+        <item>Fan 4</item>
+        <item>Speaker</item>
+        <item>Soundcard</item>
+    </string-array>
+    <string name="delete_component_button">delete component button</string>
 </resources>
