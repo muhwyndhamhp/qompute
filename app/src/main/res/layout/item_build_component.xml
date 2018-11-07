@@ -5,9 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:gravity="top"
-        >
+        android:paddingBottom="10dp">
 
     <ImageView
             android:id="@+id/iv_delete_component"
@@ -15,23 +13,29 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_rubbish_bin_delete_button"
             android:tint="@color/colorAccent"
-            android:layout_weight="0.3"
-            android:contentDescription="@string/delete_component_button"/>
+            android:layout_weight="0.2"
+            android:contentDescription="@string/delete_component_button"
+            android:layout_gravity="center_vertical"/>
 
     <TextView
             android:id="@+id/tv_component_name_build"
             android:layout_width="0dp"
-            android:layout_weight="0.7"
+            android:layout_weight="0.8"
             android:layout_height="wrap_content"
             android:text="@string/component_name"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp"/>
+            android:background="@drawable/item_browse_background"
+            android:padding="10dp"
+            android:textSize="12sp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="top"/>
 
-    <!--<Spinner-->
-            <!--android:id="@+id/spinner_item_count"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:entries="@string/number"-->
-            <!--android:layout_weight="0.1"-->
-            <!--/>-->
+    <Spinner
+            android:id="@+id/spinner_item_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/number_count"
+            android:layout_weight="0.3"
+            android:layout_gravity="top"
+            />
 </LinearLayout>

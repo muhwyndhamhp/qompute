@@ -3,10 +3,7 @@ package com.github.muhwyndhamhp.qompute.utils
 import android.content.Context
 import com.github.muhwyndhamhp.qompute.data.AppRepository
 import com.github.muhwyndhamhp.qompute.data.database.AppDatabase
-import com.github.muhwyndhamhp.qompute.viewmodel.factory.BrowseViewModelFactory
-import com.github.muhwyndhamhp.qompute.viewmodel.factory.ComponentDetailViewModelFactory
-import com.github.muhwyndhamhp.qompute.viewmodel.factory.ComponentListViewModelFactory
-import com.github.muhwyndhamhp.qompute.viewmodel.factory.MainViewModelFactory
+import com.github.muhwyndhamhp.qompute.viewmodel.factory.*
 
 object InjectorUtils {
 
@@ -32,5 +29,10 @@ object InjectorUtils {
     fun provideComponentDetailViewModelFactory(context: Context): ComponentDetailViewModelFactory{
         val repository = getAppRepository(context)
         return ComponentDetailViewModelFactory(repository)
+    }
+
+    fun provideBuildingViewModelFactory(context: Context): BuildingViewModelFactory{
+        val repository = getAppRepository(context)
+        return BuildingViewModelFactory(repository)
     }
 }

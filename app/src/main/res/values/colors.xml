@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#066DA7</color>
     <color name="colorAccent">#FFA900</color>
     <color name="defaultUnselected">#D6D6D6</color>
+    <color name="lightGrey">#EAEAEA</color>
     <color name="white">#FFFFFF</color>
 </resources>
