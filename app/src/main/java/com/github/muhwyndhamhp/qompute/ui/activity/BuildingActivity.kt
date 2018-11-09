@@ -19,7 +19,7 @@ class BuildingActivity : AppCompatActivity() {
     private lateinit var adapter: BuildingAdapter
     private lateinit var recyclerview: RecyclerView
     private lateinit var viewModel: BuildingViewModel
-    private lateinit var componentLinkers: MutableList<BuildingAdapter.ComponentLinker>
+    private lateinit var componentLinkers: MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,19 +32,15 @@ class BuildingActivity : AppCompatActivity() {
     }
 
     private fun prepareComponentRecyclerView() {
-        getComponentTypeList()
+        componentLinkers = getComponentTypeList() as MutableList<String>
         recyclerview = component_list_recycler_view
         recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         adapter = BuildingAdapter(this, componentLinkers, viewModel)
         recyclerview.adapter = adapter
     }
 
-    private fun getComponentTypeList() {
-        val listName = resources.getStringArray(R.array.build_component_list).toList()
-        for (name in listName){
-            componentLinkers.add(BuildingAdapter.ComponentLinker(null, name, 0))
-        }
-    }
+    private fun getComponentTypeList() = resources.getStringArray(R.array.build_component_list).toList()
+
 
     private fun setProcessorType() {
         processor_switch.setOnSwitchListener { position, _ ->
@@ -53,10 +49,5 @@ class BuildingActivity : AppCompatActivity() {
                 1 -> {socket_switch_intel.visibility = GONE; socket_switch_amd.visibility = VISIBLE}
             }
         }
-    }
-
-    fun setComponentCount(itemCount: Int, position: Int) {
-        componentLinkers[position].itemCount = itemCount
-        adapter.updateData(componentLinkers)
     }
 }

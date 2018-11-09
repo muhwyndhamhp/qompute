@@ -22,8 +22,16 @@ class Build (
     val description: String,
 
     @TypeConverters(ObjectTypeConverter::class)
-    @SerializedName("component_list") @Expose
-    var componentList: ComponentList?,
+    @SerializedName("component_ids")@Expose
+    var componentIds: List<String>?,
+
+    @TypeConverters(ObjectTypeConverter::class)
+    @SerializedName("component_name")@Expose
+    var componentName: List<String>?,
+
+    @TypeConverters(ObjectTypeConverter::class)
+    @SerializedName("component_count")@Expose
+    var componentCount: List<Int>?,
 
     @SerializedName("total_price") @Expose
     val totalPrice: Long

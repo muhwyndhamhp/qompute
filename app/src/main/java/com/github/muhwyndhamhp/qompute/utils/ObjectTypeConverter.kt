@@ -15,16 +15,37 @@ class ObjectTypeConverter {
         @JvmStatic
         @TypeConverter
         fun stringToComponentList(data: String): ComponentList {
-            return when(data){
-                null -> ComponentList.createComponentList(Collections.emptyList())
-                else -> gson.fromJson<ComponentList>(data, object: TypeToken<ComponentList>(){}.type)
-            }
+            return gson.fromJson<ComponentList>(data, object: TypeToken<ComponentList>(){}.type)
         }
 
         @JvmStatic
         @TypeConverter
         fun componentListToString(componentList: ComponentList): String {
             return gson.toJson(componentList)
+        }
+
+        @JvmStatic
+        @TypeConverter
+        fun arrayListToString(arrayList: List<String>): String {
+            return gson.toJson(arrayList)
+        }
+
+        @JvmStatic
+        @TypeConverter
+        fun stringToArrayList(data: String): List<String> {
+            return gson.fromJson<List<String>>(data, object:TypeToken<List<String>>(){}.type)
+        }
+
+        @JvmStatic
+        @TypeConverter
+        fun intArrayToString(intArray: List<Int>): String {
+            return gson.toJson(intArray)
+        }
+
+        @JvmStatic
+        @TypeConverter
+        fun stringToIntArray(data: String): List<Int> {
+            return gson.fromJson<List<Int>>(data, object:TypeToken<List<Int>>(){}.type)
         }
     }
 }
