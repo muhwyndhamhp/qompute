@@ -1,6 +1,5 @@
 package com.github.muhwyndhamhp.qompute.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.muhwyndhamhp.qompute.data.AppRepository
@@ -16,9 +15,8 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
         }
     }
 
-    init {
-        if(build.value == null)
-        {
+    fun initiateBuildObject(intExtra: Long) {
+        if (intExtra == 0.toLong()) {
             val buildId = appRepository.insertBuild(
                 Build(
                     0,
@@ -31,7 +29,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
                 )
             )
             build.value = appRepository.getBuild(buildId)
-        }
+        } else
+            build.value = appRepository.getBuild(intExtra)
     }
-
 }

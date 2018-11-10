@@ -1,15 +1,16 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.ui.adapter.BuildingAdapter
+import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import kotlinx.android.synthetic.main.activity_building.*
@@ -28,8 +29,8 @@ class BuildingActivity : AppCompatActivity() {
 
         val factory = InjectorUtils.provideBuildingViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(BuildingViewModel::class.java)
+        viewModel.initiateBuildObject(intent.getLongExtra(BUILD_ID_DB, 0))
         setCategoryList()
-
         setProcessorType()
         prepareComponentRecyclerView()
     }
@@ -37,11 +38,11 @@ class BuildingActivity : AppCompatActivity() {
     private fun setCategoryList() {
         componentCategoryName = getComponentTypeList() as MutableList<String>
         viewModel.build.observe(this, Observer { buildData ->
-            if(buildData != null)
-                for(i in buildData.componentCount!!.indices){
-                    if(buildData.componentIds!![i] != "") componentCategoryName[i] = buildData.componentName!![i]
+            if (buildData != null)
+                for (i in buildData.componentCount!!.indices) {
+                    if (buildData.componentIds!![i] != "") componentCategoryName[i] = buildData.componentName!![i]
                 }
-            if(::adapter.isInitialized) adapter.updateList(componentCategoryName)
+            if (::adapter.isInitialized) adapter.updateList(componentCategoryName)
         })
     }
 
