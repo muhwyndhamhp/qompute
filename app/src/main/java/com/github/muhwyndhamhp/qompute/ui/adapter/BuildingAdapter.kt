@@ -14,30 +14,36 @@ import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import kotlinx.android.synthetic.main.item_build_component.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
-class BuildingAdapter(private val context: Context, private var componentList: List<String>, private val viewModel: BuildingViewModel)
-    : RecyclerView.Adapter<BuildingAdapter.ViewHolder>(){
+class BuildingAdapter(
+    private val context: Context,
+    private var componentList: List<String>,
+    private val viewModel: BuildingViewModel
+) : RecyclerView.Adapter<BuildingAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(
             context: Context,
             componentLinker: String,
             viewModel: BuildingViewModel,
-            componentId: Int
+            componentListPosition: Int
         ) {
             itemView.tv_component_name_build.text = componentLinker
 
-            itemView.spinner_item_count.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            itemView.spinner_item_count.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    if (itemView.tv_component_name_build.text != componentLinker) viewModel.changeComponentCount(position, componentId)
+                    if (itemView.tv_component_name_build.text != componentLinker) viewModel.changeComponentCount(
+                        position + 1,
+                        componentListPosition
+                    )
                 }
 
             }
 
-            itemView.tv_component_name_build.onClick { startComponentSelectionActivity(context, componentId) }
+            itemView.tv_component_name_build.onClick { startComponentSelectionActivity(context, componentListPosition) }
         }
 
         private fun startComponentSelectionActivity(context: Context, componentId: Int) {
@@ -50,16 +56,19 @@ class BuildingAdapter(private val context: Context, private var componentList: L
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_build_component,
-                parent,
-                false))
+        ViewHolder(
+            LayoutInflater
+                .from(parent.context)
+                .inflate(
+                    R.layout.item_build_component,
+                    parent,
+                    false
+                )
+        )
 
     override fun getItemCount() = componentList.size
 
-    override fun onBindViewHolder(holder: BuildingAdapter.ViewHolder, position: Int)
-    {
+    override fun onBindViewHolder(holder: BuildingAdapter.ViewHolder, position: Int) {
         holder.bindView(context, componentList[position], viewModel, position)
     }
 

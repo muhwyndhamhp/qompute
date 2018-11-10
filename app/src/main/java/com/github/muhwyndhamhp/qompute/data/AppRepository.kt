@@ -20,39 +20,41 @@ class AppRepository private constructor(
     }
 
 
-    fun getComponentsByCategoryAsc(catDec: String, loadDataCallback: LoadDataCallback){
-      if(checkComponentValidity()){
-          loadDataCallback.onSuccess(
-              if(catDec == "harddisk") componentDao.getComponentsByCategoryAscHDD(catDec)
-              else componentDao.getComponentsByCategoryAsc(catDec))
-      } else{
-          reloadData1(object : LoadDataCallback{
-              override fun onFailed(TAG: String, t: Throwable) {
-                  loadDataCallback.onFailed(TAG, t)
-              }
+    fun getComponentsByCategoryAsc(catDec: String, loadDataCallback: LoadDataCallback) {
+        if (checkComponentValidity()) {
+            loadDataCallback.onSuccess(
+                if (catDec == "harddisk") componentDao.getComponentsByCategoryAscHDD(catDec)
+                else componentDao.getComponentsByCategoryAsc(catDec)
+            )
+        } else {
+            reloadData1(object : LoadDataCallback {
+                override fun onFailed(TAG: String, t: Throwable) {
+                    loadDataCallback.onFailed(TAG, t)
+                }
 
-              override fun onSuccess(components: List<Component>) {
-                  reloadData2(object : LoadDataCallback{
-                      override fun onFailed(TAG: String, t: Throwable) {
-                          loadDataCallback.onFailed(TAG, t)
-                      }
+                override fun onSuccess(components: List<Component>) {
+                    reloadData2(object : LoadDataCallback {
+                        override fun onFailed(TAG: String, t: Throwable) {
+                            loadDataCallback.onFailed(TAG, t)
+                        }
 
-                      override fun onSuccess(components: List<Component>) {
-                          loadDataCallback.onSuccess(
-                              if(catDec == "harddisk") componentDao.getComponentsByCategoryAscHDD(catDec)
-                              else componentDao.getComponentsByCategoryAsc(catDec))
-                      }
+                        override fun onSuccess(components: List<Component>) {
+                            loadDataCallback.onSuccess(
+                                if (catDec == "harddisk") componentDao.getComponentsByCategoryAscHDD(catDec)
+                                else componentDao.getComponentsByCategoryAsc(catDec)
+                            )
+                        }
 
-                  })
-              }
+                    })
+                }
 
-          })
-      }
+            })
+        }
     }
 
     private fun checkComponentValidity() =
-        if(!componentDao.getAllComponents().isEmpty())
-            (System.currentTimeMillis()/1000 - componentDao.getAllComponents()[0].lastUpdate!!)/(60*60*24) < 14
+        if (!componentDao.getAllComponents().isEmpty())
+            (System.currentTimeMillis() / 1000 - componentDao.getAllComponents()[0].lastUpdate!!) / (60 * 60 * 24) < 14
         else false
 
     fun getComponentsByCategorySearch(catDesc: String, string: String) =
@@ -60,7 +62,7 @@ class AppRepository private constructor(
 
     fun getAllBuilds() = buildDao.getAllBuilds()
 
-    fun insertBuild(build: Build)  = buildDao.insertSingleBuild(build)
+    fun insertBuild(build: Build) = buildDao.insertSingleBuild(build)
 
 
     @SuppressLint("CheckResult")

@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 @Entity(tableName = "builds")
-class Build (
+class Build(
 
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id") @Expose
@@ -22,18 +22,18 @@ class Build (
     val description: String,
 
     @TypeConverters(ObjectTypeConverter::class)
-    @SerializedName("component_ids")@Expose
-    var componentIds: List<String>?,
+    @SerializedName("component_ids") @Expose
+    var componentIds: MutableList<String>?,
 
     @TypeConverters(ObjectTypeConverter::class)
-    @SerializedName("component_name")@Expose
-    var componentName: List<String>?,
+    @SerializedName("component_name") @Expose
+    var componentName: MutableList<String>?,
 
     @TypeConverters(ObjectTypeConverter::class)
-    @SerializedName("component_count")@Expose
-    var componentCount: List<Int>?,
+    @SerializedName("component_count") @Expose
+    var componentCount: MutableList<Int>?,
 
     @SerializedName("total_price") @Expose
     val totalPrice: Long
 
-): Serializable
+) : Serializable

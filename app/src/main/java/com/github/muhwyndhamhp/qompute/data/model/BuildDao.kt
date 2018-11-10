@@ -4,7 +4,7 @@ import androidx.paging.DataSource
 import androidx.room.*
 
 @Dao
-interface BuildDao{
+interface BuildDao {
     @Query("SELECT * FROM builds")
     fun getAllBuilds(): List<Build>
 

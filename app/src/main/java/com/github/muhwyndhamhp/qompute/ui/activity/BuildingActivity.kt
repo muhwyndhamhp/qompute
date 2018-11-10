@@ -45,9 +45,13 @@ class BuildingActivity : AppCompatActivity() {
 
     private fun setProcessorType() {
         processor_switch.setOnSwitchListener { position, _ ->
-            when(position){
-                0 -> {socket_switch_intel.visibility = VISIBLE; socket_switch_amd.visibility = GONE}
-                1 -> {socket_switch_intel.visibility = GONE; socket_switch_amd.visibility = VISIBLE}
+            when (position) {
+                0 -> {
+                    socket_switch_intel.visibility = VISIBLE; socket_switch_amd.visibility = GONE
+                }
+                1 -> {
+                    socket_switch_intel.visibility = GONE; socket_switch_amd.visibility = VISIBLE
+                }
             }
         }
     }

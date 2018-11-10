@@ -10,17 +10,19 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     val build: MutableLiveData<Build> = MutableLiveData()
 
     fun changeComponentCount(itemCount: Int, componentPosition: Int) {
-
+        if (build.value!!.componentIds!![componentPosition] != "") build.value!!.componentCount!![componentPosition] =
+                itemCount
     }
+
     init {
         val buildId = appRepository.insertBuild(
             Build(
                 0,
                 "",
                 "",
-                mutableListOf("","","","","","","","","","","","","","","","","","","",""),
-                mutableListOf("","","","","","","","","","","","","","","","","","","",""),
-                mutableListOf(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
+                mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
+                mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
                 0
             )
         )
