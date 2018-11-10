@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.ui.activity.ComponentSelectionActivity
+import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.CATEGORY_TYPE_CODE
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import kotlinx.android.synthetic.main.item_build_component.view.*
@@ -35,7 +36,8 @@ class BuildingAdapter(
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    if (itemView.tv_component_name_build.text != componentLinker) viewModel.changeComponentCount(
+                    if (itemView.tv_component_name_build.text != componentLinker)
+                        viewModel.changeComponentCount(
                         position + 1,
                         componentListPosition
                     )
@@ -43,12 +45,13 @@ class BuildingAdapter(
 
             }
 
-            itemView.tv_component_name_build.onClick { startComponentSelectionActivity(context, componentListPosition) }
+            itemView.tv_component_name_build.onClick { startComponentSelectionActivity(context, componentListPosition, viewModel) }
         }
 
-        private fun startComponentSelectionActivity(context: Context, componentId: Int) {
+        private fun startComponentSelectionActivity(context: Context, componentId: Int, viewModel: BuildingViewModel) {
             val intent = Intent(context, ComponentSelectionActivity::class.java)
             intent.putExtra(CATEGORY_TYPE_CODE, componentId)
+            intent.putExtra(BUILD_ID_DB, viewModel.build.value!!.id)
             context.startActivity(intent)
         }
 
@@ -70,6 +73,11 @@ class BuildingAdapter(
 
     override fun onBindViewHolder(holder: BuildingAdapter.ViewHolder, position: Int) {
         holder.bindView(context, componentList[position], viewModel, position)
+    }
+
+    fun updateList(componentCategoryName: MutableList<String>) {
+        componentList = componentCategoryName
+        notifyDataSetChanged()
     }
 
 }

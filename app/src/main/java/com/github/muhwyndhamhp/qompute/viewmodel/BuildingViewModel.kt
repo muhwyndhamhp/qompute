@@ -1,5 +1,6 @@
 package com.github.muhwyndhamhp.qompute.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.muhwyndhamhp.qompute.data.AppRepository
@@ -10,23 +11,27 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     val build: MutableLiveData<Build> = MutableLiveData()
 
     fun changeComponentCount(itemCount: Int, componentPosition: Int) {
-        if (build.value!!.componentIds!![componentPosition] != "") build.value!!.componentCount!![componentPosition] =
-                itemCount
+        if (build.value!!.componentIds!![componentPosition] != "") {
+            build.value!!.componentCount!![componentPosition] = itemCount
+        }
     }
 
     init {
-        val buildId = appRepository.insertBuild(
-            Build(
-                0,
-                "",
-                "",
-                mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
-                mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
-                mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-                0
+        if(build.value == null)
+        {
+            val buildId = appRepository.insertBuild(
+                Build(
+                    0,
+                    "",
+                    "",
+                    mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
+                    mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
+                    mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    0
+                )
             )
-        )
-        build.value = appRepository.getBuild(buildId)
+            build.value = appRepository.getBuild(buildId)
+        }
     }
 
 }

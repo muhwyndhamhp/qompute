@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,7 @@ class BuildingActivity : AppCompatActivity() {
     private lateinit var adapter: BuildingAdapter
     private lateinit var recyclerview: RecyclerView
     private lateinit var viewModel: BuildingViewModel
-    private lateinit var componentLinkers: MutableList<String>
+    private lateinit var componentCategoryName: MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,16 +28,28 @@ class BuildingActivity : AppCompatActivity() {
 
         val factory = InjectorUtils.provideBuildingViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(BuildingViewModel::class.java)
+        setCategoryList()
 
         setProcessorType()
         prepareComponentRecyclerView()
     }
 
+    private fun setCategoryList() {
+        componentCategoryName = getComponentTypeList() as MutableList<String>
+        viewModel.build.observe(this, Observer { buildData ->
+            if(buildData != null)
+                for(i in buildData.componentCount!!.indices){
+                    if(buildData.componentIds!![i] != "") componentCategoryName[i] = buildData.componentName!![i]
+                }
+            if(::adapter.isInitialized) adapter.updateList(componentCategoryName)
+        })
+    }
+
     private fun prepareComponentRecyclerView() {
-        componentLinkers = getComponentTypeList() as MutableList<String>
         recyclerview = component_list_recycler_view
         recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        adapter = BuildingAdapter(this, componentLinkers, viewModel)
+        adapter = BuildingAdapter(this, componentCategoryName, viewModel)
+        recyclerview.setItemViewCacheSize(20)
         recyclerview.adapter = adapter
     }
 
