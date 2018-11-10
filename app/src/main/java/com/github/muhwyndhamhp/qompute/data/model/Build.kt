@@ -11,9 +11,9 @@ import java.io.Serializable
 @Entity(tableName = "builds")
 class Build (
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id") @Expose
-    val id: String,
+    val id: Long,
 
     @SerializedName("name") @Expose
     val name: String,

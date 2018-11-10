@@ -12,13 +12,13 @@ interface BuildDao{
     fun getBuildsPaged(): DataSource.Factory<Int, Build>
 
     @Query("SELECT * FROM builds WHERE id = :id LIMIT 1")
-    fun getSingleBuild(id: Int): Build
+    fun getSingleBuild(id: Long): Build
 
     @Query("SELECT * FROM builds WHERE name = :name LIMIT 1")
     fun getSingleBuild(name: String): Build
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSingleBuild(build: Build)
+    fun insertSingleBuild(build: Build): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(buildList: List<Build>)
@@ -28,4 +28,6 @@ interface BuildDao{
 
     @Query("DELETE FROM builds")
     fun deleteAll()
+
+
 }

@@ -27,6 +27,7 @@ class BuildingActivity : AppCompatActivity() {
 
         val factory = InjectorUtils.provideBuildingViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(BuildingViewModel::class.java)
+
         setProcessorType()
         prepareComponentRecyclerView()
     }

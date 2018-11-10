@@ -1,6 +1,7 @@
 package com.github.muhwyndhamhp.qompute.data
 
 import android.annotation.SuppressLint
+import com.github.muhwyndhamhp.qompute.data.model.Build
 import com.github.muhwyndhamhp.qompute.data.model.BuildDao
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.data.model.ComponentDao
@@ -17,6 +18,7 @@ class AppRepository private constructor(
         fun onFailed(TAG: String, t: Throwable)
         fun onSuccess(components: List<Component>)
     }
+
 
     fun getComponentsByCategoryAsc(catDec: String, loadDataCallback: LoadDataCallback){
       if(checkComponentValidity()){
@@ -58,6 +60,9 @@ class AppRepository private constructor(
 
     fun getAllBuilds() = buildDao.getAllBuilds()
 
+    fun insertBuild(build: Build)  = buildDao.insertSingleBuild(build)
+
+
     @SuppressLint("CheckResult")
     fun reloadData1(loadDataCallback: LoadDataCallback) {
         val networkService = NetworkService.getInstance()
@@ -88,6 +93,10 @@ class AppRepository private constructor(
             }) {
                 loadDataCallback.onFailed(TAG, it)
             }
+    }
+
+    fun getBuild(buildId: Long): Build? {
+        return buildDao.getSingleBuild(buildId)
     }
 
     companion object {

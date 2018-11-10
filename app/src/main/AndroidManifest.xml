@@ -31,8 +31,11 @@
                 android:name=".ui.activity.ComponentDetailActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
-        <activity android:name=".ui.activity.BuildingActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity
+                android:name=".ui.activity.BuildingActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity android:name=".ui.activity.ComponentSelectionActivity">
         </activity>
     </application>
 
