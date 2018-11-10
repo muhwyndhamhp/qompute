@@ -32,4 +32,16 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
         } else
             build.value = appRepository.getBuild(intExtra)
     }
+
+    fun updateProcessorType() {
+        clearAll(0)
+        clearAll(1)
+        clearAll(8)
+    }
+
+    private fun clearAll(i: Int) {
+        build.value!!.componentCount!![i] = 0
+        build.value!!.componentIds!![i] = ""
+        build.value!!.componentName!![i] = ""
+    }
 }

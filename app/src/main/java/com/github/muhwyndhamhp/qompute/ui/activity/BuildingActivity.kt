@@ -14,6 +14,7 @@ import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import kotlinx.android.synthetic.main.activity_building.*
+import org.jetbrains.anko.toast
 
 class BuildingActivity : AppCompatActivity() {
 
@@ -41,6 +42,7 @@ class BuildingActivity : AppCompatActivity() {
             if (buildData != null)
                 for (i in buildData.componentCount!!.indices) {
                     if (buildData.componentIds!![i] != "") componentCategoryName[i] = buildData.componentName!![i]
+                    else componentCategoryName[i] = getComponentTypeList()[i]
                 }
             if (::adapter.isInitialized) adapter.updateList(componentCategoryName)
         })
@@ -62,6 +64,7 @@ class BuildingActivity : AppCompatActivity() {
             when (position) {
                 0 -> {
                     socket_switch_intel.visibility = VISIBLE; socket_switch_amd.visibility = GONE
+                    viewModel.updateProcessorType()
                 }
                 1 -> {
                     socket_switch_intel.visibility = GONE; socket_switch_amd.visibility = VISIBLE
