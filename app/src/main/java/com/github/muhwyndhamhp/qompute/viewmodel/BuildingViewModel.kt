@@ -44,4 +44,12 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
         build.value!!.componentIds!![i] = ""
         build.value!!.componentName!![i] = ""
     }
+
+    fun deleteComponent(componentListPosition: Int) {
+        clearAll(componentListPosition)
+    }
+
+    fun updateDatabase() {
+        appRepository.updateBuild(build.value!!)
+    }
 }

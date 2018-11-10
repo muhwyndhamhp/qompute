@@ -64,6 +64,7 @@ class AppRepository private constructor(
 
     fun insertBuild(build: Build) = buildDao.insertSingleBuild(build)
 
+    fun updateBuild(build: Build) = buildDao.updateBuild(build)
 
     @SuppressLint("CheckResult")
     fun reloadData1(loadDataCallback: LoadDataCallback) {

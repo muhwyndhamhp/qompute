@@ -23,6 +23,9 @@ interface BuildDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(buildList: List<Build>)
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateBuild(build: Build): Int
+
     @Delete
     fun deleteSingleBuild(build: Build)
 

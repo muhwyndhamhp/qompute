@@ -46,9 +46,11 @@ class BuildingAdapter(
             }
 
             itemView.tv_component_name_build.onClick { startComponentSelectionActivity(context, componentListPosition, viewModel) }
+            itemView.iv_delete_component.onClick { viewModel.deleteComponent(componentListPosition); itemView.spinner_item_count.setSelection(0)}
         }
 
         private fun startComponentSelectionActivity(context: Context, componentId: Int, viewModel: BuildingViewModel) {
+            viewModel.updateDatabase()
             val intent = Intent(context, ComponentSelectionActivity::class.java)
             intent.putExtra(CATEGORY_TYPE_CODE, componentId)
             intent.putExtra(BUILD_ID_DB, viewModel.build.value!!.id)
