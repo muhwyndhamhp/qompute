@@ -12,10 +12,10 @@ interface BuildDao {
     @Query("SELECT * FROM builds")
     fun getBuildsPaged(): DataSource.Factory<Int, Build>
 
-    @Query("SELECT * FROM builds WHERE id = :id LIMIT 1")
+    @Query("SELECT * FROM builds WHERE id = :id")
     fun getSingleBuild(id: Long): LiveData<Build>
 
-    @Query("SELECT * FROM builds WHERE name = :name LIMIT 1")
+    @Query("SELECT * FROM builds WHERE name = :name")
     fun getSingleBuild(name: String): LiveData<Build>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

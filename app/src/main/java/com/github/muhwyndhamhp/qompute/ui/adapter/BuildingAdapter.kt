@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.ui.activity.ComponentSelectionActivity
@@ -19,7 +21,8 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class BuildingAdapter(
     private val context: Context,
-    private var componentList: List<String>,
+    private val lifecycleOwner: LifecycleOwner,
+//    private var componentList: List<String>,
     private val viewModel: BuildingViewModel
 ) : RecyclerView.Adapter<BuildingAdapter.ViewHolder>() {
 
@@ -29,14 +32,18 @@ class BuildingAdapter(
 
         fun bindView(
             context: Context,
-            componentLinker: String,
+            componentName: String,
             viewModel: BuildingViewModel,
-            componentListPosition: Int
+            componentListPosition: Int,
+            componentCount: Int,
+            buildingAdapter: BuildingAdapter
         ) {
             this.componentListPosition = componentListPosition
-            itemView.tv_component_name_build.text = componentLinker
-//            itemView.spinner_item_count.setSelection((viewModel.build.value?.componentCount?.get(componentListPosition) ?: 1)-1)
-
+            itemView.tv_component_name_build.text = when(componentName){
+                "" -> context.resources.getStringArray(R.array.build_component_list).toList()[componentListPosition]
+                else ->componentName
+            }
+            itemView.spinner_item_count.setSelection(componentCount-1)
             itemView.spinner_item_count.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -61,6 +68,7 @@ class BuildingAdapter(
             itemView.iv_delete_component.onClick {
                 viewModel.deleteComponent(componentListPosition)
 //                itemView.spinner_item_count.setSelection(0)
+                buildingAdapter.notifyItemChanged(componentListPosition)
             }
         }
 
@@ -85,6 +93,17 @@ class BuildingAdapter(
 
     }
 
+    private lateinit var componentList: MutableList<String>
+    private lateinit var componentCount: MutableList<Int>
+    private var isNotified = false
+
+    init {
+        viewModel.build.observe(lifecycleOwner, Observer {
+            componentList = it.componentName!!
+            componentCount = it.componentCount!!
+        })
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater
@@ -96,15 +115,15 @@ class BuildingAdapter(
                 )
         )
 
-    override fun getItemCount() = componentList.size
+    override fun getItemCount() = if(::componentList.isInitialized) componentList.size else 0
 
     override fun onBindViewHolder(holder: BuildingAdapter.ViewHolder, position: Int) {
-        holder.bindView(context, componentList[position], viewModel, position)
+        holder.bindView(context, componentList[position], viewModel, position, componentCount[position], this)
     }
 
-    fun updateList(componentCategoryName: MutableList<String>) {
-        componentList = componentCategoryName
-        notifyDataSetChanged()
+    fun clearProcessor() {
+        notifyItemChanged(0)
+        notifyItemChanged(1)
+        notifyItemChanged(8)
     }
-
 }

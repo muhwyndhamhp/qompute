@@ -37,21 +37,21 @@ class BuildingActivity : AppCompatActivity() {
     }
 
     private fun setCategoryList() {
-        componentCategoryName = getComponentTypeList() as MutableList<String>
-        viewModel.build.observe(this, Observer { buildData ->
-            if (buildData != null)
-                for (i in buildData.componentCount!!.indices) {
-                    if (buildData.componentIds!![i] != "") componentCategoryName[i] = buildData.componentName!![i]
-                    else componentCategoryName[i] = getComponentTypeList()[i]
-                }
-            if (::adapter.isInitialized) adapter.updateList(componentCategoryName)
-        })
+//        componentCategoryName = getComponentTypeList() as MutableList<String>
+//        viewModel.build.observe(this, Observer { buildData ->
+//            if (buildData != null)
+//                for (i in buildData.componentCount!!.indices) {
+//                    if (buildData.componentIds!![i] != "") componentCategoryName[i] = buildData.componentName!![i]
+//                    else componentCategoryName[i] = getComponentTypeList()[i]
+//                }
+//            if (::adapter.isInitialized) adapter.updateList(componentCategoryName)
+//        })
     }
 
     private fun prepareComponentRecyclerView() {
         recyclerview = component_list_recycler_view
         recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        adapter = BuildingAdapter(this, componentCategoryName, viewModel)
+        adapter = BuildingAdapter(this, this, viewModel)
         recyclerview.setItemViewCacheSize(20)
         recyclerview.adapter = adapter
     }
@@ -65,11 +65,22 @@ class BuildingActivity : AppCompatActivity() {
                 0 -> {
                     socket_switch_intel.visibility = VISIBLE; socket_switch_amd.visibility = GONE
                     viewModel.updateProcessorType()
+                    adapter.clearProcessor()
                 }
                 1 -> {
                     socket_switch_intel.visibility = GONE; socket_switch_amd.visibility = VISIBLE
+                    viewModel.updateProcessorType()
+                    adapter.clearProcessor()
                 }
             }
+        }
+        socket_switch_intel.setOnSwitchListener { _, _ ->
+            viewModel.updateProcessorType()
+            adapter.clearProcessor()
+        }
+        socket_switch_amd.setOnSwitchListener { _, _ ->
+            viewModel.updateProcessorType()
+            adapter.clearProcessor()
         }
     }
 }

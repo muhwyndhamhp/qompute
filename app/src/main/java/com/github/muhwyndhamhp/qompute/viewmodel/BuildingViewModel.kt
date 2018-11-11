@@ -11,6 +11,8 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     lateinit var cpuBrand: LiveData<Int>
     lateinit var socketType: LiveData<Int>
 
+    private var buildID: Long? = 0
+
     fun changeComponentCount(itemCount: Int, componentPosition: Int) {
 //        if (build.value!!.componentIds!![componentPosition] != "") {
             val temp = build
@@ -20,8 +22,8 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     }
 
     fun initiateBuildObject(intExtra: Long) {
-        build = if (intExtra == 0.toLong()) {
-            val buildId = appRepository.insertBuild(
+        if (intExtra == 0.toLong()) {
+            buildID = appRepository.insertBuild(
                 Build(
                     0,
                     "",
@@ -32,9 +34,12 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
                     0
                 )
             )
-            appRepository.getBuild(buildId)
+            build = appRepository.getBuild(buildID!!)
         } else
-            appRepository.getBuild(intExtra)
+        {
+            build = appRepository.getBuild(intExtra)
+            buildID = intExtra
+        }
     }
 
     fun updateProcessorType() {
@@ -45,7 +50,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
 
     private fun clearAll(i: Int) {
         val temp = build
-        temp.value!!.componentCount!![i] = 0
+        temp.value!!.componentCount!![i] = 1
         temp.value!!.componentIds!![i] = ""
         temp.value!!.componentName!![i] = ""
         appRepository.updateBuild(temp.value!!)

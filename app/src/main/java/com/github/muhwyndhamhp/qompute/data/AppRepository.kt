@@ -99,9 +99,7 @@ class AppRepository private constructor(
             }
     }
 
-    fun getBuild(buildId: Long): LiveData<Build> {
-        return buildDao.getSingleBuild(buildId)
-    }
+    fun getBuild(buildId: Long) = buildDao.getSingleBuild(buildId)
 
     companion object {
         private const val TAG = "REPO"
