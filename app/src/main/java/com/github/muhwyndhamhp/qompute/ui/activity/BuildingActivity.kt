@@ -34,7 +34,7 @@ class BuildingActivity : AppCompatActivity() {
         processor_switch.selectedTab = 1
         Handler().postDelayed({
             processor_switch.selectedTab = 0
-        }, 200)
+        }, 100)
     }
 
 
