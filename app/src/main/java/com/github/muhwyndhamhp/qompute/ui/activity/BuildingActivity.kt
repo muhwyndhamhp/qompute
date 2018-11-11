@@ -1,6 +1,7 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,8 @@ import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import kotlinx.android.synthetic.main.activity_building.*
 import org.jetbrains.anko.toast
+import java.util.*
+import kotlin.concurrent.schedule
 
 class BuildingActivity : AppCompatActivity() {
 
@@ -34,6 +37,10 @@ class BuildingActivity : AppCompatActivity() {
         setCategoryList()
         setProcessorType()
         prepareComponentRecyclerView()
+        processor_switch.selectedTab = 1
+        Handler().postDelayed({
+            processor_switch.selectedTab = 0
+        }, 200)
     }
 
     private fun setCategoryList() {

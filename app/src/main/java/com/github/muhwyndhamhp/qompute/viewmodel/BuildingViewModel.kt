@@ -50,10 +50,13 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
 
     private fun clearAll(i: Int) {
         val temp = build
-        temp.value!!.componentCount!![i] = 1
-        temp.value!!.componentIds!![i] = ""
-        temp.value!!.componentName!![i] = ""
-        appRepository.updateBuild(temp.value!!)
+        if(temp.value != null)
+        {
+            temp.value!!.componentCount!![i] = 1
+            temp.value!!.componentIds!![i] = ""
+            temp.value!!.componentName!![i] = ""
+            appRepository.updateBuild(temp.value!!)
+        }
     }
 
     fun deleteComponent(componentListPosition: Int) {
