@@ -1,22 +1,26 @@
 package com.github.muhwyndhamhp.qompute.viewmodel
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.github.muhwyndhamhp.qompute.data.AppRepository
 import com.github.muhwyndhamhp.qompute.data.model.Build
 
 class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() {
 
-    val build: MutableLiveData<Build> = MutableLiveData()
+    lateinit var build: LiveData<Build>
+    lateinit var cpuBrand: LiveData<Int>
+    lateinit var socketType: LiveData<Int>
 
     fun changeComponentCount(itemCount: Int, componentPosition: Int) {
-        if (build.value!!.componentIds!![componentPosition] != "") {
-            build.value!!.componentCount!![componentPosition] = itemCount
-        }
+//        if (build.value!!.componentIds!![componentPosition] != "") {
+            val temp = build
+            temp.value!!.componentCount!![componentPosition] = itemCount
+            appRepository.updateBuild(temp.value!!)
+//        }
     }
 
     fun initiateBuildObject(intExtra: Long) {
-        if (intExtra == 0.toLong()) {
+        build = if (intExtra == 0.toLong()) {
             val buildId = appRepository.insertBuild(
                 Build(
                     0,
@@ -24,13 +28,13 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
                     "",
                     mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
                     mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
-                    mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    mutableListOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
                     0
                 )
             )
-            build.value = appRepository.getBuild(buildId)
+            appRepository.getBuild(buildId)
         } else
-            build.value = appRepository.getBuild(intExtra)
+            appRepository.getBuild(intExtra)
     }
 
     fun updateProcessorType() {
@@ -40,16 +44,14 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     }
 
     private fun clearAll(i: Int) {
-        build.value!!.componentCount!![i] = 0
-        build.value!!.componentIds!![i] = ""
-        build.value!!.componentName!![i] = ""
+        val temp = build
+        temp.value!!.componentCount!![i] = 0
+        temp.value!!.componentIds!![i] = ""
+        temp.value!!.componentName!![i] = ""
+        appRepository.updateBuild(temp.value!!)
     }
 
     fun deleteComponent(componentListPosition: Int) {
         clearAll(componentListPosition)
-    }
-
-    fun updateDatabase() {
-        appRepository.updateBuild(build.value!!)
     }
 }

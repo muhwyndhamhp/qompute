@@ -1,6 +1,7 @@
 package com.github.muhwyndhamhp.qompute.data
 
 import android.annotation.SuppressLint
+import androidx.lifecycle.LiveData
 import com.github.muhwyndhamhp.qompute.data.model.Build
 import com.github.muhwyndhamhp.qompute.data.model.BuildDao
 import com.github.muhwyndhamhp.qompute.data.model.Component
@@ -98,7 +99,7 @@ class AppRepository private constructor(
             }
     }
 
-    fun getBuild(buildId: Long): Build? {
+    fun getBuild(buildId: Long): LiveData<Build> {
         return buildDao.getSingleBuild(buildId)
     }
 
