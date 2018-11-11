@@ -5,7 +5,6 @@ import android.os.Handler
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,9 +14,6 @@ import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import kotlinx.android.synthetic.main.activity_building.*
-import org.jetbrains.anko.toast
-import java.util.*
-import kotlin.concurrent.schedule
 
 class BuildingActivity : AppCompatActivity() {
 
@@ -25,7 +21,6 @@ class BuildingActivity : AppCompatActivity() {
     private lateinit var adapter: BuildingAdapter
     private lateinit var recyclerview: RecyclerView
     private lateinit var viewModel: BuildingViewModel
-    private lateinit var componentCategoryName: MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +29,6 @@ class BuildingActivity : AppCompatActivity() {
         val factory = InjectorUtils.provideBuildingViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(BuildingViewModel::class.java)
         viewModel.initiateBuildObject(intent.getLongExtra(BUILD_ID_DB, 0))
-        setCategoryList()
         setProcessorType()
         prepareComponentRecyclerView()
         processor_switch.selectedTab = 1
@@ -43,17 +37,6 @@ class BuildingActivity : AppCompatActivity() {
         }, 200)
     }
 
-    private fun setCategoryList() {
-//        componentCategoryName = getComponentTypeList() as MutableList<String>
-//        viewModel.build.observe(this, Observer { buildData ->
-//            if (buildData != null)
-//                for (i in buildData.componentCount!!.indices) {
-//                    if (buildData.componentIds!![i] != "") componentCategoryName[i] = buildData.componentName!![i]
-//                    else componentCategoryName[i] = getComponentTypeList()[i]
-//                }
-//            if (::adapter.isInitialized) adapter.updateList(componentCategoryName)
-//        })
-    }
 
     private fun prepareComponentRecyclerView() {
         recyclerview = component_list_recycler_view
@@ -62,9 +45,6 @@ class BuildingActivity : AppCompatActivity() {
         recyclerview.setItemViewCacheSize(20)
         recyclerview.adapter = adapter
     }
-
-    private fun getComponentTypeList() = resources.getStringArray(R.array.build_component_list).toList()
-
 
     private fun setProcessorType() {
         processor_switch.setOnSwitchListener { position, _ ->
