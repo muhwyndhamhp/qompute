@@ -41,9 +41,9 @@ dependencies {
 
     //architecture component
     def lifecycle_version = "2.0.0"
-    def room_version = "2.1.0-alpha02"
-    def paging_version = "2.1.0-beta01"
-    def work_version = "1.0.0-alpha11"
+    def room_version = "2.1.0-alpha01"
+    def paging_version = "2.1.0-alpha01"
+    def work_version = "1.0.0-alpha10"
 
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
