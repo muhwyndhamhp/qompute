@@ -141,12 +141,12 @@ class ComponentListActivity : AppCompatActivity() {
         }
         bt_filter.onClick {
 
+            //TODO the logic still flawed, don't forget to return the pre-filter value back first before doing next filtering
             when {
                 et_min_price.text.toString() == "" && et_max_price.text.toString() == "" -> viewModel.getDataFromSearch(
                     intent.getStringExtra(CATEGORY_CODE),
                     et_cari_komponen.text.toString()
                 )
-
                 et_min_price.text.toString() == "" && et_max_price.text.toString() != "" -> viewModel.componentList.value =
                         viewModel.componentList.value!!.filter { it.price.toLong() < et_max_price.text.toString().toLong() }
 
