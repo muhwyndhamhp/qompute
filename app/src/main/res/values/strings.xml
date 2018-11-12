@@ -120,4 +120,7 @@
     <string name="delete_component_button">delete component button</string>
     <string name="urutkan_harga">Urutkan Harga</string>
     <string name="urutkan_nama">Urutkan Nama</string>
+    <string name="harga_min">Harga Min.</string>
+    <string name="harga_max">Harga Max.</string>
+    <string name="saring">Saring</string>
 </resources>
