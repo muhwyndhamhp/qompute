@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
+import com.github.muhwyndhamhp.qompute.ui.activity.BuildingActivity
 import com.github.muhwyndhamhp.qompute.ui.activity.ComponentSelectionActivity
 import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.CATEGORY_TYPE_CODE
@@ -73,22 +74,10 @@ class BuildingAdapter(
         }
 
         private fun startComponentSelectionActivity(context: Context, componentId: Int, viewModel: BuildingViewModel) {
-            val intent = Intent(context, ComponentSelectionActivity::class.java)
-            when (componentListPosition) {
-                0 or 1 or 8 -> insertIntentExtra(intent, viewModel)
-            }
-            intent.putExtra(CATEGORY_TYPE_CODE, componentId)
-            intent.putExtra(BUILD_ID_DB, viewModel.build.value!!.id)
-            context.startActivity(intent)
+            viewModel.setComponentPosition(componentId)
+            (context as BuildingActivity).changeFragment(1)
         }
 
-        private fun insertIntentExtra(
-            intent: Intent,
-            viewModel: BuildingViewModel
-        ) {
-            intent.putExtra(CPU_BRAND_ID, viewModel.cpuBrand.value)
-            intent.putExtra(SOCKET_ID, viewModel.socketType.value)
-        }
 
 
     }

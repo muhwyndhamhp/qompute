@@ -1,6 +1,7 @@
 package com.github.muhwyndhamhp.qompute.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.muhwyndhamhp.qompute.data.AppRepository
 import com.github.muhwyndhamhp.qompute.data.model.Build
@@ -10,6 +11,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     lateinit var build: LiveData<Build>
     lateinit var cpuBrand: LiveData<Int>
     lateinit var socketType: LiveData<Int>
+    val  componentPosition: MutableLiveData<Int> = MutableLiveData()
 
     private var buildID: Long? = 0
 
@@ -61,5 +63,9 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
 
     fun deleteComponent(componentListPosition: Int) {
         clearAll(componentListPosition)
+    }
+
+    fun setComponentPosition(componentId: Int) {
+        componentPosition.value = componentId
     }
 }
