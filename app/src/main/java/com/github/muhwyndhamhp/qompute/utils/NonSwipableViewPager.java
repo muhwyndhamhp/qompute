@@ -1,5 +1,6 @@
 package com.github.muhwyndhamhp.qompute.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -28,6 +29,7 @@ public class NonSwipableViewPager extends ViewPager {
         return false;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return false;
@@ -45,7 +47,7 @@ public class NonSwipableViewPager extends ViewPager {
     }
 
     public class  MyScroller extends Scroller {
-        public MyScroller(Context context) {
+        MyScroller(Context context) {
             super(context, new DecelerateInterpolator());
         }
 

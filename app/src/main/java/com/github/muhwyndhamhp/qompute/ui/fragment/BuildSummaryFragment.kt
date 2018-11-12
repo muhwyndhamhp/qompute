@@ -13,13 +13,12 @@ import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.ui.activity.BuildingActivity
 import com.github.muhwyndhamhp.qompute.ui.adapter.BuildingAdapter
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
-import kotlinx.android.synthetic.main.activity_building.*
 import kotlinx.android.synthetic.main.fragment_build_summary.*
 
-class BuildSummaryFragment(): Fragment(){
+class BuildSummaryFragment : Fragment() {
 
     companion object {
-        fun newInstance()= BuildSummaryFragment
+        fun newInstance() = BuildSummaryFragment
     }
 
 
