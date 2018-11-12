@@ -9,6 +9,7 @@ List of Library Used:
 - Room (androidx.room)
 - Paging (androidx.paging)
 - Work (androidx.arch.work)
+- Anko (https://github.com/Kotlin/anko)
 - Glide (https://github.com/bumptech/glide)
 - Retrofit (https://square.github.io/retrofit/)
 - Rx Kotlin (https://github.com/ReactiveX/RxKotlin)
