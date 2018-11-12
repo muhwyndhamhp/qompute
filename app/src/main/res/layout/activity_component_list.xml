@@ -95,9 +95,10 @@
             app:layout_constraintStart_toStartOf="parent">
 
         <Button
+                android:id="@+id/bt_by_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Urutkan Harga"
+                android:text="@string/urutkan_harga"
                 android:textAllCaps="false"
                 android:background="@drawable/item_filter_button_left"
                 android:padding="10dp"
@@ -109,9 +110,10 @@
                 />
 
         <Button
+                android:id="@+id/bt_by_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Urutkan Nama"
+                android:text="@string/urutkan_nama"
                 android:textAllCaps="false"
                 android:background="@drawable/item_filter_button_right"
                 android:padding="10dp"

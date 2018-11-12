@@ -16,10 +16,10 @@ import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_1
 import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_2
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.ComponentListViewModel
-import kotlinx.android.synthetic.main.activity_component_detail.*
 import kotlinx.android.synthetic.main.activity_component_list.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -29,6 +29,8 @@ class ComponentListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private var adapter: ComponentListAdapter? = null
     private lateinit var progressDialog: ProgressDialog
+    private var isAscendingPrice = true
+    private var isAscendingName = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,7 @@ class ComponentListActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, factory).get(ComponentListViewModel::class.java)
         getData()
         setSearchListener()
+        sortButtonClickListener()
     }
 
     private fun setSearchListener() {
@@ -52,7 +55,7 @@ class ComponentListActivity : AppCompatActivity() {
             if ((event.action == KeyEvent.ACTION_DOWN) &&
                 (keyCode == KeyEvent.KEYCODE_ENTER)
             ) {
-                if(et_cari_komponen.text.toString() == "") viewModel.getData(intent.getStringExtra(CATEGORY_CODE))
+                if (et_cari_komponen.text.toString() == "") viewModel.getData(intent.getStringExtra(CATEGORY_CODE))
                 else viewModel.getDataFromSearch(intent.getStringExtra(CATEGORY_CODE), et_cari_komponen.text.toString())
                 return@setOnKeyListener true
             }
@@ -106,10 +109,35 @@ class ComponentListActivity : AppCompatActivity() {
         progressDialog.show()
     }
 
-    fun dismissLoading(){
-        Timer().schedule(2000){
-            if(progressDialog.isShowing) progressDialog.dismiss()
+    fun dismissLoading() {
+        Timer().schedule(2000) {
+            if (progressDialog.isShowing) progressDialog.dismiss()
         }
 
+    }
+
+    private fun sortButtonClickListener() {
+        bt_by_name.onClick {
+            if (isAscendingName) {
+                viewModel.componentList.value =
+                        viewModel.componentList.value!!.sortedWith(compareBy { component -> component.name })
+                isAscendingName = false
+            } else {
+                viewModel.componentList.value =
+                        viewModel.componentList.value!!.sortedWith(compareByDescending { component -> component.name })
+                isAscendingName = true
+            }
+        }
+        bt_by_price.onClick {
+            if (isAscendingPrice) {
+                viewModel.componentList.value =
+                        viewModel.componentList.value!!.sortedWith(compareBy { component -> component.price.toLong() })
+                isAscendingPrice = false
+            } else {
+                viewModel.componentList.value =
+                        viewModel.componentList.value!!.sortedWith(compareByDescending { component -> component.price.toLong() })
+                isAscendingPrice = true
+            }
+        }
     }
 }
