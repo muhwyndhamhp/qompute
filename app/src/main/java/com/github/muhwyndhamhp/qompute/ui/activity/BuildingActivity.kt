@@ -1,24 +1,30 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.ui.adapter.BuildingPagerAdapter
+import com.github.muhwyndhamhp.qompute.ui.fragment.BuildSummaryFragment
 import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.factory.BuildingViewModelFactory
 import kotlinx.android.synthetic.main.activity_building.*
+import java.util.*
+import kotlin.concurrent.schedule
 
 class BuildingActivity : AppCompatActivity() {
 
 
     private var viewModelFactory: BuildingViewModelFactory? = null
 
+    private lateinit var viewPagerAdapter: BuildingPagerAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_building)
 
-        val viewPagerAdapter = BuildingPagerAdapter(this, 2, supportFragmentManager)
+        viewPagerAdapter = BuildingPagerAdapter(this, 2, supportFragmentManager)
 
         view_pager_build.adapter = viewPagerAdapter
     }
@@ -28,7 +34,17 @@ class BuildingActivity : AppCompatActivity() {
 
     fun getBuildObjectIntent() = intent.getLongExtra(BUILD_ID_DB, 0)
 
-    fun changeFragment(fragmentId: Int) {
+    fun changeFragment(fragmentId: Int, position: Int?) {
         view_pager_build.currentItem = fragmentId
+        Handler().postDelayed({
+            if (position != null) {
+                updateList(position)
+            }
+        }, 200)
+    }
+
+    private fun updateList(position: Int) {
+        val fragment = supportFragmentManager.findFragmentByTag("android:switcher:${R.id.view_pager_build}:${view_pager_build.currentItem}") as BuildSummaryFragment
+        fragment.updateList(position)
     }
 }

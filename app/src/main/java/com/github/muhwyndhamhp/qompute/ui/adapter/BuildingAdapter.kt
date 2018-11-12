@@ -75,7 +75,7 @@ class BuildingAdapter(
 
         private fun startComponentSelectionActivity(context: Context, componentId: Int, viewModel: BuildingViewModel) {
             viewModel.setComponentPosition(componentId)
-            (context as BuildingActivity).changeFragment(1)
+            (context as BuildingActivity).changeFragment(1, null)
         }
 
 

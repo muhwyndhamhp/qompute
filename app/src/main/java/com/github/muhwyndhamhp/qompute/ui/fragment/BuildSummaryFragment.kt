@@ -59,23 +59,35 @@ class BuildSummaryFragment : Fragment() {
             when (position) {
                 0 -> {
                     socket_switch_intel.visibility = View.VISIBLE; socket_switch_amd.visibility = View.GONE
+                    viewModel.cpuBrand.value = position
+                    viewModel.socketType.value = socket_switch_intel.selectedTab
                     viewModel.updateProcessorType()
                     adapter.clearProcessor()
                 }
                 1 -> {
                     socket_switch_intel.visibility = View.GONE; socket_switch_amd.visibility = View.VISIBLE
+                    viewModel.cpuBrand.value = position
+                    viewModel.socketType.value = socket_switch_amd.selectedTab
                     viewModel.updateProcessorType()
                     adapter.clearProcessor()
                 }
             }
         }
-        socket_switch_intel.setOnSwitchListener { _, _ ->
+        socket_switch_intel.setOnSwitchListener { position, _ ->
+            viewModel.cpuBrand.value = position
+            viewModel.socketType.value = socket_switch_intel.selectedTab
             viewModel.updateProcessorType()
             adapter.clearProcessor()
         }
-        socket_switch_amd.setOnSwitchListener { _, _ ->
+        socket_switch_amd.setOnSwitchListener { position, _ ->
+            viewModel.cpuBrand.value = position
+            viewModel.socketType.value = socket_switch_amd.selectedTab
             viewModel.updateProcessorType()
             adapter.clearProcessor()
         }
+    }
+
+    fun updateList(position: Int) {
+        adapter.notifyItemChanged(position)
     }
 }

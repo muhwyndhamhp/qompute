@@ -36,7 +36,9 @@ class BuildComponentSelectFragment : Fragment() {
             if (it != null) {
                 context!!.toast("ComponentId is : $it")
                 Handler().postDelayed({
-                    (context as BuildingActivity).changeFragment(0)
+                    viewModel.build.value!!.componentName!![it] = "Lorem Ipsum Dolor Sit Amet, Panjangkan, Tulisannya, pangjangkan, panjangkan!!!"
+                    context!!.toast("Component No $it is ${viewModel.build.value!!.componentName!![it]}")
+                    (context as BuildingActivity).changeFragment(0, it)
                 }, 1000)
             }
         })

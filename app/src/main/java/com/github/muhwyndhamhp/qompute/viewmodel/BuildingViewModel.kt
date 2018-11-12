@@ -1,6 +1,5 @@
 package com.github.muhwyndhamhp.qompute.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.muhwyndhamhp.qompute.data.AppRepository
@@ -8,39 +7,30 @@ import com.github.muhwyndhamhp.qompute.data.model.Build
 
 class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() {
 
-    lateinit var build: LiveData<Build>
-    lateinit var cpuBrand: LiveData<Int>
-    lateinit var socketType: LiveData<Int>
-    val  componentPosition: MutableLiveData<Int> = MutableLiveData()
-
-    private var buildID: Long? = 0
+    var build: MutableLiveData<Build> = MutableLiveData()
+    val cpuBrand: MutableLiveData<Int> = MutableLiveData()
+    val socketType: MutableLiveData<Int> = MutableLiveData()
+    val componentPosition: MutableLiveData<Int> = MutableLiveData()
 
     fun changeComponentCount(itemCount: Int, componentPosition: Int) {
-//        if (build.value!!.componentIds!![componentPosition] != "") {
-            val temp = build
-            temp.value!!.componentCount!![componentPosition] = itemCount
-            appRepository.updateBuild(temp.value!!)
-//        }
+        val temp = build
+        temp.value!!.componentCount!![componentPosition] = itemCount
+        appRepository.updateBuild(temp.value!!)
     }
 
     fun initiateBuildObject(intExtra: Long) {
         if (intExtra == 0.toLong()) {
-            buildID = appRepository.insertBuild(
-                Build(
-                    0,
-                    "",
-                    "",
-                    mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
-                    mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
-                    mutableListOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-                    0
-                )
+            build.value = Build(
+                0,
+                "",
+                "",
+                mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
+                mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
+                mutableListOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+                0
             )
-            build = appRepository.getBuild(buildID!!)
-        } else
-        {
-            build = appRepository.getBuild(intExtra)
-            buildID = intExtra
+        } else {
+            build = appRepository.getBuild(intExtra) as MutableLiveData<Build>
         }
     }
 
@@ -52,8 +42,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
 
     private fun clearAll(i: Int) {
         val temp = build
-        if(temp.value != null)
-        {
+        if (temp.value != null) {
             temp.value!!.componentCount!![i] = 1
             temp.value!!.componentIds!![i] = ""
             temp.value!!.componentName!![i] = ""
