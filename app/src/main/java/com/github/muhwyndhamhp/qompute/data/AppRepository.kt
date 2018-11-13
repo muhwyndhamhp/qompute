@@ -101,6 +101,26 @@ class AppRepository private constructor(
 
     fun getBuild(buildId: Long) = buildDao.getSingleBuild(buildId)
 
+    fun getComponentsByCategorySearchFilteredMin(
+        catDesc: String,
+        string: String,
+        minValString: Long
+    ) = componentDao.getComponentsByCategorySearchFilteredMin(catDesc, string, minValString)
+
+    fun getComponentsByCategorySearchFilteredMax(
+        catDesc: String,
+        string: String,
+        maxValString: Long
+    ) = componentDao.getComponentsByCategorySearchFilteredMax(catDesc, string, maxValString)
+
+    fun getComponentsByCategorySearchFilteredMinMax(
+        catDesc: String,
+        string: String,
+        minValString: Long,
+        maxValString: Long
+    ) = componentDao.getComponentsByCategorySearchFilteredMinMax(catDesc, string, minValString, maxValString)
+
+
     companion object {
         private const val TAG = "REPO"
 

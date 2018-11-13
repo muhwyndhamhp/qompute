@@ -46,22 +46,9 @@ class ComponentListActivity : AppCompatActivity() {
         val factory = InjectorUtils.provideComponentListViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(ComponentListViewModel::class.java)
         getData()
-        setSearchListener()
         sortButtonClickListener()
     }
 
-    private fun setSearchListener() {
-        et_cari_komponen.setOnKeyListener { v, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)
-            ) {
-                if (et_cari_komponen.text.toString() == "") viewModel.getData(intent.getStringExtra(CATEGORY_CODE))
-                else viewModel.getDataFromSearch(intent.getStringExtra(CATEGORY_CODE), et_cari_komponen.text.toString())
-                return@setOnKeyListener true
-            }
-            return@setOnKeyListener false
-        }
-    }
 
     private fun prepareRecyclerView(components: List<Component>) {
         recyclerView = recycler_view_component_list
@@ -74,7 +61,7 @@ class ComponentListActivity : AppCompatActivity() {
     private fun getData() {
         progressDialog.show()
         viewModel.getData(intent.getStringExtra(CATEGORY_CODE))
-        viewModel.componentList.observe(this, Observer {
+        viewModel.componentListA.observe(this, Observer {
             if (adapter == null) prepareRecyclerView(it)
             else adapter!!.setComponentList(it)
             when (progressDialog.isShowing) {
@@ -119,23 +106,23 @@ class ComponentListActivity : AppCompatActivity() {
     private fun sortButtonClickListener() {
         bt_by_name.onClick {
             if (isAscendingName) {
-                viewModel.componentList.value =
-                        viewModel.componentList.value!!.sortedWith(compareBy { component -> component.name })
+                viewModel.componentListA.value =
+                        viewModel.componentListA.value!!.sortedWith(compareBy { component -> component.name })
                 isAscendingName = false
             } else {
-                viewModel.componentList.value =
-                        viewModel.componentList.value!!.sortedWith(compareByDescending { component -> component.name })
+                viewModel.componentListA.value =
+                        viewModel.componentListA.value!!.sortedWith(compareByDescending { component -> component.name })
                 isAscendingName = true
             }
         }
         bt_by_price.onClick {
             if (isAscendingPrice) {
-                viewModel.componentList.value =
-                        viewModel.componentList.value!!.sortedWith(compareBy { component -> component.price.toLong() })
+                viewModel.componentListA.value =
+                        viewModel.componentListA.value!!.sortedWith(compareBy { component -> component.price.toLong() })
                 isAscendingPrice = false
             } else {
-                viewModel.componentList.value =
-                        viewModel.componentList.value!!.sortedWith(compareByDescending { component -> component.price.toLong() })
+                viewModel.componentListA.value =
+                        viewModel.componentListA.value!!.sortedWith(compareByDescending { component -> component.price.toLong() })
                 isAscendingPrice = true
             }
         }
@@ -143,21 +130,39 @@ class ComponentListActivity : AppCompatActivity() {
 
             //TODO the logic still flawed, don't forget to return the pre-filter value back first before doing next filtering
             when {
-                et_min_price.text.toString() == "" && et_max_price.text.toString() == "" -> viewModel.getDataFromSearch(
-                    intent.getStringExtra(CATEGORY_CODE),
-                    et_cari_komponen.text.toString()
-                )
-                et_min_price.text.toString() == "" && et_max_price.text.toString() != "" -> viewModel.componentList.value =
-                        viewModel.componentList.value!!.filter { it.price.toLong() < et_max_price.text.toString().toLong() }
+                et_min_price.text.toString() != "" && et_max_price.text.toString() != "" ->
+                {
 
-                et_min_price.text.toString() != "" && et_max_price.text.toString() == "" -> viewModel.componentList.value =
-                        viewModel.componentList.value!!.filter { it.price.toLong() > et_min_price.text.toString().toLong() }
+                    val searchQuery = if(et_cari_komponen.text.toString() == "") " "
+                    else et_cari_komponen.text.toString()
 
-                else -> viewModel.componentList.value =
-                        viewModel.componentList.value!!.filter {
-                            (it.price.toLong() > et_min_price.text.toString().toLong())
-                                    && (it.price.toLong() < et_max_price.text.toString().toLong())
-                        }
+                    viewModel.getDataFromSearchFilteredMinMax(
+                        intent.getStringExtra(CATEGORY_CODE),
+                        searchQuery,
+                        et_min_price.text.toString().toLong(),
+                        et_max_price.text.toString().toLong()
+                    )
+                }
+
+                et_min_price.text.toString() == "" && et_max_price.text.toString() != "" ->
+                    viewModel.getDataFromSearchFilteredMax(
+                        intent.getStringExtra(CATEGORY_CODE),
+                        et_cari_komponen.text.toString(),
+                        et_max_price.text.toString().toLong()
+                    )
+
+                et_min_price.text.toString() != "" && et_max_price.text.toString() == "" ->
+                    viewModel.getDataFromSearchFilteredMin(
+                        intent.getStringExtra(CATEGORY_CODE),
+                        et_cari_komponen.text.toString(),
+                        et_min_price.text.toString().toLong()
+                    )
+
+                else ->
+                    viewModel.getDataFromSearch(
+                        intent.getStringExtra(CATEGORY_CODE),
+                        et_cari_komponen.text.toString()
+                    )
             }
         }
     }

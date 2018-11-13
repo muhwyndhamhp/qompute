@@ -23,7 +23,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 class BuildingAdapter(
     private val context: Context,
     private val lifecycleOwner: LifecycleOwner,
-//    private var componentList: List<String>,
+//    private var componentListA: List<String>,
     private val viewModel: BuildingViewModel
 ) : RecyclerView.Adapter<BuildingAdapter.ViewHolder>() {
 
