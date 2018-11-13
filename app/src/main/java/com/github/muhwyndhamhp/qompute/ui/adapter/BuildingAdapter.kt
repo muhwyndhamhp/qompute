@@ -62,14 +62,39 @@ class BuildingAdapter(
             itemView.tv_component_name_build.onClick {
                 startComponentSelectionActivity(
                     context,
-                    componentListPosition,
+                    getComponentPositionOnList(context, componentListPosition),
                     viewModel
                 )
             }
             itemView.iv_delete_component.onClick {
                 viewModel.deleteComponent(componentListPosition)
-//                itemView.spinner_item_count.setSelection(0)
                 buildingAdapter.notifyItemChanged(componentListPosition)
+            }
+        }
+
+        private fun getComponentPositionOnList(context: Context, componentListPosition: Int): Int {
+            return when (componentListPosition) {
+                0 -> 9
+                1 -> 6
+                2 -> 13
+                3 -> 5
+                4 -> 2
+                5 -> 2
+                6 -> 10
+                7 -> 0
+                8 -> 101
+                9 -> 7
+                10 -> 4
+                11 -> 4
+                12 -> 3
+                13 -> 3
+                14 -> 102
+                15 -> 102
+                16 -> 102
+                17 -> 102
+                18 -> 12
+                19 -> 11
+                else -> 0
             }
         }
 
