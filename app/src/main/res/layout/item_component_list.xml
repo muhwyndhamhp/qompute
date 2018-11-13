@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/component_name"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
         <TextView
                 android:id="@+id/tv_brand_name"
@@ -57,5 +57,12 @@
                 android:textSize="12sp"
                 android:text="@string/brand_name"/>
     </LinearLayout>
-
+    <ImageButton
+            android:id="@+id/ib_component_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:background="@color/white"
+            android:tint="@color/colorPrimaryDark"
+            />
 </LinearLayout>

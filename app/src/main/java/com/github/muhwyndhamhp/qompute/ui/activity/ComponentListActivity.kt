@@ -1,8 +1,9 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.os.Bundle
-import android.view.KeyEvent
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -130,10 +131,9 @@ class ComponentListActivity : AppCompatActivity() {
 
             //TODO the logic still flawed, don't forget to return the pre-filter value back first before doing next filtering
             when {
-                et_min_price.text.toString() != "" && et_max_price.text.toString() != "" ->
-                {
+                et_min_price.text.toString() != "" && et_max_price.text.toString() != "" -> {
 
-                    val searchQuery = if(et_cari_komponen.text.toString() == "") " "
+                    val searchQuery = if (et_cari_komponen.text.toString() == "") " "
                     else et_cari_komponen.text.toString()
 
                     viewModel.getDataFromSearchFilteredMinMax(
@@ -164,6 +164,15 @@ class ComponentListActivity : AppCompatActivity() {
                         et_cari_komponen.text.toString()
                     )
             }
+
+            hideSoftKey()
+            recyclerView.smoothScrollToPosition(0)
         }
+    }
+
+    @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+    private fun hideSoftKey() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (imm.isAcceptingText) imm.hideSoftInputFromWindow(currentFocus.windowToken, 0)
     }
 }

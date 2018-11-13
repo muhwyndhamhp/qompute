@@ -30,6 +30,7 @@ class ComponentListAdapter(private val context: Context, private var components:
             itemView.tv_brand_name.text = component.brandDescription
             itemView.tv_price.text = getCurrency(component.price)
             itemView.tv_subcategory_name.text = component.subcategoryDescription
+            itemView.ib_component_detail.visibility = View.GONE
 
             itemView.onClick {
                 (context as ComponentListActivity).showLoading("Memuat data...", "Loading")
@@ -66,7 +67,6 @@ class ComponentListAdapter(private val context: Context, private var components:
                 false))
     override fun getItemCount(): Int = components.size
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bindView(components[position], context, categoryCode)
-
 
 
 }
