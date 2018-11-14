@@ -16,6 +16,7 @@ import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.ui.activity.BuildingActivity
 import com.github.muhwyndhamhp.qompute.ui.adapter.ComponentListAdapter
+import com.github.muhwyndhamhp.qompute.ui.adapter.ComponentSelectionAdapter
 import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_1
 import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_2
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
@@ -32,7 +33,7 @@ class BuildComponentSelectFragment : Fragment() {
     }
 
     private lateinit var recyclerView: RecyclerView
-    private var adapter: ComponentListAdapter? = null
+    private var adapter: ComponentSelectionAdapter? = null
 //    private lateinit var progressDialog: ProgressDialog
     private var isAscendingPrice = true
     private var isAscendingName = true
@@ -177,7 +178,7 @@ class BuildComponentSelectFragment : Fragment() {
     private fun prepareRecyclerView(components: List<Component>) {
         recyclerView = recycler_view_component_list
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        adapter = ComponentListAdapter(context!!, components)
+        adapter = ComponentSelectionAdapter(context!!, components)
         adapter!!.setCategoryCode(getComponentName(viewModel.componentPosition.value!!))
         recyclerView.adapter = adapter
     }

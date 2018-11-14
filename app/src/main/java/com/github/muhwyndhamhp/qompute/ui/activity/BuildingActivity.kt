@@ -1,5 +1,6 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.factory.BuildingViewModelFactory
 import kotlinx.android.synthetic.main.activity_building.*
+import org.jetbrains.anko.indeterminateProgressDialog
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -17,6 +19,7 @@ class BuildingActivity : AppCompatActivity() {
 
 
     private var viewModelFactory: BuildingViewModelFactory? = null
+    private lateinit var progressDialog: ProgressDialog
 
     private lateinit var viewPagerAdapter: BuildingPagerAdapter
 
@@ -46,5 +49,18 @@ class BuildingActivity : AppCompatActivity() {
     private fun updateList(position: Int) {
         val fragment = supportFragmentManager.findFragmentByTag("android:switcher:${R.id.view_pager_build}:${view_pager_build.currentItem}") as BuildSummaryFragment
         fragment.updateList(position)
+    }
+
+    fun showLoading(body: String, title: String) {
+        progressDialog = indeterminateProgressDialog(message = body, title = title)
+        progressDialog.setProgressStyle(R.style.MyAlertDialogStyle)
+        progressDialog.show()
+    }
+
+    fun dismissLoading() {
+        Timer().schedule(2000) {
+            if (progressDialog.isShowing) progressDialog.dismiss()
+        }
+
     }
 }
