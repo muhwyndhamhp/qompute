@@ -59,6 +59,13 @@
         <item>vga</item>
     </string-array>
 
+    <string-array name="sub_component_endpoint">
+        <item>PC</item> <!--RAM-->
+        <item>SSD (SOLID STATE DISK)</item>
+        <item>Harddisk Internal 3.5 For Desktop PC</item>
+        <item>CPU Cooler / Heatsink</item>
+        <item>Fan Casing</item>
+    </string-array>
     <string-array name="processor_type">
         <item>Intel</item>
         <item>AMD</item>

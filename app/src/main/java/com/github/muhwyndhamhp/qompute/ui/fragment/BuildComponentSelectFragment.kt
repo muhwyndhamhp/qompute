@@ -125,7 +125,7 @@ class BuildComponentSelectFragment : Fragment() {
     private fun getComponentName(value: Int): String {
         return when (value) {
             101 -> context!!.resources.getStringArray(R.array.component_endpoint)[1]
-            102 -> context!!.resources.getStringArray(R.array.component_endpoint)[2]
+            102 -> context!!.resources.getStringArray(R.array.component_endpoint)[1]
             else -> context!!.resources.getStringArray(R.array.component_endpoint)[value]
         }
     }
@@ -138,7 +138,7 @@ class BuildComponentSelectFragment : Fragment() {
 
     private fun getData() {
         viewModel.componentPosition.observe(this, Observer { componentPosition ->
-            if (componentPosition in 0..15) {
+            if (componentPosition !=99) {
                 view!!.swipe_refresh_layout.isRefreshing = true
                 Handler().postDelayed({ viewModel.getData(getComponentName(componentPosition)) }, 500)
 

@@ -53,6 +53,38 @@ class AppRepository private constructor(
         }
     }
 
+    fun getComponentsByCategoryAsc(catDec: String, argument1: String, argument2: String?, loadDataCallback: LoadDataCallback) {
+        if (checkComponentValidity()) {
+            loadDataCallback.onSuccess(
+                if (catDec == "harddisk" && argument2 != null) componentDao.getComponentsByCategoryAscHDD(catDec, argument1, argument2)
+                else componentDao.getComponentsByCategoryAsc(catDec, argument1)
+            )
+        } else {
+            reloadData1(object : LoadDataCallback {
+                override fun onFailed(TAG: String, t: Throwable) {
+                    loadDataCallback.onFailed(TAG, t)
+                }
+
+                override fun onSuccess(components: List<Component>) {
+                    reloadData2(object : LoadDataCallback {
+                        override fun onFailed(TAG: String, t: Throwable) {
+                            loadDataCallback.onFailed(TAG, t)
+                        }
+
+                        override fun onSuccess(components: List<Component>) {
+                            loadDataCallback.onSuccess(
+                                if (catDec == "harddisk") componentDao.getComponentsByCategoryAscHDD(catDec)
+                                else componentDao.getComponentsByCategoryAsc(catDec)
+                            )
+                        }
+
+                    })
+                }
+
+            })
+        }
+    }
+
     private fun checkComponentValidity() =
         if (!componentDao.getAllComponents().isEmpty())
             (System.currentTimeMillis() / 1000 - componentDao.getAllComponents()[0].lastUpdate!!) / (60 * 60 * 24) < 14
@@ -60,6 +92,9 @@ class AppRepository private constructor(
 
     fun getComponentsByCategorySearch(catDesc: String, string: String) =
         componentDao.getComponentsByCategorySearch(catDesc, string)
+
+    fun getComponentsByCategorySearch(catDesc: String, string: String, argument1: String) =
+        componentDao.getComponentsByCategorySearch(catDesc, string, argument1)
 
     fun getAllBuilds() = buildDao.getAllBuilds()
 
@@ -107,11 +142,25 @@ class AppRepository private constructor(
         minValString: Long
     ) = componentDao.getComponentsByCategorySearchFilteredMin(catDesc, string, minValString)
 
+    fun getComponentsByCategorySearchFilteredMin(
+        catDesc: String,
+        string: String,
+        minValString: Long,
+        argument1: String
+    ) = componentDao.getComponentsByCategorySearchFilteredMin(catDesc, string, minValString, argument1)
+
     fun getComponentsByCategorySearchFilteredMax(
         catDesc: String,
         string: String,
         maxValString: Long
     ) = componentDao.getComponentsByCategorySearchFilteredMax(catDesc, string, maxValString)
+
+    fun getComponentsByCategorySearchFilteredMax(
+        catDesc: String,
+        string: String,
+        maxValString: Long,
+        argument1: String
+    ) = componentDao.getComponentsByCategorySearchFilteredMax(catDesc, string, maxValString, argument1)
 
     fun getComponentsByCategorySearchFilteredMinMax(
         catDesc: String,
@@ -119,6 +168,14 @@ class AppRepository private constructor(
         minValString: Long,
         maxValString: Long
     ) = componentDao.getComponentsByCategorySearchFilteredMinMax(catDesc, string, minValString, maxValString)
+
+    fun getComponentsByCategorySearchFilteredMinMax(
+        catDesc: String,
+        string: String,
+        minValString: Long,
+        maxValString: Long,
+        argument1: String
+    ) = componentDao.getComponentsByCategorySearchFilteredMinMax(catDesc, string, minValString, maxValString, argument1)
 
 
     companion object {
