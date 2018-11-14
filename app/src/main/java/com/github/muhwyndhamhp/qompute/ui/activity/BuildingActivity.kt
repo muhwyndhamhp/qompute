@@ -20,6 +20,7 @@ class BuildingActivity : AppCompatActivity() {
 
     private var viewModelFactory: BuildingViewModelFactory? = null
     private lateinit var progressDialog: ProgressDialog
+    private var fragmentId: Int? = 0
 
     private lateinit var viewPagerAdapter: BuildingPagerAdapter
 
@@ -39,6 +40,7 @@ class BuildingActivity : AppCompatActivity() {
 
     fun changeFragment(fragmentId: Int, position: Int?) {
         view_pager_build.currentItem = fragmentId
+        this.fragmentId = fragmentId
         Handler().postDelayed({
             if (position != null) {
                 updateList(position)
@@ -62,5 +64,14 @@ class BuildingActivity : AppCompatActivity() {
             if (progressDialog.isShowing) progressDialog.dismiss()
         }
 
+    }
+
+    override fun onBackPressed() {
+        if(fragmentId == 1){
+            changeFragment(0, null)
+        }
+        else{
+            super.onBackPressed()
+        }
     }
 }

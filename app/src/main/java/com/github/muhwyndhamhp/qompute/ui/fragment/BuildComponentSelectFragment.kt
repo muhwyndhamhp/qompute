@@ -1,8 +1,8 @@
 package com.github.muhwyndhamhp.qompute.ui.fragment
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.ui.activity.BuildingActivity
-import com.github.muhwyndhamhp.qompute.ui.adapter.ComponentListAdapter
 import com.github.muhwyndhamhp.qompute.ui.adapter.ComponentSelectionAdapter
 import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_1
 import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_2
@@ -23,8 +22,9 @@ import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import kotlinx.android.synthetic.main.activity_component_list.*
 import kotlinx.android.synthetic.main.fragment_build_component_selection.view.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import java.util.*
+import kotlin.concurrent.schedule
 
 class BuildComponentSelectFragment : Fragment() {
 
@@ -34,7 +34,6 @@ class BuildComponentSelectFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private var adapter: ComponentSelectionAdapter? = null
-//    private lateinit var progressDialog: ProgressDialog
     private var isAscendingPrice = true
     private var isAscendingName = true
 
@@ -51,7 +50,8 @@ class BuildComponentSelectFragment : Fragment() {
             ViewModelProviders.of(this, factory).get(BuildingViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-//        progressDialog = context!!.indeterminateProgressDialog("Memuat data dari database...", "Loading")
+        view.swipe_refresh_layout.setOnRefreshListener { view.swipe_refresh_layout.isRefreshing = false}
+        view.swipe_refresh_layout.setColorSchemeColors(context!!.resources.getColor(R.color.colorAccent))
         getData()
         sortButtonClickListener()
     }
@@ -118,7 +118,6 @@ class BuildComponentSelectFragment : Fragment() {
             }
 
             hideSoftKey()
-            recyclerView.smoothScrollToPosition(0)
         }
 
     }
@@ -139,34 +138,27 @@ class BuildComponentSelectFragment : Fragment() {
 
     private fun getData() {
         viewModel.componentPosition.observe(this, Observer { componentPosition ->
-            if(componentPosition in 0..15)
-            {
-//                progressDialog.show()
-                viewModel.getData(getComponentName(componentPosition))
+            if (componentPosition in 0..15) {
+                view!!.swipe_refresh_layout.isRefreshing = true
+                Handler().postDelayed({ viewModel.getData(getComponentName(componentPosition)) }, 500)
+
             }
         })
 
         viewModel.componentListA.observe(this, Observer {
             if (adapter == null) prepareRecyclerView(it)
             else adapter!!.setComponentList(it)
-//            when (progressDialog.isShowing) {
-//                true -> progressDialog.dismiss()
-//            }
+            Timer().schedule(2000) {if(view!!.swipe_refresh_layout.isRefreshing)view!!.swipe_refresh_layout.isRefreshing = false}
+            recyclerView.smoothScrollToPosition(0)
         })
 
         viewModel.exceptionList.observe(this, Observer {
             if (it.size != 0) {
                 when {
                     it[ERROR_CODE_FAILED_TO_FETCH_PART_1].message != "" -> {
-//                        when (progressDialog.isShowing) {
-//                            true -> progressDialog.dismiss()
-//                        }
                         context!!.alert { it[ERROR_CODE_FAILED_TO_FETCH_PART_1] }
                     }
                     it[ERROR_CODE_FAILED_TO_FETCH_PART_2].message != "" -> {
-//                        when (progressDialog.isShowing) {
-//                            true -> progressDialog.dismiss()
-//                        }
                         context!!.alert { it[ERROR_CODE_FAILED_TO_FETCH_PART_2] }
                     }
                 }
@@ -182,4 +174,5 @@ class BuildComponentSelectFragment : Fragment() {
         adapter!!.setCategoryCode(getComponentName(viewModel.componentPosition.value!!))
         recyclerView.adapter = adapter
     }
+
 }
