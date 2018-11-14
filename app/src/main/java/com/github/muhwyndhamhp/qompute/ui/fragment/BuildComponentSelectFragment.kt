@@ -33,7 +33,7 @@ class BuildComponentSelectFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private var adapter: ComponentListAdapter? = null
-    private lateinit var progressDialog: ProgressDialog
+//    private lateinit var progressDialog: ProgressDialog
     private var isAscendingPrice = true
     private var isAscendingName = true
 
@@ -50,7 +50,7 @@ class BuildComponentSelectFragment : Fragment() {
             ViewModelProviders.of(this, factory).get(BuildingViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        progressDialog = context!!.indeterminateProgressDialog("Memuat data dari database...", "Loading")
+//        progressDialog = context!!.indeterminateProgressDialog("Memuat data dari database...", "Loading")
         getData()
         sortButtonClickListener()
     }
@@ -124,9 +124,9 @@ class BuildComponentSelectFragment : Fragment() {
 
     private fun getComponentName(value: Int): String {
         return when (value) {
-            101 -> context!!.resources.getStringArray(R.array.component_categories)[1]
-            102 -> context!!.resources.getStringArray(R.array.component_categories)[2]
-            else -> context!!.resources.getStringArray(R.array.component_categories)[value]
+            101 -> context!!.resources.getStringArray(R.array.component_endpoint)[1]
+            102 -> context!!.resources.getStringArray(R.array.component_endpoint)[2]
+            else -> context!!.resources.getStringArray(R.array.component_endpoint)[value]
         }
     }
 
@@ -138,30 +138,34 @@ class BuildComponentSelectFragment : Fragment() {
 
     private fun getData() {
         viewModel.componentPosition.observe(this, Observer { componentPosition ->
-            progressDialog.show()
-            viewModel.getData(getComponentName(componentPosition))
-            viewModel.componentListA.observe(this, Observer {
-                if (adapter == null) prepareRecyclerView(it)
-                else adapter!!.setComponentList(it)
-                when (progressDialog.isShowing) {
-                    true -> progressDialog.dismiss()
-                }
-            })
+            if(componentPosition in 0..15)
+            {
+//                progressDialog.show()
+                viewModel.getData(getComponentName(componentPosition))
+            }
+        })
+
+        viewModel.componentListA.observe(this, Observer {
+            if (adapter == null) prepareRecyclerView(it)
+            else adapter!!.setComponentList(it)
+//            when (progressDialog.isShowing) {
+//                true -> progressDialog.dismiss()
+//            }
         })
 
         viewModel.exceptionList.observe(this, Observer {
             if (it.size != 0) {
                 when {
                     it[ERROR_CODE_FAILED_TO_FETCH_PART_1].message != "" -> {
-                        when (progressDialog.isShowing) {
-                            true -> progressDialog.dismiss()
-                        }
+//                        when (progressDialog.isShowing) {
+//                            true -> progressDialog.dismiss()
+//                        }
                         context!!.alert { it[ERROR_CODE_FAILED_TO_FETCH_PART_1] }
                     }
                     it[ERROR_CODE_FAILED_TO_FETCH_PART_2].message != "" -> {
-                        when (progressDialog.isShowing) {
-                            true -> progressDialog.dismiss()
-                        }
+//                        when (progressDialog.isShowing) {
+//                            true -> progressDialog.dismiss()
+//                        }
                         context!!.alert { it[ERROR_CODE_FAILED_TO_FETCH_PART_2] }
                     }
                 }

@@ -22,6 +22,9 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
         temp.value!!.componentCount!![componentPosition] = itemCount
         appRepository.updateBuild(temp.value!!)
     }
+    init {
+        componentPosition.value = 99
+    }
 
     fun initiateBuildObject(intExtra: Long) {
         if (intExtra == 0.toLong()) {
