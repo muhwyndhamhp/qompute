@@ -33,7 +33,12 @@ class Build(
     @SerializedName("component_count") @Expose
     var componentCount: MutableList<Int>?,
 
+    @TypeConverters(ObjectTypeConverter::class)
+    @SerializedName("component_price") @Expose
+    var componentPrice: MutableList<Long>?,
+
+
     @SerializedName("total_price") @Expose
-    val totalPrice: Long
+    var totalPrice: Long?
 
 ) : Serializable

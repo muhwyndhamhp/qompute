@@ -175,4 +175,9 @@ class BuildComponentSelectFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
+    fun addComponent(component: Component) {
+        viewModel.addComponent(component)
+        (context as BuildingActivity).changeFragment(0, viewModel.componentInBuildPosition.value!!)
+    }
+
 }

@@ -59,7 +59,8 @@
     </LinearLayout>
     <ImageButton
             android:id="@+id/ib_component_detail"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
             android:layout_height="match_parent"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
             android:background="@color/white"

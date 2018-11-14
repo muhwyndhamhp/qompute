@@ -62,9 +62,10 @@ class BuildingAdapter(
             itemView.tv_component_name_build.onClick {
                 startComponentSelectionActivity(
                     context,
-                    getComponentPositionOnList(context, componentListPosition),
+                    getComponentPositionOnList(componentListPosition),
                     viewModel
                 )
+                viewModel.componentInBuildPosition.value = componentListPosition
             }
             itemView.iv_delete_component.onClick {
                 viewModel.deleteComponent(componentListPosition)
@@ -72,7 +73,7 @@ class BuildingAdapter(
             }
         }
 
-        private fun getComponentPositionOnList(context: Context, componentListPosition: Int): Int {
+        private fun getComponentPositionOnList(componentListPosition: Int): Int {
             return when (componentListPosition) {
                 0 -> 9
                 1 -> 6

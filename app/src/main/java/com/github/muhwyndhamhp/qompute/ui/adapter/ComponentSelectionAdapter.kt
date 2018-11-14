@@ -17,10 +17,10 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.text.NumberFormat
 import java.util.*
 
-class ComponentSelectionAdapter(private val context: Context, private var components: List<Component>)
-    : RecyclerView.Adapter<ComponentSelectionAdapter.ViewHolder>() {
+class ComponentSelectionAdapter(private val context: Context, private var components: List<Component>) :
+    RecyclerView.Adapter<ComponentSelectionAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(
             component: Component,
             context: Context,
@@ -31,13 +31,17 @@ class ComponentSelectionAdapter(private val context: Context, private var compon
             itemView.tv_price.text = getCurrency(component.price)
             itemView.tv_subcategory_name.text = component.subcategoryDescription
 
-            itemView.onClick {
+            itemView.ib_component_detail.onClick {
                 (context as BuildingActivity).showLoading("Memuat data...", "Loading")
                 val intent = Intent(context, ComponentDetailActivity::class.java)
                 intent.putExtra(COMPONENT_CODE, component)
                 intent.putExtra(CATEGORY_CODE, categoryCode)
                 context.startActivity(intent)
                 context.dismissLoading()
+            }
+
+            itemView.onClick {
+                (context as BuildingActivity).setComponentPosition(component)
             }
         }
 
@@ -49,10 +53,11 @@ class ComponentSelectionAdapter(private val context: Context, private var compon
 
     private lateinit var categoryCode: String
 
-    fun setComponentList(componentList : List<Component>){
+    fun setComponentList(componentList: List<Component>) {
         components = componentList
         notifyDataSetChanged()
     }
+
     fun setCategoryCode(a: String) {
         categoryCode = a
     }
@@ -65,9 +70,13 @@ class ComponentSelectionAdapter(private val context: Context, private var compon
                 .inflate(
                     R.layout.item_component_list,
                     parent,
-                    false))
+                    false
+                )
+        )
+
     override fun getItemCount(): Int = components.size
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bindView(components[position], context, categoryCode)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+        holder.bindView(components[position], context, categoryCode)
 
 
 }

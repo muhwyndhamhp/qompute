@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.github.muhwyndhamhp.qompute.R
+import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.ui.adapter.BuildingPagerAdapter
+import com.github.muhwyndhamhp.qompute.ui.fragment.BuildComponentSelectFragment
 import com.github.muhwyndhamhp.qompute.ui.fragment.BuildSummaryFragment
 import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
@@ -48,7 +50,7 @@ class BuildingActivity : AppCompatActivity() {
         }, 200)
     }
 
-    private fun updateList(position: Int) {
+    fun updateList(position: Int) {
         val fragment = supportFragmentManager.findFragmentByTag("android:switcher:${R.id.view_pager_build}:${view_pager_build.currentItem}") as BuildSummaryFragment
         fragment.updateList(position)
     }
@@ -73,5 +75,10 @@ class BuildingActivity : AppCompatActivity() {
         else{
             super.onBackPressed()
         }
+    }
+
+    fun setComponentPosition(component: Component) {
+        val fragment1 = supportFragmentManager.findFragmentByTag("android:switcher:${R.id.view_pager_build}:${view_pager_build.currentItem}") as BuildComponentSelectFragment
+        fragment1.addComponent(component)
     }
 }

@@ -47,5 +47,17 @@ class ObjectTypeConverter {
         fun stringToIntArray(data: String): List<Int> {
             return gson.fromJson<List<Int>>(data, object:TypeToken<List<Int>>(){}.type)
         }
+
+        @JvmStatic
+        @TypeConverter
+        fun longArrayToString(intArray: List<Long>): String {
+            return gson.toJson(intArray)
+        }
+
+        @JvmStatic
+        @TypeConverter
+        fun stringToLongArray(data: String): List<Long> {
+            return gson.fromJson<List<Long>>(data, object:TypeToken<List<Long>>(){}.type)
+        }
     }
 }

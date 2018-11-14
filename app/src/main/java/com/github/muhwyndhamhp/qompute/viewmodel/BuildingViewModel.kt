@@ -1,6 +1,7 @@
 package com.github.muhwyndhamhp.qompute.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.github.muhwyndhamhp.qompute.data.AppRepository
 import com.github.muhwyndhamhp.qompute.data.model.Build
@@ -13,6 +14,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     val cpuBrand: MutableLiveData<Int> = MutableLiveData()
     val socketType: MutableLiveData<Int> = MutableLiveData()
     val componentPosition: MutableLiveData<Int> = MutableLiveData()
+    val componentInBuildPosition: MutableLiveData<Int> = MutableLiveData()
     val componentListA: MutableLiveData<List<Component>> = MutableLiveData()
     val exceptionList = MutableLiveData<MutableList<Throwable>>()
     val tagList = MutableLiveData<MutableList<String>>()
@@ -20,7 +22,6 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     fun changeComponentCount(itemCount: Int, componentPosition: Int) {
         val temp = build
         temp.value!!.componentCount!![componentPosition] = itemCount
-        appRepository.updateBuild(temp.value!!)
     }
     init {
         componentPosition.value = 99
@@ -35,6 +36,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
                 mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
                 mutableListOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
                 mutableListOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+                mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
                 0
             )
         } else {
@@ -54,7 +56,6 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
             temp.value!!.componentCount!![i] = 1
             temp.value!!.componentIds!![i] = ""
             temp.value!!.componentName!![i] = ""
-            appRepository.updateBuild(temp.value!!)
         }
     }
 
@@ -99,4 +100,11 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
         val string = "%$queryString%"
         componentListA.value = appRepository.getComponentsByCategorySearchFilteredMinMax(catDesc, string, minVal, maxVal)
     }
+
+    fun addComponent(component: Component) {
+        build.value!!.componentIds!![componentInBuildPosition.value!!] = component.id
+        build.value!!.componentName!![componentInBuildPosition.value!!] = component.name
+        build.value!!.componentPrice!![componentInBuildPosition.value!!] = component.price.toLong()
+    }
+
 }
