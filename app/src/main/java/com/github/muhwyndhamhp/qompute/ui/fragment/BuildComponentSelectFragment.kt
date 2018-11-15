@@ -123,11 +123,13 @@ class BuildComponentSelectFragment : Fragment() {
     }
 
     private fun getComponentName(value: Int): String {
-        return when (value) {
-            101 -> context!!.resources.getStringArray(R.array.component_endpoint)[1]
-            102 -> context!!.resources.getStringArray(R.array.component_endpoint)[1]
-            else -> context!!.resources.getStringArray(R.array.component_endpoint)[value]
-        }
+        return viewModel.getComponentName(
+            value,
+            context!!.resources.getStringArray(R.array.component_endpoint),
+            context!!.resources.getStringArray(R.array.sub_component_endpoint),
+            context!!.resources.getStringArray(R.array.socket_intel),
+            context!!.resources.getStringArray(R.array.socket_amd)
+            )
     }
 
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")

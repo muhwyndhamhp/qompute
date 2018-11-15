@@ -74,14 +74,14 @@ class BuildSummaryFragment : Fragment() {
             }
         }
         socket_switch_intel.setOnSwitchListener { position, _ ->
-            viewModel.cpuBrand.value = position
-            viewModel.socketType.value = socket_switch_intel.selectedTab
+            viewModel.cpuBrand.value = processor_switch.selectedTab
+            viewModel.socketType.value = position
             viewModel.updateProcessorType()
             adapter.clearProcessor()
         }
         socket_switch_amd.setOnSwitchListener { position, _ ->
-            viewModel.cpuBrand.value = position
-            viewModel.socketType.value = socket_switch_amd.selectedTab
+            viewModel.cpuBrand.value = processor_switch.selectedTab
+            viewModel.socketType.value = position
             viewModel.updateProcessorType()
             adapter.clearProcessor()
         }

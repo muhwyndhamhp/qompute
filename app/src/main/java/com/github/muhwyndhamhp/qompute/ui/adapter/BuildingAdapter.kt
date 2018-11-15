@@ -1,7 +1,6 @@
 package com.github.muhwyndhamhp.qompute.ui.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.ui.activity.BuildingActivity
-import com.github.muhwyndhamhp.qompute.ui.activity.ComponentSelectionActivity
-import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
-import com.github.muhwyndhamhp.qompute.utils.CATEGORY_TYPE_CODE
-import com.github.muhwyndhamhp.qompute.utils.CPU_BRAND_ID
-import com.github.muhwyndhamhp.qompute.utils.SOCKET_ID
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import kotlinx.android.synthetic.main.item_build_component.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -62,7 +56,7 @@ class BuildingAdapter(
             itemView.tv_component_name_build.onClick {
                 startComponentSelectionActivity(
                     context,
-                    getComponentPositionOnList(componentListPosition),
+                    getComponentPositionOnList(componentListPosition, viewModel),
                     viewModel
                 )
                 viewModel.componentInBuildPosition.value = componentListPosition
@@ -73,10 +67,13 @@ class BuildingAdapter(
             }
         }
 
-        private fun getComponentPositionOnList(componentListPosition: Int): Int {
+        private fun getComponentPositionOnList(
+            componentListPosition: Int,
+            viewModel: BuildingViewModel
+        ): Int {
             return when (componentListPosition) {
-                0 -> 9
-                1 -> 6
+                0 -> "9${viewModel.cpuBrand.value!!}${viewModel.socketType.value!!}".toInt()
+                1 -> "6${viewModel.cpuBrand.value!!}${viewModel.socketType.value!!}".toInt()
                 2 -> 13
                 3 -> 5
                 4 -> 2
