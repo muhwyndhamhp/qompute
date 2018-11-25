@@ -85,6 +85,5 @@ class BuildSummaryFragment : Fragment() {
 
     fun updateList(position: Int) {
         adapter.notifyItemChanged(position)
-        viewModel.updateBuildPrice()
     }
 }

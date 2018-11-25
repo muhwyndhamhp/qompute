@@ -38,12 +38,15 @@ class BuildingActivity : AppCompatActivity() {
         viewModelFactory ?: InjectorUtils.provideBuildingViewModelFactory(this).also { viewModelFactory = it }
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(BuildingViewModel::class.java)
         viewModel.initiateBuildObject(getBuildObjectIntent())
+
         viewModel.build.observe(this, Observer {
             tv_name.text = if (it.name == "") "Rakitan Baru" else it.name
-            tv_price.text = NumberFormat
-                .getCurrencyInstance(Locale("in", "ID"))
-                .format(it.totalPrice)
+//            tv_price.text = NumberFormat
+//                .getCurrencyInstance(Locale("in", "ID"))
+//                .format(it.totalPrice)
+            tv_price.text = it.componentName!![0]
         })
+
         viewPagerAdapter = BuildingPagerAdapter(this, 2, supportFragmentManager)
         view_pager_build.adapter = viewPagerAdapter
     }

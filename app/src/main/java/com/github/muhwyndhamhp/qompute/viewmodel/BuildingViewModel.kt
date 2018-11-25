@@ -9,7 +9,7 @@ import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_1
 
 class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() {
 
-    var build: MutableLiveData<Build> = MutableLiveData()
+    val build: MutableLiveData<Build> = MutableLiveData()
     val cpuBrand: MutableLiveData<Int> = MutableLiveData()
     val socketType: MutableLiveData<Int> = MutableLiveData()
     val componentPosition: MutableLiveData<Int> = MutableLiveData()
@@ -20,8 +20,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     val tagList = MutableLiveData<MutableList<String>>()
 
     fun changeComponentCount(itemCount: Int, componentPosition: Int) {
-        val temp = build
-        temp.value!!.componentCount!![componentPosition] = itemCount
+        build.value!!.componentCount!![componentPosition] = itemCount
         updateBuildPrice()
     }
 
@@ -30,7 +29,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     }
 
     fun initiateBuildObject(intExtra: Long) {
-        if (intExtra == 0.toLong()) {
+//        if (intExtra == 0.toLong()) {
             build.value = Build(
                 0,
                 "",
@@ -41,9 +40,9 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
                 mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
                 0
             )
-        } else {
-            build = appRepository.getBuild(intExtra) as MutableLiveData<Build>
-        }
+//        } else {
+//            build = appRepository.getBuild(intExtra) as MutableLiveData<Build>
+//        }
     }
 
     fun updateProcessorType() {
