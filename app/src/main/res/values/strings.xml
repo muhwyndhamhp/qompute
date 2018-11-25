@@ -131,4 +131,5 @@
     <string name="harga_max">Harga Max.</string>
     <string name="saring">Saring</string>
     <string name="cari">Cari</string>
+    <string name="harga_total">Harga Total</string>
 </resources>

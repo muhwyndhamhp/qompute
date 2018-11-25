@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
@@ -45,11 +44,7 @@ class BuildComponentSelectFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory = (context as BuildingActivity).getViewModelFactory()
-        viewModel = activity?.run {
-            ViewModelProviders.of(this, factory).get(BuildingViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
-
+        viewModel = (context as BuildingActivity).viewModel
         view.swipe_refresh_layout.setOnRefreshListener { view.swipe_refresh_layout.isRefreshing = false}
         view.swipe_refresh_layout.setColorSchemeColors(context!!.resources.getColor(R.color.colorAccent))
         getData()

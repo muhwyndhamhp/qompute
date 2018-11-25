@@ -4,6 +4,8 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.ui.adapter.BuildingPagerAdapter
@@ -11,9 +13,11 @@ import com.github.muhwyndhamhp.qompute.ui.fragment.BuildComponentSelectFragment
 import com.github.muhwyndhamhp.qompute.ui.fragment.BuildSummaryFragment
 import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
+import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import com.github.muhwyndhamhp.qompute.viewmodel.factory.BuildingViewModelFactory
 import kotlinx.android.synthetic.main.activity_building.*
 import org.jetbrains.anko.indeterminateProgressDialog
+import java.text.NumberFormat
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -25,18 +29,24 @@ class BuildingActivity : AppCompatActivity() {
     private var fragmentId: Int? = 0
 
     private lateinit var viewPagerAdapter: BuildingPagerAdapter
+    lateinit var viewModel: BuildingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_building)
 
+        viewModelFactory ?: InjectorUtils.provideBuildingViewModelFactory(this).also { viewModelFactory = it }
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(BuildingViewModel::class.java)
+        viewModel.initiateBuildObject(getBuildObjectIntent())
+        viewModel.build.observe(this, Observer {
+            tv_name.text = if (it.name == "") "Rakitan Baru" else it.name
+            tv_price.text = NumberFormat
+                .getCurrencyInstance(Locale("in", "ID"))
+                .format(it.totalPrice)
+        })
         viewPagerAdapter = BuildingPagerAdapter(this, 2, supportFragmentManager)
-
         view_pager_build.adapter = viewPagerAdapter
     }
-
-    fun getViewModelFactory() =
-        viewModelFactory ?: InjectorUtils.provideBuildingViewModelFactory(this).also { viewModelFactory = it }
 
     fun getBuildObjectIntent() = intent.getLongExtra(BUILD_ID_DB, 0)
 
@@ -51,7 +61,8 @@ class BuildingActivity : AppCompatActivity() {
     }
 
     fun updateList(position: Int) {
-        val fragment = supportFragmentManager.findFragmentByTag("android:switcher:${R.id.view_pager_build}:${view_pager_build.currentItem}") as BuildSummaryFragment
+        val fragment = supportFragmentManager
+            .findFragmentByTag("android:switcher:${R.id.view_pager_build}:${view_pager_build.currentItem}") as BuildSummaryFragment
         fragment.updateList(position)
     }
 
@@ -69,16 +80,16 @@ class BuildingActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(fragmentId == 1){
+        if (fragmentId == 1) {
             changeFragment(0, null)
-        }
-        else{
+        } else {
             super.onBackPressed()
         }
     }
 
     fun setComponentPosition(component: Component) {
-        val fragment1 = supportFragmentManager.findFragmentByTag("android:switcher:${R.id.view_pager_build}:${view_pager_build.currentItem}") as BuildComponentSelectFragment
+        val fragment1 = supportFragmentManager
+            .findFragmentByTag("android:switcher:${R.id.view_pager_build}:${view_pager_build.currentItem}") as BuildComponentSelectFragment
         fragment1.addComponent(component)
     }
 }

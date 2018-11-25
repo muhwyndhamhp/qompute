@@ -24,7 +24,7 @@ class BuildSummaryFragment : Fragment() {
 
     private lateinit var adapter: BuildingAdapter
     private lateinit var recyclerview: RecyclerView
-    private lateinit var viewModel: BuildingViewModel
+    lateinit var viewModel: BuildingViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_build_summary, container, false)
@@ -32,12 +32,8 @@ class BuildSummaryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory = (context as BuildingActivity).getViewModelFactory()
-        viewModel = activity?.run {
-            ViewModelProviders.of(this, factory).get(BuildingViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
+        viewModel = (context as BuildingActivity).viewModel
 
-        viewModel.initiateBuildObject((context as BuildingActivity).getBuildObjectIntent())
         setProcessorType()
         prepareComponentRecyclerView()
         processor_switch.selectedTab = 1
@@ -89,5 +85,6 @@ class BuildSummaryFragment : Fragment() {
 
     fun updateList(position: Int) {
         adapter.notifyItemChanged(position)
+        viewModel.updateBuildPrice()
     }
 }

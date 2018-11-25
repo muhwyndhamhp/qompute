@@ -22,6 +22,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     fun changeComponentCount(itemCount: Int, componentPosition: Int) {
         val temp = build
         temp.value!!.componentCount!![componentPosition] = itemCount
+        updateBuildPrice()
     }
 
     init {
@@ -52,12 +53,11 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     }
 
     private fun clearAll(i: Int) {
-        val temp = build
-        if (temp.value != null) {
-            temp.value!!.componentCount!![i] = 1
-            temp.value!!.componentIds!![i] = ""
-            temp.value!!.componentName!![i] = ""
-        }
+
+        build.value!!.componentCount!![i] = 1
+        build.value!!.componentIds!![i] = ""
+        build.value!!.componentName!![i] = ""
+        updateBuildPrice()
     }
 
 
@@ -81,6 +81,14 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
             }
         }
 
+    }
+
+    fun updateBuildPrice() {
+        var currentTotal = 0.toLong()
+        for (i in build.value!!.componentPrice!!.indices) {
+            currentTotal += (build.value!!.componentPrice!![i] * build.value!!.componentCount!![i])
+        }
+        build.value!!.totalPrice = currentTotal
     }
 
     private fun getDataWithArgument(catDesc: String, value: String) {

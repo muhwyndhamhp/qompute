@@ -16,8 +16,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class BuildingAdapter(
     private val context: Context,
-    private val lifecycleOwner: LifecycleOwner,
-//    private var componentListA: List<String>,
+    lifecycleOwner: LifecycleOwner,
     private val viewModel: BuildingViewModel
 ) : RecyclerView.Adapter<BuildingAdapter.ViewHolder>() {
 
@@ -107,7 +106,6 @@ class BuildingAdapter(
 
     private lateinit var componentList: MutableList<String>
     private lateinit var componentCount: MutableList<Int>
-    private var isNotified = false
 
     init {
         viewModel.build.observe(lifecycleOwner, Observer {
