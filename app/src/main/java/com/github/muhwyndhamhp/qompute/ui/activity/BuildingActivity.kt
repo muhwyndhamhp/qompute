@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
 import com.github.muhwyndhamhp.qompute.R
+import com.github.muhwyndhamhp.qompute.data.model.Build
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.ui.adapter.BuildingPagerAdapter
 import com.github.muhwyndhamhp.qompute.ui.fragment.BuildComponentSelectFragment
@@ -40,15 +41,18 @@ class BuildingActivity : AppCompatActivity() {
         viewModel.initiateBuildObject(getBuildObjectIntent())
 
         viewModel.build.observe(this, Observer {
-            tv_name.text = if (it.name == "") "Rakitan Baru" else it.name
-//            tv_price.text = NumberFormat
-//                .getCurrencyInstance(Locale("in", "ID"))
-//                .format(it.totalPrice)
-            tv_price.text = it.componentName!![0]
+            updateUi(it)
         })
 
         viewPagerAdapter = BuildingPagerAdapter(this, 2, supportFragmentManager)
         view_pager_build.adapter = viewPagerAdapter
+    }
+
+    private fun updateUi(it: Build) {
+        tv_name.text = if (it.name == "") "Rakitan Baru" else it.name
+            tv_price.text = NumberFormat
+                .getCurrencyInstance(Locale("in", "ID"))
+                .format(it.totalPrice)
     }
 
     fun getBuildObjectIntent() = intent.getLongExtra(BUILD_ID_DB, 0)

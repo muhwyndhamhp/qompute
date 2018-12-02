@@ -1,6 +1,5 @@
 package com.github.muhwyndhamhp.qompute.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +9,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
-import com.github.muhwyndhamhp.qompute.ui.activity.ComponentListActivity
 import com.github.muhwyndhamhp.qompute.ui.adapter.BrowseAdapter
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BrowseViewModel
 import kotlinx.android.synthetic.main.fragment_browse.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
 
-class BrowseFragment(): Fragment(){
+class BrowseFragment() : Fragment() {
     companion object {
         fun newInstance() = BrowseFragment()
     }

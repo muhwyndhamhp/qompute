@@ -22,8 +22,6 @@ import kotlinx.android.synthetic.main.activity_component_list.*
 import kotlinx.android.synthetic.main.fragment_build_component_selection.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import java.util.*
-import kotlin.concurrent.schedule
 
 class BuildComponentSelectFragment : Fragment() {
 
@@ -43,9 +41,8 @@ class BuildComponentSelectFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = (context as BuildingActivity).viewModel
-        view.swipe_refresh_layout.setOnRefreshListener { view.swipe_refresh_layout.isRefreshing = false}
+        view.swipe_refresh_layout.setOnRefreshListener { view.swipe_refresh_layout.isRefreshing = false }
         view.swipe_refresh_layout.setColorSchemeColors(context!!.resources.getColor(R.color.colorAccent))
         getData()
         sortButtonClickListener()
@@ -124,7 +121,7 @@ class BuildComponentSelectFragment : Fragment() {
             context!!.resources.getStringArray(R.array.sub_component_endpoint),
             context!!.resources.getStringArray(R.array.socket_intel),
             context!!.resources.getStringArray(R.array.socket_amd)
-            )
+        )
     }
 
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -135,17 +132,19 @@ class BuildComponentSelectFragment : Fragment() {
 
     private fun getData() {
         viewModel.componentPosition.observe(this, Observer { componentPosition ->
-            if (componentPosition !=99) {
+            if (componentPosition != 99) {
                 view!!.swipe_refresh_layout.isRefreshing = true
+                if (adapter != null) adapter!!.setComponentList(listOf())
                 Handler().postDelayed({ viewModel.getData(getComponentName(componentPosition)) }, 500)
-
             }
         })
 
         viewModel.componentListA.observe(this, Observer {
             if (adapter == null) prepareRecyclerView(it)
             else adapter!!.setComponentList(it)
-            Timer().schedule(2000) {if(view!!.swipe_refresh_layout.isRefreshing)view!!.swipe_refresh_layout.isRefreshing = false}
+            Handler().postDelayed({
+                if (view!!.swipe_refresh_layout.isRefreshing) view!!.swipe_refresh_layout.isRefreshing = false
+            }, 1000)
             recyclerView.smoothScrollToPosition(0)
         })
 

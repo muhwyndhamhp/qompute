@@ -6,6 +6,8 @@ import com.github.muhwyndhamhp.qompute.data.AppRepository
 import com.github.muhwyndhamhp.qompute.data.model.Build
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_1
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() {
 
@@ -52,31 +54,35 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     }
 
     private fun clearAll(i: Int) {
-
         build.value!!.componentCount!![i] = 1
         build.value!!.componentIds!![i] = ""
         build.value!!.componentName!![i] = ""
+        build.value!!.componentPrice!![i] = 0
         updateBuildPrice()
     }
 
 
     fun getData(catDesc: String) {
         when (catDesc) {
-            "coolerfan", "motherboard", "processor", "memoryram" -> getDataWithArgument(
+            "coolerfan", "motherboard", "processor", "memoryram" ->getDataWithArgument(
                 catDesc,
                 "%${currentSubcategory.value!!}%"
             )
             else -> {
-                appRepository.getComponentsByCategoryAsc(catDesc, object : AppRepository.LoadDataCallback {
+                doAsync { appRepository.getComponentsByCategoryAsc(catDesc, object : AppRepository.LoadDataCallback {
                     override fun onFailed(TAG: String, t: Throwable) {
-                        exceptionList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, t)
-                        tagList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, TAG)
+                        uiThread {
+                            exceptionList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, t)
+                            tagList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, TAG)
+                        }
                     }
 
                     override fun onSuccess(components: List<Component>) {
-                        componentListA.value = components
+                        uiThread { componentListA.value = components }
+
+
                     }
-                })
+                }) }
             }
         }
 
@@ -87,20 +93,28 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
         for (i in build.value!!.componentPrice!!.indices) {
             currentTotal += (build.value!!.componentPrice!![i] * build.value!!.componentCount!![i])
         }
-        build.value!!.totalPrice = currentTotal
+        val temp = build.value!!
+        temp.totalPrice = currentTotal
+        build.value  = temp
     }
 
     private fun getDataWithArgument(catDesc: String, value: String) {
-        appRepository.getComponentsByCategoryAsc(catDesc, value, null, object : AppRepository.LoadDataCallback {
-            override fun onFailed(TAG: String, t: Throwable) {
-                exceptionList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, t)
-                tagList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, TAG)
-            }
+        doAsync {
+            appRepository.getComponentsByCategoryAsc(catDesc, value, null, object : AppRepository.LoadDataCallback {
+                override fun onFailed(TAG: String, t: Throwable) {
+                    uiThread {
+                        exceptionList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, t)
+                        tagList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, TAG)
+                    }
+                }
 
-            override fun onSuccess(components: List<Component>) {
-                componentListA.value = components
-            }
-        })
+                override fun onSuccess(components: List<Component>) {
+                    uiThread {
+                        componentListA.value = components
+                    }
+                }
+            })
+        }
     }
 
     fun deleteComponent(componentListPosition: Int) {
@@ -172,6 +186,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
         build.value!!.componentIds!![componentInBuildPosition.value!!] = component.id
         build.value!!.componentName!![componentInBuildPosition.value!!] = component.name
         build.value!!.componentPrice!![componentInBuildPosition.value!!] = component.price.toLong()
+        updateBuildPrice()
     }
 
     fun getComponentName(
