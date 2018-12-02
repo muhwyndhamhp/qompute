@@ -16,7 +16,7 @@ class Build(
     val id: Long,
 
     @SerializedName("name") @Expose
-    val name: String,
+    var name: String,
 
     @SerializedName("description") @Expose
     val description: String,

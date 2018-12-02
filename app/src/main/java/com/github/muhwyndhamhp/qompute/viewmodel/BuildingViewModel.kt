@@ -1,5 +1,6 @@
 package com.github.muhwyndhamhp.qompute.viewmodel
 
+import android.text.Editable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.muhwyndhamhp.qompute.data.AppRepository
@@ -307,6 +308,16 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
             }
             else -> componentEndPoint[value]
         }
+    }
+
+    fun setBuildName(text: Editable?) {
+        val temp = build.value!!
+        temp.name = text.toString()
+        build.value = temp
+    }
+
+    fun saveBuild() {
+        appRepository.insertBuild(build.value!!)
     }
 
 }

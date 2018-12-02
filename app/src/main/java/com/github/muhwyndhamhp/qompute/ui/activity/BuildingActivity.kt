@@ -1,8 +1,12 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Handler
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
@@ -18,6 +22,7 @@ import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import com.github.muhwyndhamhp.qompute.viewmodel.factory.BuildingViewModelFactory
 import kotlinx.android.synthetic.main.activity_building.*
 import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.text.NumberFormat
 import java.util.*
 import kotlin.concurrent.schedule
@@ -46,6 +51,32 @@ class BuildingActivity : AppCompatActivity() {
 
         viewPagerAdapter = BuildingPagerAdapter(this, 2, supportFragmentManager)
         view_pager_build.adapter = viewPagerAdapter
+
+        bt_edit_build_name.onClick {
+            val dialog  = Dialog(this@BuildingActivity)
+            dialog.setContentView(R.layout.dialog_buildname_edit)
+            dialog.window.setBackgroundDrawableResource(android.R.color.transparent)
+            val edittext = dialog.findViewById<EditText>(R.id.et_build_name)
+            val button = dialog.findViewById<Button>(R.id.bt_save_build_name)
+
+
+            viewModel.build.observe(this@BuildingActivity, Observer { build ->
+                edittext.setText(build.name)
+            })
+            button.onClick {
+                viewModel.setBuildName(edittext.text)
+                if(dialog.isShowing) dialog.dismiss()
+            }
+
+            dialog.show()
+
+        }
+
+        bt_build_save.onClick {
+            viewModel.saveBuild()
+            onBackPressed()
+            finish()
+        }
     }
 
     private fun updateUi(it: Build) {

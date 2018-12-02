@@ -58,6 +58,7 @@
                         android:inputType="text"/>
             </LinearLayout>
             <ImageButton
+                    android:id="@+id/bt_edit_build_name"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"
@@ -66,6 +67,7 @@
                     android:tint="@color/white"
                     />
             <ImageButton
+                    android:id="@+id/bt_build_save"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"
