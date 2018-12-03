@@ -20,9 +20,8 @@ import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
 import com.github.muhwyndhamhp.qompute.viewmodel.factory.BuildingViewModelFactory
 import kotlinx.android.synthetic.main.activity_building.*
-import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.toast
 import java.text.NumberFormat
 import java.util.*
 import kotlin.concurrent.schedule
@@ -82,6 +81,10 @@ class BuildingActivity : AppCompatActivity() {
                 }
             })
         }
+
+        ib_back_button_building.onClick {
+            onBackPressed()
+        }
     }
 
     private fun updateUi(it: Build) {
@@ -126,7 +129,14 @@ class BuildingActivity : AppCompatActivity() {
         if (fragmentId == 1) {
             changeFragment(0, null)
         } else {
-            super.onBackPressed()
+            if(viewModel.build.value!!.totalPrice != 0.toLong() || viewModel.build.value!!.name != ""){
+                alert("Kembali ke beranda sekarang akan menghapus rakitan anda, Anda yakin?"){
+                    okButton { super.onBackPressed() }
+                    cancelButton {}
+                }.show()
+            } else{
+                super.onBackPressed()
+            }
         }
     }
 

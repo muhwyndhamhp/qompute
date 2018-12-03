@@ -8,55 +8,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-            android:id="@+id/card_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:cardCornerRadius="20dp"
-            android:layout_marginEnd="8dp"
-            app:cardElevation="2dp">
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center">
-
-            <EditText
-                    android:id="@+id/et_cari_rakitan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:textAlignment="center"
-                    android:hint="@string/cari_rakitan"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:textSize="16sp"
-                    android:textColorHint="@color/colorPrimary"
-                    android:textColor="@color/colorPrimaryDark"
-                    tools:ignore="Autofill,TextFields"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
     <TextView
             android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/daftar_rakitanmu"
-            app:layout_constraintTop_toBottomOf="@+id/card_search"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -77,9 +41,11 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"/>
 
     <TextView
+            android:id="@+id/tV_no_builds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/belum_ada_rakitan"
@@ -89,6 +55,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="@+id/cardView"
             app:layout_constraintStart_toStartOf="@+id/cardView"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@+id/imageView"/>
 
     <androidx.cardview.widget.CardView

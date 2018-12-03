@@ -39,4 +39,9 @@ object InjectorUtils {
         val repository = getAppRepository(context)
         return BuildingViewModelFactory(repository)
     }
+
+    fun provideBuildsViewModelFactory(context: Context): BuildsViewModelFactory{
+        val repository = getAppRepository(context)
+        return BuildsViewModelFactory(repository)
+    }
 }
