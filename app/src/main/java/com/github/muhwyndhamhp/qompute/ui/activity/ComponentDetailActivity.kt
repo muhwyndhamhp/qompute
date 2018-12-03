@@ -27,7 +27,7 @@ class ComponentDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_component_detail)
 
-        val factory = InjectorUtils.provideComponentDetailViewModelFactory(this)
+        val factory = InjectorUtils.provideComponentDetailViewModelFactory(this, intent.getSerializableExtra(COMPONENT_CODE) as Component)
         viewModel = ViewModelProviders.of(this, factory).get(ComponentDetailViewModel::class.java)
 
         if (actionBar != null) actionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -36,53 +36,39 @@ class ComponentDetailActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initActivity() {
+        setActionBarSetting()
+
+        viewModel.componentData.observe(this, androidx.lifecycle.Observer { component ->
+            tv_name.text = component.name
+            tv_brand_desc.text = component.brandDescription
+            tv_category_desc.text = component.categoryDescription
+            tv_subcategory_desc.text = component.subcategoryDescription
+            tv_price_desc.text = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(component.price.toLong())
+
+            bt_buy_bukalapak_affiliate.onClick {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(viewModel.getAffiliateLink())
+                startActivity(intent)
+            }
+
+            val url = component.name.replace(" ", "%20")
+
+            web_view.clearCache(true);
+            web_view.clearHistory();
+            web_view.settings.javaScriptEnabled = true;
+            web_view.isNestedScrollingEnabled = true
+            web_view.settings.javaScriptCanOpenWindowsAutomatically = true;
+            web_view.loadUrl("https://www.google.com/search?tbm=isch&q=$url&ie=utf-8&oe=utf-8")
+
+            setImageView()
+        })
+    }
+
+    private fun setActionBarSetting() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
-
-        val component = intent.getSerializableExtra(COMPONENT_CODE) as Component
-        tv_name.text = component.name
-        tv_brand_desc.text = component.brandDescription
-        tv_category_desc.text = component.categoryDescription
-        tv_subcategory_desc.text = component.subcategoryDescription
-        tv_price_desc.text = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(component.price.toLong())
-        if (component.linkToped != null || component.linkBukalapak != null || component.linkShopee != null) layout_buy_link.visibility =
-                View.VISIBLE
-        if (component.linkToped != null) {
-            iv_tokopedia.visibility = View.VISIBLE
-            iv_tokopedia.onClick {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(component.linkToped)
-                startActivity(intent)
-            }
-        }
-        if (component.linkBukalapak != null) {
-            iv_bukalapak.visibility = View.VISIBLE
-            iv_bukalapak.onClick {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(component.linkBukalapak)
-                startActivity(intent)
-            }
-        }
-        if (component.linkShopee != null) {
-            iv_shopee.visibility = View.VISIBLE
-            iv_shopee.onClick {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(component.linkShopee)
-                startActivity(intent)
-            }
-        }
-        val url = component.name.replace(" ", "%20")
-
-        web_view.clearCache(true);
-        web_view.clearHistory();
-        web_view.settings.javaScriptEnabled = true;
-        web_view.isNestedScrollingEnabled = true
-        web_view.settings.javaScriptCanOpenWindowsAutomatically = true;
-        web_view.loadUrl("https://www.google.com/search?tbm=isch&q=$url&ie=utf-8&oe=utf-8")
-
-        setImageView()
     }
 
     private fun setImageView() {

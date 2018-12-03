@@ -1,6 +1,5 @@
 package com.github.muhwyndhamhp.qompute.ui.activity
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -8,8 +7,8 @@ import android.os.Handler
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.data.model.Build
 import com.github.muhwyndhamhp.qompute.data.model.Component
@@ -23,6 +22,7 @@ import com.github.muhwyndhamhp.qompute.viewmodel.factory.BuildingViewModelFactor
 import kotlinx.android.synthetic.main.activity_building.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.toast
 import java.text.NumberFormat
 import java.util.*
 import kotlin.concurrent.schedule
@@ -53,7 +53,7 @@ class BuildingActivity : AppCompatActivity() {
         view_pager_build.adapter = viewPagerAdapter
 
         bt_edit_build_name.onClick {
-            val dialog  = Dialog(this@BuildingActivity)
+            val dialog = Dialog(this@BuildingActivity)
             dialog.setContentView(R.layout.dialog_buildname_edit)
             dialog.window.setBackgroundDrawableResource(android.R.color.transparent)
             val edittext = dialog.findViewById<EditText>(R.id.et_build_name)
@@ -65,7 +65,7 @@ class BuildingActivity : AppCompatActivity() {
             })
             button.onClick {
                 viewModel.setBuildName(edittext.text)
-                if(dialog.isShowing) dialog.dismiss()
+                if (dialog.isShowing) dialog.dismiss()
             }
 
             dialog.show()
@@ -73,17 +73,22 @@ class BuildingActivity : AppCompatActivity() {
         }
 
         bt_build_save.onClick {
-            viewModel.saveBuild()
-            onBackPressed()
-            finish()
+            viewModel.build.observe(this@BuildingActivity, Observer { build ->
+                if (build.totalPrice == 0.toLong()) toast(getString(R.string.rakitan_kosong))
+                else {
+                    viewModel.saveBuild()
+                    onBackPressed()
+                    finish()
+                }
+            })
         }
     }
 
     private fun updateUi(it: Build) {
         tv_name.text = if (it.name == "") "Rakitan Baru" else it.name
-            tv_price.text = NumberFormat
-                .getCurrencyInstance(Locale("in", "ID"))
-                .format(it.totalPrice)
+        tv_price.text = NumberFormat
+            .getCurrencyInstance(Locale("in", "ID"))
+            .format(it.totalPrice)
     }
 
     fun getBuildObjectIntent() = intent.getLongExtra(BUILD_ID_DB, 0)

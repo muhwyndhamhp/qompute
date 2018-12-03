@@ -134,4 +134,6 @@
     <string name="harga_total">Harga Total</string>
     <string name="save">Save</string>
     <string name="ganti_nama_rakitan">Ganti nama rakitan</string>
+    <string name="rakitan_kosong">Rakitan tidak boleh kosong!</string>
+    <string name="beli_di_bukalapak">Beli di Bukalapak</string>
 </resources>

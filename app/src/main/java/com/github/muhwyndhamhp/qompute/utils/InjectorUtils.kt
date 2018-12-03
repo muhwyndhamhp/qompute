@@ -3,6 +3,7 @@ package com.github.muhwyndhamhp.qompute.utils
 import android.content.Context
 import com.github.muhwyndhamhp.qompute.data.AppRepository
 import com.github.muhwyndhamhp.qompute.data.database.AppDatabase
+import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.viewmodel.factory.*
 
 object InjectorUtils {
@@ -26,9 +27,12 @@ object InjectorUtils {
         return ComponentListViewModelFactory(repository)
     }
 
-    fun provideComponentDetailViewModelFactory(context: Context): ComponentDetailViewModelFactory{
+    fun provideComponentDetailViewModelFactory(
+        context: Context,
+        component: Component
+    ): ComponentDetailViewModelFactory{
         val repository = getAppRepository(context)
-        return ComponentDetailViewModelFactory(repository)
+        return ComponentDetailViewModelFactory(repository, component)
     }
 
     fun provideBuildingViewModelFactory(context: Context): BuildingViewModelFactory{

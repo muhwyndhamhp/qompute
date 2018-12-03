@@ -160,55 +160,17 @@
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="18sp"/>
                 </LinearLayout>
-                <LinearLayout
-                        android:id="@+id/layout_buy_link"
+                <Button
+                        android:id="@+id/bt_buy_bukalapak_affiliate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/item_filter_button_all"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:visibility="gone">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textColor="@color/colorAccent"
-                            android:text="@string/link_pembelian"/>
-                    <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal"
-                            android:gravity="center">
-                        <ImageView
-                                android:id="@+id/iv_tokopedia"
-                                android:clickable="true"
-                                android:layout_width="0dp"
-                                android:layout_weight="0.3"
-                                android:src="@drawable/ic_tokopedia"
-                                android:layout_height="wrap_content"
-                                android:visibility="gone"/>
-                        <ImageView
-                                android:id="@+id/iv_bukalapak"
-                                android:clickable="true"
-                                android:layout_width="0dp"
-                                android:layout_weight="0.3"
-                                android:src="@drawable/ic_bukalapak"
-                                android:layout_height="match_parent"
-                                android:visibility="gone"/>
-                        <ImageView
-                                android:id="@+id/iv_shopee"
-                                android:clickable="true"
-                                android:layout_width="0dp"
-                                android:layout_weight="0.3"
-                                android:src="@drawable/ic_shopee"
-                                android:layout_height="match_parent"
-                                android:visibility="gone"/>
-                    </LinearLayout>
-                </LinearLayout>
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/beli_di_bukalapak"
+                        android:textColor="@color/white"/>
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="500dp"
