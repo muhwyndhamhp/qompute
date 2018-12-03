@@ -28,6 +28,7 @@ class AppRepository private constructor(
                 else componentDao.getComponentsByCategoryAsc(catDec)
             )
         } else {
+            componentDao.deleteAll()
             reloadData1(object : LoadDataCallback {
                 override fun onFailed(TAG: String, t: Throwable) {
                     loadDataCallback.onFailed(TAG, t)
@@ -60,6 +61,7 @@ class AppRepository private constructor(
                 else componentDao.getComponentsByCategoryAsc(catDec, argument1)
             )
         } else {
+            componentDao.deleteAll()
             reloadData1(object : LoadDataCallback {
                 override fun onFailed(TAG: String, t: Throwable) {
                     loadDataCallback.onFailed(TAG, t)
