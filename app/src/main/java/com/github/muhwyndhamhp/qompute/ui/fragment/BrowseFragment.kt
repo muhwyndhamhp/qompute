@@ -41,5 +41,6 @@ class BrowseFragment() : Fragment() {
         adapter = BrowseAdapter(context!!)
         recyclerView.adapter = adapter
         adapter.categories = context!!.resources.getStringArray(R.array.component_categories).toList()
+        recyclerView.scheduleLayoutAnimation()
     }
 }

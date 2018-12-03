@@ -60,6 +60,24 @@
                     />
         </LinearLayout>
 
+        <ImageView
+                android:id="@+id/iv_delete_build"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_rubbish_bin_delete_button"
+                android:tint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="15dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_pen"
+                android:tint="@color/colorAccent"
+                app:layout_constraintTop_toTopOf="@id/iv_delete_build"
+                app:layout_constraintEnd_toStartOf="@id/iv_delete_build"
+                android:layout_marginEnd="20dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

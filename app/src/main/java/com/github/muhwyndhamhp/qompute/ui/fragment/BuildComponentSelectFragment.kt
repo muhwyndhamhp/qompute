@@ -141,7 +141,10 @@ class BuildComponentSelectFragment : Fragment() {
 
         viewModel.componentListA.observe(this, Observer {
             if (adapter == null) prepareRecyclerView(it)
-            else adapter!!.setComponentList(it)
+            else {
+                adapter!!.setComponentList(it)
+                recyclerView.scheduleLayoutAnimation()
+            }
             Handler().postDelayed({
                 if (view!!.swipe_refresh_layout.isRefreshing) view!!.swipe_refresh_layout.isRefreshing = false
             }, 1000)
@@ -169,6 +172,7 @@ class BuildComponentSelectFragment : Fragment() {
         adapter = ComponentSelectionAdapter(context!!, components)
         adapter!!.setCategoryCode(getComponentName(viewModel.componentPosition.value!!))
         recyclerView.adapter = adapter
+        recyclerView.scheduleLayoutAnimation()
     }
 
     fun addComponent(component: Component) {

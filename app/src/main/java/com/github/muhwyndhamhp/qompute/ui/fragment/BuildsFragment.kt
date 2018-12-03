@@ -48,6 +48,7 @@ class BuildsFragment : Fragment() {
             else {
                 adapter.buildList = it
                 adapter.notifyDataSetChanged()
+                recyclerView.scheduleLayoutAnimation()
             }
             if(it.isEmpty()){
                 view.imageView.visibility = View.VISIBLE
@@ -64,5 +65,6 @@ class BuildsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
         adapter = BuildsAdapter(context!!, builds)
         recyclerView.adapter = adapter
+        recyclerView.scheduleLayoutAnimation()
     }
 }
