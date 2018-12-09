@@ -136,4 +136,6 @@
     <string name="ganti_nama_rakitan">Ganti nama rakitan</string>
     <string name="rakitan_kosong">Rakitan tidak boleh kosong!</string>
     <string name="beli_di_bukalapak">Beli di Bukalapak</string>
+    <string name="delete_build">Hapus Rakitan</string>
+    <string name="edit_rakitan">Edit Rakitan</string>
 </resources>

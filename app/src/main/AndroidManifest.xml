@@ -37,6 +37,9 @@
         </activity>
         <activity android:name=".ui.activity.ComponentSelectionActivity">
         </activity>
+        <activity android:name=".ui.activity.BuildPreviewActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

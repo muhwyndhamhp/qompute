@@ -10,19 +10,20 @@ object InjectorUtils {
 
     private fun getAppRepository(context: Context) = AppRepository.getInstance(
         AppDatabase.getInstance(context).componentDao(),
-        AppDatabase.getInstance(context).buildDao())
+        AppDatabase.getInstance(context).buildDao()
+    )
 
     fun provideMainViewModelFactory(context: Context): MainViewModelFactory {
         val repository = getAppRepository(context)
         return MainViewModelFactory(repository)
     }
 
-    fun provideBrowseViewModelFactory(context: Context): BrowseViewModelFactory{
+    fun provideBrowseViewModelFactory(context: Context): BrowseViewModelFactory {
         val repository = getAppRepository(context)
         return BrowseViewModelFactory(repository)
     }
 
-    fun provideComponentListViewModelFactory(context: Context): ComponentListViewModelFactory{
+    fun provideComponentListViewModelFactory(context: Context): ComponentListViewModelFactory {
         val repository = getAppRepository(context)
         return ComponentListViewModelFactory(repository)
     }
@@ -30,18 +31,23 @@ object InjectorUtils {
     fun provideComponentDetailViewModelFactory(
         context: Context,
         component: Component
-    ): ComponentDetailViewModelFactory{
+    ): ComponentDetailViewModelFactory {
         val repository = getAppRepository(context)
         return ComponentDetailViewModelFactory(repository, component)
     }
 
-    fun provideBuildingViewModelFactory(context: Context): BuildingViewModelFactory{
+    fun provideBuildingViewModelFactory(context: Context): BuildingViewModelFactory {
         val repository = getAppRepository(context)
         return BuildingViewModelFactory(repository)
     }
 
-    fun provideBuildsViewModelFactory(context: Context): BuildsViewModelFactory{
+    fun provideBuildsViewModelFactory(context: Context): BuildsViewModelFactory {
         val repository = getAppRepository(context)
         return BuildsViewModelFactory(repository)
+    }
+
+    fun provideBuildPreviewViewModelFactory(context: Context): BuildPreviewViewModelFactory {
+        val repository = getAppRepository(context)
+        return BuildPreviewViewModelFactory(repository)
     }
 }
