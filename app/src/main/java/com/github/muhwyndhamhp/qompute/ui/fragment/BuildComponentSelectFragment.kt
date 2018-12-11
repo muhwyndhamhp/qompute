@@ -42,7 +42,9 @@ class BuildComponentSelectFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (context as BuildingActivity).viewModel
-        view.swipe_refresh_layout.setOnRefreshListener { view.swipe_refresh_layout.isRefreshing = false }
+        view.swipe_refresh_layout.setOnRefreshListener {
+            view.swipe_refresh_layout.isRefreshing = false
+        }
         view.swipe_refresh_layout.setColorSchemeColors(context!!.resources.getColor(R.color.colorAccent))
         getData()
         sortButtonClickListener()
@@ -134,19 +136,28 @@ class BuildComponentSelectFragment : Fragment() {
         viewModel.componentPosition.observe(this, Observer { componentPosition ->
             if (componentPosition != 99) {
                 view!!.swipe_refresh_layout.isRefreshing = true
-                if (adapter != null) adapter!!.setComponentList(listOf())
+                if (adapter != null) {
+                    adapter!!.setComponentList(listOf())
+                    view!!.lottie_components.visibility = View.VISIBLE
+                }
                 Handler().postDelayed({ viewModel.getData(getComponentName(componentPosition)) }, 500)
             }
         })
 
         viewModel.componentListA.observe(this, Observer {
-            if (adapter == null) prepareRecyclerView(it)
+            if (adapter == null) {
+                view!!.lottie_components.visibility  = View.GONE
+                prepareRecyclerView(it)
+            }
             else {
+                view!!.lottie_components.visibility  = View.GONE
                 adapter!!.setComponentList(it)
                 recyclerView.scheduleLayoutAnimation()
             }
             Handler().postDelayed({
-                if (view!!.swipe_refresh_layout.isRefreshing) view!!.swipe_refresh_layout.isRefreshing = false
+                if (view!!.swipe_refresh_layout.isRefreshing) {
+                    view!!.swipe_refresh_layout.isRefreshing = false
+                }
             }, 1000)
             recyclerView.smoothScrollToPosition(0)
         })

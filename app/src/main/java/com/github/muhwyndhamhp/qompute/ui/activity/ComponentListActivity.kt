@@ -3,6 +3,7 @@ package com.github.muhwyndhamhp.qompute.ui.activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -61,12 +62,16 @@ class ComponentListActivity : AppCompatActivity() {
 
     private fun getData() {
         progressDialog.show()
+        lottie_components.visibility = View.VISIBLE
         viewModel.getData(intent.getStringExtra(CATEGORY_CODE))
         viewModel.componentListA.observe(this, Observer {
             if (adapter == null) prepareRecyclerView(it)
             else adapter!!.setComponentList(it)
             when (progressDialog.isShowing) {
-                true -> progressDialog.dismiss()
+                true -> {
+                    progressDialog.dismiss()
+                    lottie_components.visibility = View.GONE
+                }
             }
         })
 
@@ -75,13 +80,19 @@ class ComponentListActivity : AppCompatActivity() {
                 when {
                     it[ERROR_CODE_FAILED_TO_FETCH_PART_1].message != "" -> {
                         when (progressDialog.isShowing) {
-                            true -> progressDialog.dismiss()
+                            true -> {
+                                progressDialog.dismiss()
+                                lottie_components.visibility = View.GONE
+                            }
                         }
                         alert { it[ERROR_CODE_FAILED_TO_FETCH_PART_1] }
                     }
                     it[ERROR_CODE_FAILED_TO_FETCH_PART_2].message != "" -> {
                         when (progressDialog.isShowing) {
-                            true -> progressDialog.dismiss()
+                            true -> {
+                                progressDialog.dismiss()
+                                lottie_components.visibility = View.GONE
+                            }
                         }
                         alert { it[ERROR_CODE_FAILED_TO_FETCH_PART_2] }
                     }
@@ -99,7 +110,10 @@ class ComponentListActivity : AppCompatActivity() {
 
     fun dismissLoading() {
         Timer().schedule(2000) {
-            if (progressDialog.isShowing) progressDialog.dismiss()
+            if (progressDialog.isShowing) {
+                progressDialog.dismiss()
+                lottie_components.visibility = View.GONE
+            }
         }
 
     }

@@ -31,10 +31,12 @@
             android:layoutAnimation="@anim/layout_animation_fall_down"
             android:id="@+id/recyclerView"/>
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:src="@drawable/undraw_empty_xct9"
+            app:lottie_rawRes="@raw/empty_box"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
             android:layout_margin="60dp"
             app:layout_constraintTop_toTopOf="@id/recyclerView"
             app:layout_constraintBottom_toBottomOf="@id/recyclerView"

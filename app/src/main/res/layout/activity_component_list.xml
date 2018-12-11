@@ -176,6 +176,18 @@
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@id/layout_price_bracket"
             app:layout_constraintBottom_toBottomOf="parent"/>
+    <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_components"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:lottie_rawRes="@raw/skeleton_frame_loading"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="@id/recycler_view_component_list"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_view_component_list"
+            app:layout_constraintStart_toStartOf="@id/recycler_view_component_list"
+            app:layout_constraintEnd_toEndOf="@id/recycler_view_component_list"/>
 
     <LinearLayout
             android:layout_width="match_parent"

@@ -157,13 +157,31 @@
             app:layout_constraintBottom_toBottomOf="parent"
 
             >
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_component_list"
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layoutAnimation="@anim/layout_animation_fall_down"
-                />
+                android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_component_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layoutAnimation="@anim/layout_animation_fall_down"
+                    />
+            <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottie_components"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:lottie_rawRes="@raw/skeleton_frame_loading"
+                    app:lottie_loop="true"
+                    android:background="@color/white"
+                    app:lottie_autoPlay="true"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintTop_toTopOf="@id/recycler_view_component_list"
+                    app:layout_constraintBottom_toBottomOf="@id/recycler_view_component_list"
+                    app:layout_constraintStart_toStartOf="@id/recycler_view_component_list"
+                    app:layout_constraintEnd_toEndOf="@id/recycler_view_component_list"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
