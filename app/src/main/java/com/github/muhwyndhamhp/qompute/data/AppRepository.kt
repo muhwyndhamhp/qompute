@@ -179,6 +179,10 @@ class AppRepository private constructor(
         argument1: String
     ) = componentDao.getComponentsByCategorySearchFilteredMinMax(catDesc, string, minValString, maxValString, argument1)
 
+    fun deleteBuild(build: Build) {
+        buildDao.deleteSingleBuild(build)
+    }
+
 
     companion object {
         private const val TAG = "REPO"

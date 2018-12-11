@@ -9,6 +9,9 @@ class BuildPreviewViewModel(
     val appRepository: AppRepository,
     val build: Build
 ): ViewModel(){
+    fun deleteBuild() {
+        appRepository.deleteBuild(build)
+    }
 
 
     val buildData: MutableLiveData<Build> = MutableLiveData()

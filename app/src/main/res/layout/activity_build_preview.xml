@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
             <ImageButton
-                    android:id="@+id/ib_back_button_building"
+                    android:id="@+id/ib_back_button_preview"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.05"
@@ -58,7 +58,7 @@
                         android:inputType="text"/>
             </LinearLayout>
             <ImageButton
-                    android:id="@+id/bt_edit_build_name"
+                    android:id="@+id/bt_edit_build"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"
@@ -67,7 +67,7 @@
                     android:tint="@color/white"
                     />
             <ImageButton
-                    android:id="@+id/bt_build_delete"
+                    android:id="@+id/bt_delete_build"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"

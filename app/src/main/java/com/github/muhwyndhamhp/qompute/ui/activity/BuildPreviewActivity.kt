@@ -15,7 +15,10 @@ import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildPreviewViewModel
 import kotlinx.android.synthetic.main.activity_build_preview.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.yesButton
 import java.text.NumberFormat
 import java.util.*
 
@@ -45,11 +48,21 @@ class BuildPreviewActivity : AppCompatActivity() {
                 .format(it.totalPrice)
         })
 
-        bt_edit_build_name.onClick {
+        bt_edit_build.onClick {
             val intent = Intent(this@BuildPreviewActivity, BuildingActivity::class.java)
             intent.putExtra(BUILD_ID_DB, viewModel.build)
             startActivity(intent)
         }
+        bt_delete_build.onClick {
+            alert ("Anda yakin akan menghapus rakitan ini?"){
+                yesButton {
+                    viewModel.deleteBuild()
+                    onBackPressed()
+                }
+                noButton {  }
+            }.show()
+        }
+        ib_back_button_preview.onClick { onBackPressed() }
 
     }
 

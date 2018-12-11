@@ -76,6 +76,9 @@ dependencies {
     //Switch Button
     implementation 'lib.kingja.switchbutton:switchbutton:1.1.7'
 
+    //lottie
+    implementation 'com.airbnb.android:lottie:2.8.0'
+
 }
 
 kotlin {
