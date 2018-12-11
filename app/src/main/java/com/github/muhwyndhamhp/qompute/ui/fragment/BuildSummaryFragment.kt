@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
@@ -25,6 +25,8 @@ class BuildSummaryFragment : Fragment() {
     private lateinit var adapter: BuildingAdapter
     private lateinit var recyclerview: RecyclerView
     lateinit var viewModel: BuildingViewModel
+    private var isFirstCpu = false
+    private var isFirstSocket = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_build_summary, container, false)
@@ -34,12 +36,8 @@ class BuildSummaryFragment : Fragment() {
 
         viewModel = (context as BuildingActivity).viewModel
 
-        setProcessorType()
         prepareComponentRecyclerView()
-        processor_switch.selectedTab = 1
-        Handler().postDelayed({
-            processor_switch.selectedTab = 0
-        }, 100)
+        setProcessorType()
     }
 
     private fun prepareComponentRecyclerView() {
@@ -56,30 +54,64 @@ class BuildSummaryFragment : Fragment() {
                 0 -> {
                     socket_switch_intel.visibility = View.VISIBLE; socket_switch_amd.visibility = View.GONE
                     viewModel.cpuBrand.value = position
-                    viewModel.socketType.value = socket_switch_intel.selectedTab
-                    viewModel.updateProcessorType()
-                    adapter.clearProcessor()
+                    viewModel.build.value!!.cpuType = position
+                    if (isFirstCpu) isFirstCpu = false
+                    else {
+                        viewModel.socketType.value = socket_switch_intel.selectedTab
+                        viewModel.build.value!!.socketType = socket_switch_intel.selectedTab
+                        viewModel.updateProcessorType()
+                        adapter.clearProcessor()
+                    }
                 }
                 1 -> {
                     socket_switch_intel.visibility = View.GONE; socket_switch_amd.visibility = View.VISIBLE
                     viewModel.cpuBrand.value = position
-                    viewModel.socketType.value = socket_switch_amd.selectedTab
-                    viewModel.updateProcessorType()
-                    adapter.clearProcessor()
+                    viewModel.build.value!!.cpuType = position
+                    if (isFirstCpu) isFirstCpu = false
+                    else {
+                        viewModel.socketType.value = socket_switch_amd.selectedTab
+                        viewModel.build.value!!.socketType = socket_switch_amd.selectedTab
+                        viewModel.updateProcessorType()
+                        adapter.clearProcessor()
+                    }
+
                 }
             }
         }
         socket_switch_intel.setOnSwitchListener { position, _ ->
             viewModel.cpuBrand.value = processor_switch.selectedTab
+            viewModel.build.value!!.cpuType = processor_switch.selectedTab
             viewModel.socketType.value = position
-            viewModel.updateProcessorType()
-            adapter.clearProcessor()
+            viewModel.build.value!!.socketType = position
+            if (isFirstSocket) isFirstSocket = false
+            else {
+                viewModel.updateProcessorType()
+                adapter.clearProcessor()
+            }
         }
         socket_switch_amd.setOnSwitchListener { position, _ ->
             viewModel.cpuBrand.value = processor_switch.selectedTab
+            viewModel.build.value!!.cpuType = processor_switch.selectedTab
             viewModel.socketType.value = position
-            viewModel.updateProcessorType()
-            adapter.clearProcessor()
+            viewModel.build.value!!.socketType = position
+            if (isFirstSocket) isFirstSocket = false
+            else {
+                viewModel.updateProcessorType()
+                adapter.clearProcessor()
+            }
+        }
+
+        if (viewModel.build.value!!.id == 0.toLong()) {
+            processor_switch.selectedTab = 1
+            Handler().postDelayed({
+                processor_switch.selectedTab = 0
+            }, 100)
+        } else {
+            isFirstCpu = true
+            isFirstSocket = true
+            processor_switch.selectedTab = viewModel.build.value!!.cpuType
+            if(viewModel.build.value!!.cpuType == 0) socket_switch_intel.selectedTab = viewModel.build.value!!.socketType
+            else socket_switch_amd.selectedTab = viewModel.build.value!!.socketType
         }
     }
 

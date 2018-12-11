@@ -3,6 +3,7 @@ package com.github.muhwyndhamhp.qompute.utils
 import android.content.Context
 import com.github.muhwyndhamhp.qompute.data.AppRepository
 import com.github.muhwyndhamhp.qompute.data.database.AppDatabase
+import com.github.muhwyndhamhp.qompute.data.model.Build
 import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.viewmodel.factory.*
 
@@ -46,8 +47,11 @@ object InjectorUtils {
         return BuildsViewModelFactory(repository)
     }
 
-    fun provideBuildPreviewViewModelFactory(context: Context): BuildPreviewViewModelFactory {
+    fun provideBuildPreviewViewModelFactory(
+        context: Context,
+        build: Build
+    ): BuildPreviewViewModelFactory {
         val repository = getAppRepository(context)
-        return BuildPreviewViewModelFactory(repository)
+        return BuildPreviewViewModelFactory(repository, build)
     }
 }

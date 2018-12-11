@@ -19,120 +19,86 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp">
-
-            <TextView
+                android:orientation="horizontal">
+            <ImageButton
+                    android:id="@+id/ib_back_button_building"
                     android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:paddingEnd="15dp"
+                    android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+                    android:background="@color/colorPrimary"
+                    android:tint="@color/white"/>
+            <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/daftar_komponen"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold|italic"/>
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+                <TextView
+                        android:id="@+id/tv_build_title_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/harga_total"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold|italic"/>
+                <TextView
+                        android:id="@+id/tv_build_title_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Build Ini"
+                        android:textSize="14sp"/>
+                <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Build Ini"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        android:inputType="text"/>
+            </LinearLayout>
+            <ImageButton
+                    android:id="@+id/bt_edit_build_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_pen"
+                    android:background="@color/colorPrimary"
+                    android:tint="@color/white"
+                    />
+            <ImageButton
+                    android:id="@+id/bt_build_delete"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_rubbish_bin_delete_button"
+                    android:background="@color/colorPrimary"
+                    android:tint="@color/white"
+                    />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.cardview.widget.CardView
-            android:id="@+id/card_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar_component_list"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:cardCornerRadius="20dp"
-            android:layout_marginEnd="8dp"
-            app:cardElevation="2dp">
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:layout_marginBottom="10dp"
-                android:gravity="center">
-
-            <TextView
-                    android:id="@+id/tv_build_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="16sp"
-                    android:text="Rakitan Ryzen Terbaru"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"/>
-            <TextView
-                    android:id="@+id/tv_build_total_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:text="Rp. 6.000.000,-"
-                    android:textColor="@color/colorAccent"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_components"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/card_search"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/toolbar_component_list"
+            app:layout_constraintVertical_bias="0"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toTopOf="@id/bt_buy_bukalapak_affiliate"/>
 
-    <LinearLayout
+    <Button
+            android:id="@+id/bt_buy_bukalapak_affiliate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="@drawable/item_filter_button_all"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:gravity="center_vertical"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="8dp"
-            android:elevation="10dp"
-            android:padding="3dp"
-            app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-                android:id="@+id/bt_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/edit_rakitan"
-                android:textAllCaps="false"
-                android:background="@drawable/item_filter_button_left"
-                android:padding="10dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="15dp"
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                />
-        <View
-                android:layout_width="3dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="5dp"
-                />
-
-        <Button
-                android:id="@+id/bt_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/delete_build"
-                android:textAllCaps="false"
-                android:background="@drawable/item_filter_button_right"
-                android:padding="10dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
-                android:textColor="@color/white"
-                />
-    </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/dapatkan_link_bukalapak"
+            android:textColor="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

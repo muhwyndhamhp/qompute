@@ -2,6 +2,7 @@ package com.github.muhwyndhamhp.qompute.ui.activity
 
 import android.app.Dialog
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Button
@@ -15,6 +16,7 @@ import com.github.muhwyndhamhp.qompute.data.model.Component
 import com.github.muhwyndhamhp.qompute.ui.adapter.BuildingPagerAdapter
 import com.github.muhwyndhamhp.qompute.ui.fragment.BuildComponentSelectFragment
 import com.github.muhwyndhamhp.qompute.ui.fragment.BuildSummaryFragment
+import com.github.muhwyndhamhp.qompute.utils.BUILD_DATA_CODE
 import com.github.muhwyndhamhp.qompute.utils.BUILD_ID_DB
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildingViewModel
@@ -36,13 +38,18 @@ class BuildingActivity : AppCompatActivity() {
     private lateinit var viewPagerAdapter: BuildingPagerAdapter
     lateinit var viewModel: BuildingViewModel
 
+    @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_building)
 
         viewModelFactory ?: InjectorUtils.provideBuildingViewModelFactory(this).also { viewModelFactory = it }
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(BuildingViewModel::class.java)
-        viewModel.initiateBuildObject(getBuildObjectIntent())
+        viewModel.initiateBuildObject(
+            if (intent.getSerializableExtra(BUILD_ID_DB) != null) intent.getSerializableExtra(
+                BUILD_ID_DB
+            ) as Build else null
+        )
 
         viewModel.build.observe(this, Observer {
             updateUi(it)
@@ -94,7 +101,6 @@ class BuildingActivity : AppCompatActivity() {
             .format(it.totalPrice)
     }
 
-    fun getBuildObjectIntent() = intent.getLongExtra(BUILD_ID_DB, 0)
 
     fun changeFragment(fragmentId: Int, position: Int?) {
         view_pager_build.currentItem = fragmentId
@@ -129,13 +135,30 @@ class BuildingActivity : AppCompatActivity() {
         if (fragmentId == 1) {
             changeFragment(0, null)
         } else {
-            if(viewModel.build.value!!.totalPrice != 0.toLong() || viewModel.build.value!!.name != ""){
-                alert("Kembali ke beranda sekarang akan menghapus rakitan anda, Anda yakin?"){
-                    okButton { super.onBackPressed() }
+            if ((viewModel.build.value!!.totalPrice != 0.toLong() || viewModel.build.value!!.name != "")
+                && intent.getSerializableExtra(BUILD_ID_DB) == null
+            ) {
+                alert("Kembali ke beranda sekarang akan menghapus rakitan anda, Anda yakin?") {
+                    okButton { startActivity(Intent(this@BuildingActivity, MainActivity::class.java)) }
                     cancelButton {}
                 }.show()
-            } else{
-                super.onBackPressed()
+            } else if ((viewModel.build.value!!.totalPrice != 0.toLong() || viewModel.build.value!!.name != "")
+                && intent.getSerializableExtra(BUILD_ID_DB) != null
+            ) {
+                alert("Kembali ke beranda sekarang akan menghapus perubahan yang anda buat, Anda yakin?") {
+                    okButton {
+                        super.onBackPressed()
+                    }
+                    cancelButton {}
+                }.show()
+            } else {
+                if(intent.getSerializableExtra(BUILD_ID_DB) != null){
+                    val intent  = Intent(this@BuildingActivity, MainActivity::class.java)
+                    intent.putExtra(BUILD_DATA_CODE, viewModel.build.value!!)
+                    startActivity(intent)
+                } else {
+                    startActivity(Intent(this@BuildingActivity, MainActivity::class.java))
+                }
             }
         }
     }

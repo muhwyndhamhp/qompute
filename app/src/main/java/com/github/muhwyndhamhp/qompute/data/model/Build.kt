@@ -39,6 +39,12 @@ class Build(
 
 
     @SerializedName("total_price") @Expose
-    var totalPrice: Long?
+    var totalPrice: Long?,
+
+    @SerializedName("cpu_type") @Expose
+    var cpuType: Int = 0,
+
+    @SerializedName("socket_type") @Expose
+    var socketType: Int = 0
 
 ) : Serializable
