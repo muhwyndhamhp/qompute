@@ -33,11 +33,12 @@ class BuildingAdapter(
             buildingAdapter: BuildingAdapter
         ) {
             this.componentListPosition = componentListPosition
-            itemView.tv_component_name_build.text = when(componentName){
+            itemView.tv_component_name_build.text = when (componentName) {
                 "" -> context.resources.getStringArray(R.array.build_component_list).toList()[componentListPosition]
-                else ->componentName
+                else -> componentName
             }
-            itemView.spinner_item_count.setSelection(componentCount-1)
+
+            itemView.spinner_item_count.setSelection(componentCount - 1)
             itemView.spinner_item_count.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -51,22 +52,9 @@ class BuildingAdapter(
                 }
 
             }
-
-            itemView.tv_component_name_build.onClick {
-                startComponentSelectionActivity(
-                    context,
-                    getComponentPositionOnList(componentListPosition, viewModel),
-                    viewModel
-                )
-                viewModel.componentInBuildPosition.value = componentListPosition
-            }
-            itemView.iv_delete_component.onClick {
-                viewModel.deleteComponent(componentListPosition)
-                buildingAdapter.notifyItemChanged(componentListPosition)
-            }
         }
 
-        private fun getComponentPositionOnList(
+        fun getComponentPositionOnList(
             componentListPosition: Int,
             viewModel: BuildingViewModel
         ): Int {
@@ -93,13 +81,13 @@ class BuildingAdapter(
                 19 -> 11
                 else -> 0
             }
+
         }
 
         private fun startComponentSelectionActivity(context: Context, componentId: Int, viewModel: BuildingViewModel) {
             (context as BuildingActivity).changeFragment(1, null)
             viewModel.setComponentPosition(componentId)
         }
-
 
 
     }
@@ -114,18 +102,33 @@ class BuildingAdapter(
         })
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(
-            LayoutInflater
-                .from(parent.context)
-                .inflate(
-                    R.layout.item_build_component,
-                    parent,
-                    false
-                )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater
+            .from(parent.context)
+            .inflate(
+                R.layout.item_build_component,
+                parent,
+                false
+            )
+        val vh = ViewHolder(view)
 
-    override fun getItemCount() = if(::componentList.isInitialized) componentList.size else 0
+        vh.apply {
+            itemView.tv_component_name_build.onClick {
+                (context as BuildingActivity).changeFragment(1, null)
+                viewModel.setComponentPosition(getComponentPositionOnList(vh.adapterPosition, viewModel))
+                viewModel.componentInBuildPosition.value = vh.adapterPosition
+            }
+            itemView.iv_delete_component.onClick {
+                viewModel.deleteComponent(vh.adapterPosition)
+                notifyItemChanged(vh.adapterPosition)
+            }
+        }
+
+        return vh
+    }
+
+
+    override fun getItemCount() = if (::componentList.isInitialized) componentList.size else 0
 
     override fun onBindViewHolder(holder: BuildingAdapter.ViewHolder, position: Int) {
         holder.bindView(context, componentList[position], viewModel, position, componentCount[position], this)

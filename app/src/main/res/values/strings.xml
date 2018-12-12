@@ -135,10 +135,11 @@
     <string name="save">Save</string>
     <string name="ganti_nama_rakitan">Ganti nama rakitan</string>
     <string name="rakitan_kosong">Rakitan tidak boleh kosong!</string>
-    <string name="beli_di_bukalapak">Beli di Bukalapak</string>
+    <string name="beli_di_bukalapak">Beli di Bukalapak Sekarang!</string>
     <string name="delete_build">Hapus Rakitan</string>
     <string name="edit_rakitan">Edit Rakitan</string>
     <string name="placeholder_item_count">3 Item</string>
     <string name="placeholder_price">Rp. 2.000.000,-</string>
-    <string name="dapatkan_link_bukalapak">Dapatkan Link Bukalapak</string>
+    <string name="dapatkan_link_bukalapak">Beli Sekarang!</string>
+    <string name="detail_komponen">Detail Komponen</string>
 </resources>

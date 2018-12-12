@@ -40,10 +40,7 @@ class ComponentListActivity : AppCompatActivity() {
 
         progressDialog = indeterminateProgressDialog("Memuat data dari database...", "Loading")
 
-        setSupportActionBar(toolbar_component_list)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        toolbar_component_list.setNavigationOnClickListener { onBackPressed() }
+        ib_back_button.onClick { onBackPressed() }
 
         val factory = InjectorUtils.provideComponentListViewModelFactory(this)
         viewModel = ViewModelProviders.of(this, factory).get(ComponentListViewModel::class.java)

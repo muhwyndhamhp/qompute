@@ -20,6 +20,7 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:orientation="horizontal">
             <ImageButton
                     android:id="@+id/ib_back_button_building"

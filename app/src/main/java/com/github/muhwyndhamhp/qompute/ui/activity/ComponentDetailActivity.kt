@@ -30,7 +30,6 @@ class ComponentDetailActivity : AppCompatActivity() {
         val factory = InjectorUtils.provideComponentDetailViewModelFactory(this, intent.getSerializableExtra(COMPONENT_CODE) as Component)
         viewModel = ViewModelProviders.of(this, factory).get(ComponentDetailViewModel::class.java)
 
-        if (actionBar != null) actionBar!!.setDisplayHomeAsUpEnabled(true)
         initActivity()
     }
 
@@ -65,10 +64,7 @@ class ComponentDetailActivity : AppCompatActivity() {
     }
 
     private fun setActionBarSetting() {
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        ib_back_button.onClick { onBackPressed() }
     }
 
     private fun setImageView() {

@@ -45,6 +45,8 @@ class BuildSummaryFragment : Fragment() {
         recyclerview.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         adapter = BuildingAdapter(context!!, this, viewModel)
         recyclerview.setItemViewCacheSize(20)
+        recyclerview.isDrawingCacheEnabled = true
+        recyclerview.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         recyclerview.adapter = adapter
     }
 

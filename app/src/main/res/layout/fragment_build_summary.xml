@@ -6,71 +6,81 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:id="@+id/linear_layout"
-            >
+            android:id="@+id/linear_layout">
+
         <TextView
                 android:id="@+id/tv_processor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/pilih_platform"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
+
         <lib.kingja.switchbutton.SwitchMultiButton
                 android:id="@+id/processor_switch"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="5dp"
                 app:strokeRadius="5dp"
                 app:strokeWidth="1dp"
                 app:selectedTab="0"
                 app:selectedColor="@color/colorAccent"
                 app:switchTabs="@array/processor_type"
-                app:textSize="14sp" />
+                app:textSize="14sp"
+                android:elevation="5dp"
+                />
+
         <TextView
                 android:id="@+id/tv_socket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/socket"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@color/white">
+
             <lib.kingja.switchbutton.SwitchMultiButton
                     android:id="@+id/socket_switch_intel"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    app:strokeRadius="5dp"
-                    app:strokeWidth="0.5dp"
-                    app:selectedTab="0"
-                    app:selectedColor="@color/colorPrimary"
-                    app:switchTabs="@array/socket_intel"
                     app:textSize="10sp"
-                    tools:ignore="SmallSp"/>
+                    tools:ignore="SmallSp"
+                    app:switchTabs="@array/socket_intel"
+                    android:padding="5dp"
+                    app:selectedTab="0"
+                    app:strokeWidth="0.5dp"
+                    app:strokeRadius="5dp"
+                    app:selectedColor="@color/colorPrimary"
+                    android:elevation="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    />
+
             <lib.kingja.switchbutton.SwitchMultiButton
                     android:id="@+id/socket_switch_amd"
                     android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="5dp"
                     app:strokeRadius="5dp"
                     app:strokeWidth="0.5dp"
                     app:selectedTab="0"
@@ -79,6 +89,7 @@
                     app:textSize="10sp"
                     tools:ignore="SmallSp"/>
         </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/component_list_recycler_view"
                 android:layout_width="match_parent"
