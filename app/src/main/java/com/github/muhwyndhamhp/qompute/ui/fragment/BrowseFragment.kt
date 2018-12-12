@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.ui.adapter.BrowseAdapter
+import com.github.muhwyndhamhp.qompute.ui.fragment.BrowseFragment.RecyclerViewInterface
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BrowseViewModel
 import kotlinx.android.synthetic.main.fragment_browse.*
@@ -18,6 +19,7 @@ class BrowseFragment() : Fragment() {
     companion object {
         fun newInstance() = BrowseFragment()
     }
+
 
     private lateinit var viewModel: BrowseViewModel
     private lateinit var recyclerView: RecyclerView
@@ -42,5 +44,15 @@ class BrowseFragment() : Fragment() {
         recyclerView.adapter = adapter
         adapter.categories = context!!.resources.getStringArray(R.array.component_categories).toList()
         recyclerView.scheduleLayoutAnimation()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        recyclerView.adapter = null
+
+    }
+
+    interface RecyclerViewInterface {
+        fun showLoading(message: String, title: String)
     }
 }

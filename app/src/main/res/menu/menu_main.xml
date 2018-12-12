@@ -11,6 +11,6 @@
         android:icon="@drawable/ic_compass"/>
     <item
         android:id="@+id/profile"
-        android:title="@string/profil"
-        android:icon="@drawable/ic_architect"/>
+        android:title="@string/tentang_aplikasi"
+        android:icon="@drawable/ic_info_black_24dp"/>
 </menu>
