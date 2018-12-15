@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
@@ -17,13 +16,7 @@ import kotlinx.android.synthetic.main.fragment_build_summary.*
 
 class BuildSummaryFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = BuildSummaryFragment
-    }
-
-
     private lateinit var adapter: BuildingAdapter
-    private lateinit var recyclerview: RecyclerView
     lateinit var viewModel: BuildingViewModel
     private var isFirstCpu = false
     private var isFirstSocket = false
@@ -41,13 +34,15 @@ class BuildSummaryFragment : Fragment() {
     }
 
     private fun prepareComponentRecyclerView() {
-        recyclerview = component_list_recycler_view
-        recyclerview.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         adapter = BuildingAdapter(context!!, this, viewModel)
-        recyclerview.setItemViewCacheSize(20)
-        recyclerview.isDrawingCacheEnabled = true
-        recyclerview.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
-        recyclerview.adapter = adapter
+        component_list_recycler_view.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            setItemViewCacheSize(20)
+            isDrawingCacheEnabled = true
+            drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
+        }
+
+        component_list_recycler_view.adapter = adapter
     }
 
     private fun setProcessorType() {
@@ -81,10 +76,12 @@ class BuildSummaryFragment : Fragment() {
             }
         }
         socket_switch_intel.setOnSwitchListener { position, _ ->
-            viewModel.cpuBrand.value = processor_switch.selectedTab
-            viewModel.build.value!!.cpuType = processor_switch.selectedTab
-            viewModel.socketType.value = position
-            viewModel.build.value!!.socketType = position
+            viewModel.apply {
+                cpuBrand.value = processor_switch.selectedTab
+                build.value!!.cpuType = processor_switch.selectedTab
+                socketType.value = position
+                build.value!!.socketType = position
+            }
             if (isFirstSocket) isFirstSocket = false
             else {
                 viewModel.updateProcessorType()
@@ -92,10 +89,12 @@ class BuildSummaryFragment : Fragment() {
             }
         }
         socket_switch_amd.setOnSwitchListener { position, _ ->
-            viewModel.cpuBrand.value = processor_switch.selectedTab
-            viewModel.build.value!!.cpuType = processor_switch.selectedTab
-            viewModel.socketType.value = position
-            viewModel.build.value!!.socketType = position
+            viewModel.apply {
+                cpuBrand.value = processor_switch.selectedTab
+                build.value!!.cpuType = processor_switch.selectedTab
+                socketType.value = position
+                build.value!!.socketType = position
+            }
             if (isFirstSocket) isFirstSocket = false
             else {
                 viewModel.updateProcessorType()
@@ -112,7 +111,8 @@ class BuildSummaryFragment : Fragment() {
             isFirstCpu = true
             isFirstSocket = true
             processor_switch.selectedTab = viewModel.build.value!!.cpuType
-            if(viewModel.build.value!!.cpuType == 0) socket_switch_intel.selectedTab = viewModel.build.value!!.socketType
+            if (viewModel.build.value!!.cpuType == 0) socket_switch_intel.selectedTab =
+                    viewModel.build.value!!.socketType
             else socket_switch_amd.selectedTab = viewModel.build.value!!.socketType
         }
     }

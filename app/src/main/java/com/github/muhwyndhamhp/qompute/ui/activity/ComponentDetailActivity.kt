@@ -87,4 +87,13 @@ class ComponentDetailActivity : AppCompatActivity() {
             categories[13] -> Glide.with(this).load(R.drawable.ic_graphic_card).into(iv_category)
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        web_view.clearCache(true)
+        web_view.clearFormData()
+        web_view.clearView()
+        web_view.loadUrl("about:blank")
+        finish()
+    }
 }

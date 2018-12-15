@@ -18,7 +18,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     val componentPosition: MutableLiveData<Int> = MutableLiveData()
     val componentInBuildPosition: MutableLiveData<Int> = MutableLiveData()
     val componentListA: MutableLiveData<List<Component>> = MutableLiveData()
-    val currentSubcategory: MutableLiveData<String> = MutableLiveData()
+    private val currentSubcategory: MutableLiveData<String> = MutableLiveData()
     val exceptionList = MutableLiveData<MutableList<Throwable>>()
     val tagList = MutableLiveData<MutableList<String>>()
 
@@ -65,38 +65,40 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
 
     fun getData(catDesc: String) {
         when (catDesc) {
-            "coolerfan", "motherboard", "processor", "memoryram" ->getDataWithArgument(
+            "coolerfan", "motherboard", "processor", "memoryram" -> getDataWithArgument(
                 catDesc,
                 "%${currentSubcategory.value!!}%"
             )
             else -> {
-                doAsync { appRepository.getComponentsByCategoryAsc(catDesc, object : AppRepository.LoadDataCallback {
-                    override fun onFailed(TAG: String, t: Throwable) {
-                        uiThread {
-                            exceptionList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, t)
-                            tagList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, TAG)
+                doAsync {
+                    appRepository.getComponentsByCategoryAsc(catDesc, object : AppRepository.LoadDataCallback {
+                        override fun onFailed(TAG: String, t: Throwable) {
+                            uiThread {
+                                exceptionList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, t)
+                                tagList.value?.set(ERROR_CODE_FAILED_TO_FETCH_PART_1, TAG)
+                            }
                         }
-                    }
 
-                    override fun onSuccess(components: List<Component>) {
-                        uiThread { componentListA.value = components }
+                        override fun onSuccess(components: List<Component>) {
+                            uiThread { componentListA.value = components }
 
 
-                    }
-                }) }
+                        }
+                    })
+                }
             }
         }
 
     }
 
-    fun updateBuildPrice() {
+    private fun updateBuildPrice() {
         var currentTotal = 0.toLong()
         for (i in build.value!!.componentPrice!!.indices) {
             currentTotal += (build.value!!.componentPrice!![i] * build.value!!.componentCount!![i])
         }
         val temp = build.value!!
         temp.totalPrice = currentTotal
-        build.value  = temp
+        build.value = temp
     }
 
     private fun getDataWithArgument(catDesc: String, value: String) {
@@ -127,59 +129,71 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
     }
 
     fun getDataFromSearch(catDesc: String, queryString: String) {
-        val string = "%$queryString%"
         when (catDesc) {
             "coolerfan", "motherboard", "processor", "memoryram" -> componentListA.value =
-                    appRepository.getComponentsByCategorySearch(catDesc, string, "%${currentSubcategory.value!!}%")
+                    appRepository.getComponentsByCategorySearch(
+                        catDesc,
+                        "%$queryString%",
+                        "%${currentSubcategory.value!!}%"
+                    )
             else -> componentListA.value =
-                    appRepository.getComponentsByCategorySearch(catDesc, string)
+                    appRepository.getComponentsByCategorySearch(catDesc, "%$queryString%")
         }
     }
 
     fun getDataFromSearchFilteredMin(catDesc: String, queryString: String, minVal: Long) {
-        val string = "%$queryString%"
         when (catDesc) {
             "coolerfan", "motherboard", "processor", "memoryram" -> componentListA.value =
                     appRepository.getComponentsByCategorySearchFilteredMin(
                         catDesc,
-                        string,
+                        "%$queryString%",
                         minVal,
                         "%${currentSubcategory.value!!}%"
                     )
             else -> componentListA.value =
-                    appRepository.getComponentsByCategorySearchFilteredMin(catDesc, string, minVal)
+                    appRepository.getComponentsByCategorySearchFilteredMin(
+                        catDesc,
+                        "%$queryString%",
+                        minVal
+                    )
         }
     }
 
     fun getDataFromSearchFilteredMax(catDesc: String, queryString: String, maxVal: Long) {
-        val string = "%$queryString%"
-
         when (catDesc) {
             "coolerfan", "motherboard", "processor", "memoryram" -> componentListA.value =
                     appRepository.getComponentsByCategorySearchFilteredMax(
                         catDesc,
-                        string,
+                        "%$queryString%",
                         maxVal,
                         "%${currentSubcategory.value!!}%"
                     )
             else -> componentListA.value =
-                    appRepository.getComponentsByCategorySearchFilteredMax(catDesc, string, maxVal)
+                    appRepository.getComponentsByCategorySearchFilteredMax(
+                        catDesc,
+                        "%$queryString%",
+                        maxVal
+                    )
         }
     }
 
     fun getDataFromSearchFilteredMinMax(catDesc: String, queryString: String, minVal: Long, maxVal: Long) {
-        val string = "%$queryString%"
         when (catDesc) {
             "coolerfan", "motherboard", "processor", "memoryram" -> componentListA.value =
                     appRepository.getComponentsByCategorySearchFilteredMinMax(
                         catDesc,
-                        string,
+                        "%$queryString%",
                         minVal,
                         maxVal,
                         "%${currentSubcategory.value!!}%"
                     )
             else -> componentListA.value =
-                    appRepository.getComponentsByCategorySearchFilteredMinMax(catDesc, string, minVal, maxVal)
+                    appRepository.getComponentsByCategorySearchFilteredMinMax(
+                        catDesc,
+                        "%$queryString%",
+                        minVal,
+                        maxVal
+                    )
         }
     }
 

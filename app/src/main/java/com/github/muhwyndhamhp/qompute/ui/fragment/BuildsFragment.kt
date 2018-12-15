@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.muhwyndhamhp.qompute.R
 import com.github.muhwyndhamhp.qompute.data.model.Build
 import com.github.muhwyndhamhp.qompute.ui.activity.BuildingActivity
+import com.github.muhwyndhamhp.qompute.ui.activity.MainActivity
 import com.github.muhwyndhamhp.qompute.ui.adapter.BuildsAdapter
 import com.github.muhwyndhamhp.qompute.utils.InjectorUtils
 import com.github.muhwyndhamhp.qompute.viewmodel.BuildsViewModel
@@ -63,8 +64,18 @@ class BuildsFragment : Fragment() {
     private fun prepareRecyclerView(builds: List<Build>) {
         recyclerView = view!!.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
-        adapter = BuildsAdapter(context!!, builds)
+        adapter = BuildsAdapter((context!! as MainActivity), builds)
         recyclerView.adapter = adapter
         recyclerView.scheduleLayoutAnimation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        recyclerView.adapter = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(::adapter.isInitialized) recyclerView.adapter = adapter
     }
 }

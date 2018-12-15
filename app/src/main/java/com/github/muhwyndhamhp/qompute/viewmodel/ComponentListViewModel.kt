@@ -9,7 +9,7 @@ import com.github.muhwyndhamhp.qompute.utils.ERROR_CODE_FAILED_TO_FETCH_PART_1
 
 class ComponentListViewModel(private val appRepository: AppRepository) : ViewModel() {
 
-    val componentListA = MutableLiveData<List<Component>>() //master list
+    val componentListA = MutableLiveData<List<Component>>()
 
     val exceptionList = MutableLiveData<MutableList<Throwable>>()
     val tagList = MutableLiveData<MutableList<String>>()
@@ -29,22 +29,18 @@ class ComponentListViewModel(private val appRepository: AppRepository) : ViewMod
     }
 
     fun getDataFromSearch(catDesc: String, queryString: String) {
-        val string = "%$queryString%"
-        componentListA.value = appRepository.getComponentsByCategorySearch(catDesc, string)
+        componentListA.value = appRepository.getComponentsByCategorySearch(catDesc, "%$queryString%")
     }
 
     fun getDataFromSearchFilteredMin(catDesc: String, queryString: String, minVal: Long) {
-        val string = "%$queryString%"
-        componentListA.value = appRepository.getComponentsByCategorySearchFilteredMin(catDesc, string, minVal)
+        componentListA.value = appRepository.getComponentsByCategorySearchFilteredMin(catDesc, "%$queryString%", minVal)
     }
 
     fun getDataFromSearchFilteredMax(catDesc: String, queryString: String, maxVal: Long) {
-        val string = "%$queryString%"
-        componentListA.value = appRepository.getComponentsByCategorySearchFilteredMax(catDesc, string, maxVal)
+        componentListA.value = appRepository.getComponentsByCategorySearchFilteredMax(catDesc, "%$queryString%", maxVal)
     }
 
     fun getDataFromSearchFilteredMinMax(catDesc: String, queryString: String, minVal: Long, maxVal: Long) {
-        val string = "%$queryString%"
-        componentListA.value = appRepository.getComponentsByCategorySearchFilteredMinMax(catDesc, string, minVal, maxVal)
+        componentListA.value = appRepository.getComponentsByCategorySearchFilteredMinMax(catDesc, "%$queryString%", minVal, maxVal)
     }
 }

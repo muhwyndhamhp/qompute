@@ -14,14 +14,8 @@ object InjectorUtils {
         AppDatabase.getInstance(context).buildDao()
     )
 
-    fun provideMainViewModelFactory(context: Context): MainViewModelFactory {
-        val repository = getAppRepository(context)
-        return MainViewModelFactory(repository)
-    }
-
-    fun provideBrowseViewModelFactory(context: Context): BrowseViewModelFactory {
-        val repository = getAppRepository(context)
-        return BrowseViewModelFactory(repository)
+    fun provideMainViewModelFactory(): MainViewModelFactory {
+        return MainViewModelFactory()
     }
 
     fun provideComponentListViewModelFactory(context: Context): ComponentListViewModelFactory {
