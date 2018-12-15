@@ -28,12 +28,6 @@ import java.util.*
 import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity(), MainRecyclerViewCommunicator {
-    override fun startBuildPreviewActivity(build: Build) {
-        val intent = Intent(this, BuildPreviewActivity::class.java)
-        intent.putExtra(BUILD_DATA_CODE, build)
-        startActivity(intent)
-    }
-
 
     private lateinit var viewModel: MainViewModel
     private lateinit var progressDialog: ProgressDialog
@@ -50,13 +44,18 @@ class MainActivity : AppCompatActivity(), MainRecyclerViewCommunicator {
         viewModel.setFragmentPosition(0)
     }
 
-
     override fun getComponentEndpointArray(): List<String> {
         return resources.getStringArray(R.array.component_endpoint).toList()
     }
 
     override fun getComponentCategories(): List<String> {
         return resources.getStringArray(R.array.component_categories).toList()
+    }
+
+    override fun startBuildPreviewActivity(build: Build) {
+        val intent = Intent(this, BuildPreviewActivity::class.java)
+        intent.putExtra(BUILD_DATA_CODE, build)
+        startActivity(intent)
     }
 
     private fun replaceFragment(selectFragment: Fragment) {
