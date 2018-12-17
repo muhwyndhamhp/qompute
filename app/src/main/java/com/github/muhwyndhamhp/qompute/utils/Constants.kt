@@ -18,3 +18,5 @@ const val ERROR_CODE_FAILED_TO_FETCH_PART_2 = 1
 const val BASEURL1 = "http://bukalapak.go2cloud.org/aff_c?offer_id=15&aff_id=8063&url=https%3A%2F%2Fwww.bukalapak.com%2Fc%2Fkomputer"
 const val BASEURL2 = "%3Fsearch%255Bkeywords%255D%3D"
 const val BASEURL3 = "%26ho_offer_id%3D{offer_id}%26ho_trx_id%3D{transaction_id}%26affiliate_id%3D{affiliate_id}%26utm_source%3Dhasoffers%26utm_medium%3Daffiliate%26utm_campaign%3D{offer_id}%26ref%3D{referer}"
+
+const val TEST_AD_ID = "ca-app-pub-3940256099942544/6300978111"
