@@ -19,9 +19,16 @@ android {
         multiDexEnabled false
     }
     buildTypes {
+
+        debug {
+            buildConfigField 'String', "DriveAPIKey", Qompute_Drive_API
+            resValue 'string', "drive_api_key", Qompute_Drive_API
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "DriveAPIKey", Qompute_Drive_API
+            resValue 'string', "drive_api_key", Qompute_Drive_API
         }
     }
 }
@@ -81,7 +88,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:2.8.0'
 
     implementation 'com.google.firebase:firebase-core:16.0.6'
-    implementation 'com.google.firebase:firebase-ads:17.1.2'
+//    implementation 'com.google.firebase:firebase-ads:17.1.2'
 }
 
 kotlin {

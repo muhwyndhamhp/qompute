@@ -135,14 +135,14 @@ class BuildingActivity : AppCompatActivity() {
         if (fragmentId == 1) {
             changeFragment(0, null)
         } else {
-            if ((viewModel.build.value!!.totalPrice == 0.toLong() || viewModel.build.value!!.name != "")
+            if ((viewModel.build.value!!.totalPrice != 0.toLong() && viewModel.build.value!!.name != "")
                 && intent.getSerializableExtra(BUILD_ID_DB) == null
             ) {
                 alert("Kembali ke beranda sekarang akan menghapus rakitan anda, Anda yakin?") {
                     okButton { startActivity(Intent(this@BuildingActivity, MainActivity::class.java)) }
                     cancelButton {}
                 }.show()
-            } else if ((viewModel.build.value!!.totalPrice == 0.toLong() || viewModel.build.value!!.name != "")
+            } else if ((viewModel.build.value!!.totalPrice != 0.toLong() && viewModel.build.value!!.name != "")
                 && intent.getSerializableExtra(BUILD_ID_DB) != null
             ) {
                 alert("Kembali ke beranda sekarang akan menghapus perubahan yang anda buat, Anda yakin?") {

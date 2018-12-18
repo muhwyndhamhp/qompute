@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "616031004874",
+    "firebase_url": "https://qompute-376f4.firebaseio.com",
+    "project_id": "qompute-376f4",
+    "storage_bucket": "qompute-376f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616031004874:android:c7ea1de98b359c18",
+        "android_client_info": {
+          "package_name": "com.github.muhwyndhamhp.qompute"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616031004874-1gg3gc27cdn1k04urgrfl6me191gs1fh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.muhwyndhamhp.qompute",
+            "certificate_hash": "43aa99250d23b726512b3d5d7ff45bf38ce78bec"
+          }
+        },
+        {
+          "client_id": "616031004874-2jledo4c9e5n6g30fmh8csg6h0lof2lq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuYDxgvvRSLpAlGhWJr8ZEUpwcVE_CNEk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616031004874-2jledo4c9e5n6g30fmh8csg6h0lof2lq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
