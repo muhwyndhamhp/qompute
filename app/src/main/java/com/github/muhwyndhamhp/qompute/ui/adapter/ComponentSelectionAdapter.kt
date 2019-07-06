@@ -62,7 +62,6 @@ class ComponentSelectionAdapter(private val context: Context, private var compon
         categoryCode = a
     }
 
-    //RecyclerViewImplements
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater

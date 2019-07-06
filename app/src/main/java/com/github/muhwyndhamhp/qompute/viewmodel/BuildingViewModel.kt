@@ -13,7 +13,6 @@ import org.jetbrains.anko.uiThread
 class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() {
 
     var build: MutableLiveData<Build> = MutableLiveData()
-    val cpuBrand: MutableLiveData<Int> = MutableLiveData()
     val socketType: MutableLiveData<Int> = MutableLiveData()
     val componentPosition: MutableLiveData<Int> = MutableLiveData()
     val componentInBuildPosition: MutableLiveData<Int> = MutableLiveData()
@@ -48,7 +47,7 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
         }
     }
 
-    fun updateProcessorType() {
+    private fun updateProcessorType() {
         clearAll(0)
         clearAll(1)
         clearAll(8)
@@ -332,6 +331,18 @@ class BuildingViewModel(private val appRepository: AppRepository) : ViewModel() 
 
     fun saveBuild() {
         appRepository.insertBuild(build.value!!)
+    }
+
+    fun setCpuBrand(position: Int) {
+        build.value!!.cpuType = position
+    }
+
+    fun setSocket(selectedTab: Int, isFirstTime: Boolean) {
+        if(!isFirstTime){
+            socketType.value = selectedTab
+            updateProcessorType()
+        }
+        build.value!!.socketType = selectedTab
     }
 
 }

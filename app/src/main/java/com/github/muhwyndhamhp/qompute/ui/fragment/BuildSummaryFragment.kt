@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_build_summary.*
 
 class BuildSummaryFragment : Fragment() {
 
-    private lateinit var adapter: BuildingAdapter
+    private lateinit var rvAdapter: BuildingAdapter
     lateinit var viewModel: BuildingViewModel
     private var isFirstCpu = false
     private var isFirstSocket = false
@@ -30,78 +30,72 @@ class BuildSummaryFragment : Fragment() {
         viewModel = (context as BuildingActivity).viewModel
 
         prepareComponentRecyclerView()
-        setProcessorType()
+        prepareSwitch()
+    }
+
+    fun updateList(position: Int) {
+        rvAdapter.notifyItemChanged(position)
     }
 
     private fun prepareComponentRecyclerView() {
-        adapter = BuildingAdapter(context!!, this, viewModel)
+        rvAdapter = BuildingAdapter(context!!, this, viewModel)
         component_list_recycler_view.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             setItemViewCacheSize(20)
             isDrawingCacheEnabled = true
             drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
+            adapter = rvAdapter
         }
+    }
 
-        component_list_recycler_view.adapter = adapter
+    private fun prepareSwitch() {
+        setProcessorType()
+        setSocketType()
+        checkIfFirstTime()
     }
 
     private fun setProcessorType() {
         processor_switch.setOnSwitchListener { position, _ ->
+            viewModel.setCpuBrand(position)
             when (position) {
                 0 -> {
                     socket_switch_intel.visibility = View.VISIBLE; socket_switch_amd.visibility = View.GONE
-                    viewModel.cpuBrand.value = position
-                    viewModel.build.value!!.cpuType = position
                     if (isFirstCpu) isFirstCpu = false
-                    else {
-                        viewModel.socketType.value = socket_switch_intel.selectedTab
-                        viewModel.build.value!!.socketType = socket_switch_intel.selectedTab
-                        viewModel.updateProcessorType()
-                        adapter.clearProcessor()
-                    }
+                    else viewModel.setSocket(socket_switch_intel.selectedTab, isFirstCpu)
+
                 }
                 1 -> {
                     socket_switch_intel.visibility = View.GONE; socket_switch_amd.visibility = View.VISIBLE
-                    viewModel.cpuBrand.value = position
-                    viewModel.build.value!!.cpuType = position
                     if (isFirstCpu) isFirstCpu = false
-                    else {
-                        viewModel.socketType.value = socket_switch_amd.selectedTab
-                        viewModel.build.value!!.socketType = socket_switch_amd.selectedTab
-                        viewModel.updateProcessorType()
-                        adapter.clearProcessor()
-                    }
+                    else viewModel.setSocket(socket_switch_amd.selectedTab, isFirstCpu)
 
                 }
             }
         }
+    }
+
+    private fun setSocketType() {
         socket_switch_intel.setOnSwitchListener { position, _ ->
             viewModel.apply {
-                cpuBrand.value = processor_switch.selectedTab
-                build.value!!.cpuType = processor_switch.selectedTab
-                socketType.value = position
-                build.value!!.socketType = position
+                setCpuBrand(processor_switch.selectedTab)
+                setSocket(position, true)
             }
             if (isFirstSocket) isFirstSocket = false
-            else {
-                viewModel.updateProcessorType()
-                adapter.clearProcessor()
-            }
+            else viewModel.setSocket(position, isFirstSocket)
+
         }
         socket_switch_amd.setOnSwitchListener { position, _ ->
             viewModel.apply {
-                cpuBrand.value = processor_switch.selectedTab
-                build.value!!.cpuType = processor_switch.selectedTab
-                socketType.value = position
-                build.value!!.socketType = position
+                setCpuBrand(processor_switch.selectedTab)
+                setSocket(position, true)
             }
-            if (isFirstSocket) isFirstSocket = false
-            else {
-                viewModel.updateProcessorType()
-                adapter.clearProcessor()
-            }
-        }
 
+            if (isFirstSocket) isFirstSocket = false
+            else viewModel.setSocket(position, isFirstSocket)
+        }
+    }
+
+    private fun checkIfFirstTime() {
         if (viewModel.build.value!!.id == 0.toLong()) {
             processor_switch.selectedTab = 1
             Handler().postDelayed({
@@ -111,13 +105,13 @@ class BuildSummaryFragment : Fragment() {
             isFirstCpu = true
             isFirstSocket = true
             processor_switch.selectedTab = viewModel.build.value!!.cpuType
-            if (viewModel.build.value!!.cpuType == 0) socket_switch_intel.selectedTab =
+            when (viewModel.build.value!!.cpuType) {
+                0 -> socket_switch_intel.selectedTab =
                     viewModel.build.value!!.socketType
-            else socket_switch_amd.selectedTab = viewModel.build.value!!.socketType
+                1 -> socket_switch_amd.selectedTab = viewModel.build.value!!.socketType
+            }
         }
     }
 
-    fun updateList(position: Int) {
-        adapter.notifyItemChanged(position)
-    }
+
 }

@@ -34,7 +34,6 @@ class NetworkService {
                 ->
                 val list = mutableListOf<Component>()
                 list.addAll(casing.componentList)
-                Log.e(TAG, casing.componentList[0].name)
                 list.addAll(coolerfan.componentList)
                 list.addAll(harddisk.componentList)
                 list.addAll(keyboard.componentList)

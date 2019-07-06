@@ -29,8 +29,7 @@ class BuildingAdapter(
             componentName: String,
             viewModel: BuildingViewModel,
             componentListPosition: Int,
-            componentCount: Int,
-            buildingAdapter: BuildingAdapter
+            componentCount: Int
         ) {
             this.componentListPosition = componentListPosition
             itemView.tv_component_name_build.text = when (componentName) {
@@ -40,9 +39,7 @@ class BuildingAdapter(
 
             itemView.spinner_item_count.setSelection(componentCount - 1)
             itemView.spinner_item_count.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     viewModel.changeComponentCount(
@@ -59,37 +56,23 @@ class BuildingAdapter(
             viewModel: BuildingViewModel
         ): Int {
             return when (componentListPosition) {
-                0 -> "9${viewModel.cpuBrand.value!!}${viewModel.socketType.value!!}".toInt()
-                1 -> "6${viewModel.cpuBrand.value!!}${viewModel.socketType.value!!}".toInt()
+                0 -> "9${viewModel.build.value!!.cpuType}${viewModel.build.value!!.socketType}".toInt()
+                1 -> "6${viewModel.build.value!!.cpuType}${viewModel.build.value!!.socketType}".toInt()
                 2 -> 13
                 3 -> 5
-                4 -> 2
-                5 -> 2
+                4, 5 -> 2
                 6 -> 10
-                7 -> 0
                 8 -> 101
                 9 -> 7
-                10 -> 4
-                11 -> 4
-                12 -> 3
-                13 -> 3
-                14 -> 102
-                15 -> 102
-                16 -> 102
-                17 -> 102
+                10, 11 -> 4
+                12, 13 -> 3
+                14, 15, 16, 17 -> 102
                 18 -> 12
                 19 -> 11
                 else -> 0
             }
 
         }
-
-        private fun startComponentSelectionActivity(context: Context, componentId: Int, viewModel: BuildingViewModel) {
-            (context as BuildingActivity).changeFragment(1, null)
-            viewModel.setComponentPosition(componentId)
-        }
-
-
     }
 
     private lateinit var componentList: MutableList<String>
@@ -99,6 +82,9 @@ class BuildingAdapter(
         viewModel.build.observe(lifecycleOwner, Observer {
             componentList = it.componentName!!
             componentCount = it.componentCount!!
+        })
+        viewModel.socketType.observe(lifecycleOwner, Observer {
+            clearProcessor()
         })
     }
 
@@ -110,31 +96,29 @@ class BuildingAdapter(
                 parent,
                 false
             )
-        val vh = ViewHolder(view)
-
-        vh.apply {
-            itemView.tv_component_name_build.onClick {
-                (context as BuildingActivity).changeFragment(1, null)
-                viewModel.setComponentPosition(getComponentPositionOnList(vh.adapterPosition, viewModel))
-                viewModel.componentInBuildPosition.value = vh.adapterPosition
+        ViewHolder(view).also { vh ->
+            vh.apply {
+                itemView.tv_component_name_build.onClick {
+                    (context as BuildingActivity).changeFragment(1, null)
+                    viewModel.setComponentPosition(getComponentPositionOnList(vh.adapterPosition, viewModel))
+                    viewModel.componentInBuildPosition.value = vh.adapterPosition
+                }
+                itemView.iv_delete_component.onClick {
+                    viewModel.deleteComponent(vh.adapterPosition)
+                    notifyItemChanged(vh.adapterPosition)
+                }
             }
-            itemView.iv_delete_component.onClick {
-                viewModel.deleteComponent(vh.adapterPosition)
-                notifyItemChanged(vh.adapterPosition)
-            }
-        }
-
-        return vh
+        }.also { return it }
     }
 
 
     override fun getItemCount() = if (::componentList.isInitialized) componentList.size else 0
 
     override fun onBindViewHolder(holder: BuildingAdapter.ViewHolder, position: Int) {
-        holder.bindView(context, componentList[position], viewModel, position, componentCount[position], this)
+        holder.bindView(context, componentList[position], viewModel, position, componentCount[position])
     }
 
-    fun clearProcessor() {
+    private fun clearProcessor() {
         notifyItemChanged(0)
         notifyItemChanged(1)
         notifyItemChanged(8)

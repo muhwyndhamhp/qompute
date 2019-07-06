@@ -41,6 +41,22 @@
         <item>Speaker</item>
         <item>VGA / Graphic Card</item>
     </string-array>
+    <array name="component_resource_address">
+        <item>@drawable/ic_case</item>
+        <item>@drawable/ic_fan</item>
+        <item>@drawable/ic_hard_disk</item>
+        <item>@drawable/ic_keyboard</item>
+        <item>@drawable/ic_computer</item>
+        <item>@drawable/ic_ram</item>
+        <item>@drawable/ic_motherboard</item>
+        <item>@drawable/ic_optical</item>
+        <item>@drawable/ic_printer</item>
+        <item>@drawable/ic_cpu</item>
+        <item>@drawable/ic_supply</item>
+        <item>@drawable/ic_card_reader</item>
+        <item>@drawable/ic_speaker</item>
+        <item>@drawable/ic_graphic_card</item>
+    </array>
 
     <string-array name="component_endpoint">
         <item>casing</item>
